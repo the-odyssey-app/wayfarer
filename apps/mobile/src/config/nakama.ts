@@ -2,9 +2,9 @@ import { Client } from '@heroiclabs/nakama-js';
 
 // Nakama configuration
 export const NAKAMA_CONFIG = {
-  host: '5.181.218.160', // Host machine IP address
+  host: 'nakama-demo.heroiclabs.com', // Public test server
   port: 7350,
-  useSSL: false, // Set to true for production
+  useSSL: true, // Public server uses SSL
   serverKey: 'defaultkey', // Default development key
   timeout: 10000, // 10 seconds
 };
