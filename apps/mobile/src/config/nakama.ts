@@ -13,7 +13,7 @@ export const NAKAMA_CONFIG = {
 export const NAKAMA_HOSTS = {
   android_emulator: '10.0.2.2',
   ios_simulator: 'localhost', // iOS simulator can access localhost
-  physical_device: '192.168.1.241', // Host machine IP
+  physical_device: '5.181.218.160', // VPS IP address
 };
 
 // Create Nakama client instance
