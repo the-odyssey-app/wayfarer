@@ -1,3 +1,4 @@
+
 # Wayfarer Development Guidelines
 
 ## 🎯 Development Philosophy

@@ -1,0 +1,43 @@
+{
+  "name": "wayfarer-monorepo",
+  "version": "1.0.0",
+  "description": "Wayfarer - Location-Based Mobile Game Monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "cd apps/mobile && npm start",
+    "dev:mobile": "cd apps/mobile && npm start",
+    "build": "npm run build:mobile",
+    "build:mobile": "cd apps/mobile && npm run build",
+    "test": "npm run test:mobile",
+    "test:mobile": "cd apps/mobile && npm test",
+    "lint": "npm run lint:mobile",
+    "lint:mobile": "cd apps/mobile && npm run lint",
+    "install:all": "npm install && npm run install:mobile",
+    "install:mobile": "cd apps/mobile && npm install",
+    "clean": "rm -rf node_modules apps/*/node_modules",
+    "setup": "npm run install:all && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/wayfarer.git"
+  },
+  "keywords": [
+    "location-based-game",
+    "mobile-app",
+    "nakama",
+    "expo",
+    "react-native"
+  ],
+  "author": "Wayfarer Team",
+  "license": "MIT"
+}
