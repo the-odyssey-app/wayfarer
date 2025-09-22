@@ -41,14 +41,14 @@ jobs:
       - name: Initialize EAS
         run: |
           cd apps/mobile
-          eas init --non-interactive --force
+          eas init --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           
       - name: Configure EAS
         run: |
           cd apps/mobile
-          eas build:configure
+          eas build:configure --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           
@@ -130,7 +130,7 @@ jobs:
       - name: Initialize EAS
         run: |
           cd apps/mobile
-          eas init --non-interactive --force
+          eas init --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           
