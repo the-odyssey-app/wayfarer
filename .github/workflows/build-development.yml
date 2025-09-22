@@ -38,6 +38,13 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
         
+      - name: Initialize EAS
+        run: |
+          cd apps/mobile
+          eas init --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          
       - name: Configure EAS
         run: |
           cd apps/mobile
@@ -120,6 +127,13 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
         
+      - name: Initialize EAS
+        run: |
+          cd apps/mobile
+          eas init --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          
       - name: Build iOS App
         run: |
           cd apps/mobile
