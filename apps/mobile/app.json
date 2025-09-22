@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Wayfarer",
-    "slug": "wayfarer-mobile",
+    "slug": "game",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -53,7 +53,9 @@
       ]
     ],
     "extra": {
-      "eas": {}
+      "eas": {
+        "projectId": "a0fe966c-8c3f-4026-afc5-021e626285a4"
+      }
     }
   }
 }
