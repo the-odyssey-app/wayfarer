@@ -39,13 +39,10 @@ export const NakamaProvider: React.FC<NakamaProviderProps> = ({ children }) => {
 
   const loadStoredSession = async () => {
     try {
-      const storedSession = await AsyncStorage.getItem(NAKAMA_SESSION_KEY);
-      if (storedSession) {
-        const sessionData = JSON.parse(storedSession);
-        const restoredSession = await restoreNakamaSession(sessionData);
-        setSession(restoredSession);
-        setIsConnected(true);
-      }
+      // Temporarily disable session restoration to prevent crashes
+      // TODO: Implement proper session restoration in production
+      console.log('Session restoration disabled for alpha testing');
+      await AsyncStorage.removeItem(NAKAMA_SESSION_KEY);
     } catch (error) {
       console.error('Failed to load stored Nakama session:', error);
       // Clear invalid session data

@@ -13,7 +13,12 @@ import * as Location from 'expo-location';
 import { useNakama } from '../contexts/NakamaContext';
 
 // Configure Mapbox
-Mapbox.setAccessToken(process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN );
+const mapboxToken = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
+if (mapboxToken) {
+  Mapbox.setAccessToken(mapboxToken);
+} else {
+  console.error('MAPBOX_ACCESS_TOKEN is not set!');
+}
 
 interface Quest {
   id: string;
@@ -77,6 +82,13 @@ export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate }) 
   const fetchQuests = async () => {
     try {
       setLoadingQuests(true);
+      
+      // Only fetch quests if we have a valid session
+      if (!isConnected) {
+        console.log('Not connected to Nakama, skipping quest fetch');
+        return;
+      }
+      
       const result = await callRpc('get_available_quests');
       
       if (result.success) {
@@ -150,6 +162,22 @@ export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate }) 
     return (
       <View style={styles.loadingContainer}>
         <Text style={styles.loadingText}>Getting your location...</Text>
+        <TouchableOpacity 
+          style={styles.manualButton} 
+          onPress={() => setShowManualInput(true)}
+        >
+          <Text style={styles.manualButtonText}>Enter Location Manually</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  // Check if Mapbox token is available
+  if (!mapboxToken) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Mapbox configuration error</Text>
+        <Text style={styles.errorText}>Please check your environment variables</Text>
         <TouchableOpacity 
           style={styles.manualButton} 
           onPress={() => setShowManualInput(true)}
