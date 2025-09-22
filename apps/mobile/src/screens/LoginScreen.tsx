@@ -13,11 +13,13 @@ import { useNakama } from '../contexts/NakamaContext';
 interface LoginScreenProps {
   onLoginSuccess: (userId: string, username: string) => void;
   onNavigateToRegister: () => void;
+  onNavigateToDebug?: () => void;
 }
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({
   onLoginSuccess,
   onNavigateToRegister,
+  onNavigateToDebug,
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,9 +42,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       onLoginSuccess(nakamaAuth.nakamaId, nakamaAuth.username);
     } catch (error) {
       console.error('Login error:', error);
+      
+      // Show detailed error in alert for debugging
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const fullError = error instanceof Error ? error.stack : String(error);
+      
       Alert.alert(
-        'Login Failed',
-        error instanceof Error ? error.message : 'An unexpected error occurred'
+        'Login Failed - Debug Info',
+        `Error: ${errorMessage}\n\nFull Error: ${fullError}`,
+        [{ text: 'OK' }]
       );
     } finally {
       setIsLoading(false);
@@ -151,6 +159,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             Don't have an account? <Text style={styles.linkTextBold}>Sign Up</Text>
           </Text>
         </TouchableOpacity>
+
+        {onNavigateToDebug && (
+          <TouchableOpacity
+            style={[styles.button, styles.debugButton]}
+            onPress={onNavigateToDebug}
+          >
+            <Text style={styles.buttonText}>Debug Connection</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -226,5 +243,8 @@ const styles = StyleSheet.create({
   },
   googleButton: {
     backgroundColor: '#DB4437',
+  },
+  debugButton: {
+    backgroundColor: '#FF9500',
   },
 });
