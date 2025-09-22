@@ -36,7 +36,7 @@ jobs:
           packager: npm
           
       - name: Install EAS CLI
-        run: npm install -g @expo/eas-cli
+        run: npm install -g eas-cli
         
       - name: Configure EAS
         run: |
@@ -118,7 +118,7 @@ jobs:
           packager: npm
           
       - name: Install EAS CLI
-        run: npm install -g @expo/eas-cli
+        run: npm install -g eas-cli
         
       - name: Build iOS App
         run: |
