@@ -48,14 +48,14 @@ jobs:
       - name: Build Android APK
         run: |
           cd apps/mobile
-          eas build --platform android --profile development --non-interactive
+          eas build --platform android --profile preview --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           
       - name: Download build artifacts
         run: |
           cd apps/mobile
-          eas build:list --platform android --limit 1 --json > build-info.json
+          eas build:list --platform android --profile preview --limit 1 --json > build-info.json
           BUILD_ID=$(cat build-info.json | jq -r '.[0].id')
           eas build:download $BUILD_ID --output ./builds/
           
