@@ -2,9 +2,9 @@ import { Client } from '@heroiclabs/nakama-js';
 
 // Nakama configuration
 export const NAKAMA_CONFIG = {
-  host: 'nakama-demo.heroiclabs.com', // Public test server
-  port: 7350,
-  useSSL: false, // Try HTTP first to test connectivity
+  host: '5.181.218.160', // Remote server IP
+  port: 80, // TESTING: Using port 80 to test if port blocking is the issue
+  useSSL: false,
   serverKey: 'defaultkey', // Default development key
   timeout: 10000, // 10 seconds
 };
@@ -36,9 +36,8 @@ export interface NakamaSession {
 // Session storage key
 export const NAKAMA_SESSION_KEY = 'nakama_session';
 
-// Helper function to create session from Convex user data
+// Helper function to create session with Nakama
 export const createNakamaSession = async (
-  convexUserId: string,
   username: string,
   email: string
 ): Promise<NakamaSession> => {
@@ -62,8 +61,7 @@ export const createNakamaSession = async (
 // Helper function to restore session from stored data
 export const restoreNakamaSession = async (sessionData: any): Promise<NakamaSession> => {
   try {
-    // For now, we'll skip session restoration in alpha
-    // In production, you'd implement proper session restoration
+    // Session restoration not implemented in alpha
     throw new Error('Session restoration not implemented in alpha');
   } catch (error) {
     console.error('Failed to restore Nakama session:', error);
@@ -74,9 +72,7 @@ export const restoreNakamaSession = async (sessionData: any): Promise<NakamaSess
 // Helper function to disconnect from Nakama
 export const disconnectNakama = async (): Promise<void> => {
   try {
-    // For now, we'll skip disconnection in alpha
-    // In production, you'd implement proper disconnection
-    console.log('Nakama disconnection not implemented in alpha');
+    // Disconnection not implemented in alpha
   } catch (error) {
     console.error('Failed to disconnect from Nakama:', error);
   }
