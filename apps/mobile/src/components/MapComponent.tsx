@@ -13,8 +13,15 @@ import * as Location from 'expo-location';
 import { useNakama } from '../contexts/NakamaContext';
 
 // Configure Mapbox
-const mapboxToken = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN || 'pk.eyJ1IjoidGhla2V5bWFzdGVyIiwiYSI6ImNtYWxjbmZtMDA3amEya3ByY2s5emdsOWsifQ.ibbwzXSyGrIIWIAZhjl1gQ';
-Mapbox.setAccessToken(mapboxToken);
+const mapboxToken = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
+if (!mapboxToken) {
+  console.error('Mapbox token not configured. Set EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN environment variable.');
+  // Note: Mapbox will fail to initialize without a token, but we don't want to crash the app
+  // This allows the app to start but map features will not work
+}
+if (mapboxToken) {
+  Mapbox.setAccessToken(mapboxToken);
+}
 
 interface Quest {
   id: string;
