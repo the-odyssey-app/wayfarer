@@ -14,9 +14,7 @@ import {
 interface NakamaContextType {
   session: NakamaSession | null;
   isConnected: boolean;
-  connect: (convexUserId: string, username: string, email: string) => Promise<void>;
-  authenticateWithFacebook: (facebookToken: string) => Promise<{ nakamaId: string; username: string; email?: string }>;
-  authenticateWithGoogle: (googleToken: string) => Promise<{ nakamaId: string; username: string; email?: string }>;
+  connect: (username: string, email: string) => Promise<void>;
   authenticateWithEmail: (email: string, password: string) => Promise<{ nakamaId: string; username: string; email: string }>;
   disconnect: () => Promise<void>;
   reconnect: () => Promise<void>;
@@ -40,9 +38,7 @@ export const NakamaProvider: React.FC<NakamaProviderProps> = ({ children }) => {
 
   const loadStoredSession = async () => {
     try {
-      // Temporarily disable session restoration to prevent crashes
-      // TODO: Implement proper session restoration in production
-      console.log('Session restoration disabled for alpha testing');
+      // Session restoration disabled for alpha testing
       await AsyncStorage.removeItem(NAKAMA_SESSION_KEY);
     } catch (error) {
       console.error('Failed to load stored Nakama session:', error);
@@ -51,9 +47,9 @@ export const NakamaProvider: React.FC<NakamaProviderProps> = ({ children }) => {
     }
   };
 
-  const connect = async (convexUserId: string, username: string, email: string) => {
+  const connect = async (username: string, email: string) => {
     try {
-      const newSession = await createNakamaSession(convexUserId, username, email);
+      const newSession = await createNakamaSession(username, email);
       
       // Store session data
       await AsyncStorage.setItem(NAKAMA_SESSION_KEY, JSON.stringify({
@@ -82,77 +78,16 @@ export const NakamaProvider: React.FC<NakamaProviderProps> = ({ children }) => {
     }
   };
 
-  const authenticateWithFacebook = async (facebookToken: string) => {
-    try {
-      // For now, we'll simulate Facebook authentication
-      // In production, you'd use the actual Facebook token
-      const mockSession = await nakamaClient.authenticateEmail(
-        `facebook_${Date.now()}@example.com`,
-        'facebook_password',
-        true,
-        `facebook_user_${Date.now()}`
-      );
-      
-      return {
-        nakamaId: mockSession.user_id || '',
-        username: mockSession.username || '',
-        email: `facebook_${Date.now()}@example.com`
-      };
-    } catch (error) {
-      console.error('Facebook authentication failed:', error);
-      throw new Error('Facebook authentication failed');
-    }
-  };
-
-  const authenticateWithGoogle = async (googleToken: string) => {
-    try {
-      // For now, we'll simulate Google authentication
-      // In production, you'd use the actual Google token
-      const mockSession = await nakamaClient.authenticateEmail(
-        `google_${Date.now()}@example.com`,
-        'google_password',
-        true,
-        `google_user_${Date.now()}`
-      );
-      
-      return {
-        nakamaId: mockSession.user_id || '',
-        username: mockSession.username || '',
-        email: `google_${Date.now()}@example.com`
-      };
-    } catch (error) {
-      console.error('Google authentication failed:', error);
-      throw new Error('Google authentication failed');
-    }
-  };
 
   const authenticateWithEmail = async (email: string, password: string) => {
     try {
-      console.log('=== NAKAMA AUTHENTICATION DEBUG ===');
-      console.log('Host:', NAKAMA_CONFIG.host);
-      console.log('Port:', NAKAMA_CONFIG.port);
-      console.log('SSL:', NAKAMA_CONFIG.useSSL);
-      console.log('Server Key:', NAKAMA_CONFIG.serverKey);
-      console.log('Timeout:', NAKAMA_CONFIG.timeout);
-      console.log('Email:', email);
-      console.log('Password length:', password.length);
-      
       // Check network connectivity
-      console.log('Checking network connectivity...');
       const netInfo = await NetInfo.fetch();
-      console.log('Network state:', netInfo);
       if (!netInfo.isConnected) {
         throw new Error('No network connection available');
       }
       
-      // Test basic connectivity first
-      console.log('Testing basic connectivity...');
-      const testUrl = `${NAKAMA_CONFIG.useSSL ? 'https' : 'http'}://${NAKAMA_CONFIG.host}:${NAKAMA_CONFIG.port}/v2/account`;
-      console.log('Test URL:', testUrl);
-      
       const session = await nakamaClient.authenticateEmail(email, password, true);
-      console.log('Authentication successful!');
-      console.log('Session:', session);
       
       // Store session data for future use
       await AsyncStorage.setItem(NAKAMA_SESSION_KEY, JSON.stringify({
@@ -176,12 +111,7 @@ export const NakamaProvider: React.FC<NakamaProviderProps> = ({ children }) => {
         email: email
       };
     } catch (error) {
-      console.error('=== AUTHENTICATION ERROR ===');
-      console.error('Error type:', typeof error);
-      console.error('Error message:', error instanceof Error ? error.message : String(error));
-      console.error('Error stack:', error instanceof Error ? error.stack : 'No stack');
-      console.error('Full error object:', error);
-      console.error('Nakama client config:', NAKAMA_CONFIG);
+      console.error('Authentication failed:', error);
       throw new Error(`Email authentication failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
@@ -220,8 +150,6 @@ export const NakamaProvider: React.FC<NakamaProviderProps> = ({ children }) => {
     session,
     isConnected,
     connect,
-    authenticateWithFacebook,
-    authenticateWithGoogle,
     authenticateWithEmail,
     disconnect,
     reconnect,

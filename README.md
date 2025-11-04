@@ -50,9 +50,10 @@ wayfarer/
 
 ### Prerequisites
 - Node.js 18+
-- Docker & Docker Compose
+- Docker & Docker Compose (on remote server)
 - Expo CLI
 - Git
+- SSH access to remote server: `ssh root@5.181.218.160`
 
 ### Quick Start
 
@@ -78,19 +79,31 @@ wayfarer/
 #### VPS Development (Current Setup)
 1. **Connect to VPS**:
    ```bash
-   ssh root@your-vps-ip
+   ssh root@5.181.218.160
    cd ~/wayfarer/wayfarer-nakama
    docker compose up -d
    ```
 
-2. **Update Mobile App Config**:
-   - Edit `apps/mobile/src/config/nakama.ts`
-   - Set `host` to your VPS IP address
+2. **Check Container Status**:
+   ```bash
+   docker compose ps
+   docker compose logs nakama
+   docker compose logs cockroachdb
+   ```
 
-3. **Access Services**:
-   - Nakama API: `http://your-vps-ip:7350`
-   - Nakama Console: `http://your-vps-ip:7351` (admin/password)
-   - CockroachDB: `http://your-vps-ip:8080`
+3. **Initialize Database** (if first time):
+   ```bash
+   # Connect to CockroachDB
+   docker exec -it wayfarer-nakama-cockroachdb-1 cockroach sql --insecure
+   
+   # Run the quest tables schema
+   # Copy and paste contents of create_quest_tables.sql
+   ```
+
+4. **Access Services**:
+   - Nakama API: `http://5.181.218.160:7350`
+   - Nakama Console: `http://5.181.218.160:7351` (admin/password)
+   - CockroachDB: `http://5.181.218.160:8080`
 
 ### Development Build (Mapbox Support)
 For full Mapbox functionality, use development builds instead of Expo Go:
@@ -167,33 +180,38 @@ CREATE TABLE user_quests (
 ## 🧪 Testing & Verification
 
 ### Testing Authentication Flow
-1. **Start Services**:
+1. **Start Services** (on VPS):
    ```bash
-   # On VPS
-   cd wayfarer-nakama
+   ssh root@5.181.218.160
+   cd ~/wayfarer/wayfarer-nakama
    docker compose up -d
    
    # Check logs
    docker compose logs nakama
    ```
 
-2. **Test Mobile App**:
+2. **Test Mobile App** (locally):
+   ```bash
+   cd apps/mobile
+   npm install
+   npm start
+   ```
    - Open Expo Go app
    - Scan QR code from `npm start`
    - Try registering a new user
    - Try logging in with existing user
 
-3. **Verify in Database**:
+3. **Verify in Database** (on VPS):
    ```bash
    # Connect to CockroachDB
-   docker compose exec cockroachdb ./cockroach sql --insecure
+   docker exec -it wayfarer-nakama-cockroachdb-1 cockroach sql --insecure
    
    # Check users table
    USE nakama;
    SELECT id, username, email, create_time FROM users;
    ```
 
-4. **Test Runtime Module**:
+4. **Test Runtime Module** (on VPS):
    ```bash
    # Check Nakama logs for runtime module
    docker compose logs nakama | grep -i "runtime module"

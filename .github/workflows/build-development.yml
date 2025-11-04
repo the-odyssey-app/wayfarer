@@ -1,135 +1,60 @@
-name: Build Development App
+name: Build Development APK
 
 on:
   push:
-    branches: [main, develop]
+    branches: [ main, develop ]
   pull_request:
-    branches: [main]
-  workflow_dispatch: # Allow manual triggers
+    branches: [ main, develop ]
+  workflow_dispatch:
 
 jobs:
-  build-android:
-    runs-on: ubuntu-latest
+  build:
     name: Build Android Development APK
+    runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
           cache: 'npm'
-          cache-dependency-path: 'apps/mobile/package-lock.json'
-          
-      - name: Install dependencies
-        run: |
-          cd apps/mobile
-          npm ci
-          
+          cache-dependency-path: apps/mobile/package-lock.json
+
       - name: Setup Expo
         uses: expo/expo-github-action@v8
         with:
           expo-version: latest
+          eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-          packager: npm
-          
-      - name: Install EAS CLI
-        run: npm install -g eas-cli
-        
-      - name: Initialize EAS
+
+      - name: Install dependencies
+        working-directory: apps/mobile
+        run: npm ci
+
+      - name: Setup EAS
+        working-directory: apps/mobile
         run: |
-          cd apps/mobile
-          eas init --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          
+          eas build:configure || true
+
       - name: Build Android APK
-        run: |
-          cd apps/mobile
-          eas build --platform android --profile preview
+        working-directory: apps/mobile
         env:
+          MAPBOX_ACCESS_TOKEN: ${{ secrets.MAPBOX_ACCESS_TOKEN }}
+          MAPBOX_DOWNLOAD_TOKEN: ${{ secrets.MAPBOX_DOWNLOAD_TOKEN }}
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          
-      - name: Download build artifacts
         run: |
-          cd apps/mobile
-          eas build:list --platform android --profile preview --limit 1 --json > build-info.json
-          BUILD_ID=$(cat build-info.json | jq -r '.[0].id')
-          eas build:download $BUILD_ID --output ./builds/
-          
-      - name: Upload APK artifact
+          eas build --platform android --profile development --non-interactive --local
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        if: success()
+
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: wayfarer-android-development
-          path: apps/mobile/builds/
+          name: wayfarer-development-apk
+          path: apps/mobile/*.apk
           retention-days: 30
-          
-      - name: Comment PR with download link
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const buildInfo = JSON.parse(fs.readFileSync('apps/mobile/build-info.json', 'utf8'));
-            const build = buildInfo[0];
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `🚀 **Development Build Ready!**
-              
-              **Build ID:** ${build.id}
-              **Status:** ${build.status}
-              **Platform:** Android
-              **Profile:** Development
-              
-              Download the APK from the artifacts section above.`
-            });
-
-  build-ios:
-    runs-on: macos-latest
-    name: Build iOS Development App
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: 'apps/mobile/package-lock.json'
-          
-      - name: Install dependencies
-        run: |
-          cd apps/mobile
-          npm ci
-          
-      - name: Setup Expo
-        uses: expo/expo-github-action@v8
-        with:
-          expo-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-          packager: npm
-          
-      - name: Install EAS CLI
-        run: npm install -g eas-cli
-        
-      - name: Initialize EAS
-        run: |
-          cd apps/mobile
-          eas init --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          
-      - name: Build iOS App
-        run: |
-          cd apps/mobile
-          eas build --platform ios --profile development --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}

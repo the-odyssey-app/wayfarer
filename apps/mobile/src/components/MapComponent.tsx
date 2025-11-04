@@ -13,12 +13,8 @@ import * as Location from 'expo-location';
 import { useNakama } from '../contexts/NakamaContext';
 
 // Configure Mapbox
-const mapboxToken = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
-if (mapboxToken) {
-  Mapbox.setAccessToken(mapboxToken);
-} else {
-  console.error('MAPBOX_ACCESS_TOKEN is not set!');
-}
+const mapboxToken = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN || 'pk.eyJ1IjoidGhla2V5bWFzdGVyIiwiYSI6ImNtYWxjbmZtMDA3amEya3ByY2s5emdsOWsifQ.ibbwzXSyGrIIWIAZhjl1gQ';
+Mapbox.setAccessToken(mapboxToken);
 
 interface Quest {
   id: string;
@@ -34,9 +30,10 @@ interface Quest {
 
 interface MapComponentProps {
   onLocationUpdate?: (latitude: number, longitude: number) => void;
+  onQuestSelect?: (questId: string) => void;
 }
 
-export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate }) => {
+export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate, onQuestSelect }) => {
   const { callRpc, isConnected } = useNakama();
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -51,10 +48,10 @@ export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate }) 
   }, []);
 
   useEffect(() => {
-    if (isConnected) {
+    if (isConnected && location) {
       fetchQuests();
     }
-  }, [isConnected]);
+  }, [isConnected, location]);
 
   const getCurrentLocation = async () => {
     try {
@@ -85,17 +82,22 @@ export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate }) 
       
       // Only fetch quests if we have a valid session
       if (!isConnected) {
-        console.log('Not connected to Nakama, skipping quest fetch');
         return;
       }
       
-      const result = await callRpc('get_available_quests');
+      // Pass location data if available for location-based filtering
+      const payload = location
+        ? {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            maxDistanceKm: 10,
+          }
+        : undefined;
+      
+      const result = await callRpc('get_available_quests', payload);
       
       if (result.success) {
         setQuests(result.quests || []);
-        console.log(`Loaded ${result.count} quests`);
-      } else {
-        console.error('Failed to fetch quests:', result.error);
       }
     } catch (error) {
       console.error('Error fetching quests:', error);
@@ -172,21 +174,6 @@ export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate }) 
     );
   }
 
-  // Check if Mapbox token is available
-  if (!mapboxToken) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Mapbox configuration error</Text>
-        <Text style={styles.errorText}>Please check your environment variables</Text>
-        <TouchableOpacity 
-          style={styles.manualButton} 
-          onPress={() => setShowManualInput(true)}
-        >
-          <Text style={styles.manualButtonText}>Enter Location Manually</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
 
   return (
     <View style={styles.container}>
@@ -214,15 +201,27 @@ export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate }) 
             key={quest.id}
             id={`quest-${quest.id}`}
             coordinate={[quest.location_lng, quest.location_lat]}
+            onSelected={() => {
+              if (onQuestSelect) {
+                onQuestSelect(quest.id);
+              }
+            }}
           >
-            <View style={[
-              styles.questMarker,
-              quest.user_status === 'active' ? styles.activeQuestMarker : styles.availableQuestMarker
-            ]}>
+            <TouchableOpacity
+              style={[
+                styles.questMarker,
+                quest.user_status === 'active' ? styles.activeQuestMarker : styles.availableQuestMarker
+              ]}
+              onPress={() => {
+                if (onQuestSelect) {
+                  onQuestSelect(quest.id);
+                }
+              }}
+            >
               <Text style={styles.questMarkerText}>
                 {quest.difficulty}
               </Text>
-            </View>
+            </TouchableOpacity>
           </Mapbox.PointAnnotation>
         ))}
       </Mapbox.MapView>

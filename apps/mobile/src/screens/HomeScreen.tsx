@@ -5,9 +5,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  Modal,
 } from 'react-native';
 import { useNakama } from '../contexts/NakamaContext';
 import { MapComponent } from '../components/MapComponent';
+import { QuestDetailScreen } from './QuestDetailScreen';
+import { QuestListScreen } from './QuestListScreen';
 
 interface HomeScreenProps {
   userId: string;
@@ -22,6 +25,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 }) => {
   const { session, isConnected, disconnect, callRpc } = useNakama();
   const [currentLocation, setCurrentLocation] = useState<{lat: number, lng: number} | null>(null);
+  const [selectedQuestId, setSelectedQuestId] = useState<string | null>(null);
+  const [showQuestList, setShowQuestList] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleLogout = async () => {
     try {
@@ -34,7 +40,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
   const handleLocationUpdate = async (latitude: number, longitude: number) => {
     setCurrentLocation({ lat: latitude, lng: longitude });
-    console.log('Location updated:', latitude, longitude);
     
     // Call Nakama RPC to update user location
     try {
@@ -42,15 +47,23 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         latitude,
         longitude
       });
-      
-      if (result.success) {
-        console.log('Location updated successfully on server');
-      } else {
-        console.error('Failed to update location on server:', result.error);
-      }
     } catch (error) {
       console.error('Error calling update_user_location RPC:', error);
     }
+  };
+
+  const handleQuestSelect = (questId: string) => {
+    setSelectedQuestId(questId);
+  };
+
+  const handleQuestAction = () => {
+    // Refresh quest list when quest is started/completed
+    setRefreshTrigger(prev => prev + 1);
+    setSelectedQuestId(null);
+  };
+
+  const handleCloseQuestDetail = () => {
+    setSelectedQuestId(null);
   };
 
   return (
@@ -61,8 +74,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       </View>
 
       <View style={styles.mapContainer}>
-        <MapComponent onLocationUpdate={handleLocationUpdate} />
+        <MapComponent 
+          onLocationUpdate={handleLocationUpdate}
+          onQuestSelect={handleQuestSelect}
+        />
       </View>
+
+      {/* Quest List Button */}
+      <TouchableOpacity
+        style={styles.questListButton}
+        onPress={() => setShowQuestList(true)}
+      >
+        <Text style={styles.questListButtonText}>📋 View Quests</Text>
+      </TouchableOpacity>
 
       <View style={styles.statusContainer}>
         <Text style={styles.statusTitle}>Status:</Text>
@@ -82,6 +106,49 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       >
         <Text style={styles.logoutButtonText}>Logout</Text>
       </TouchableOpacity>
+
+      {/* Quest Detail Modal */}
+      {selectedQuestId && (
+        <Modal
+          visible={!!selectedQuestId}
+          animationType="slide"
+          presentationStyle="pageSheet"
+          onRequestClose={handleCloseQuestDetail}
+        >
+          <QuestDetailScreen
+            questId={selectedQuestId}
+            onClose={handleCloseQuestDetail}
+            onQuestStarted={handleQuestAction}
+          />
+        </Modal>
+      )}
+
+      {/* Quest List Modal */}
+      <Modal
+        visible={showQuestList}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={() => setShowQuestList(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <TouchableOpacity
+              style={styles.modalCloseButton}
+              onPress={() => setShowQuestList(false)}
+            >
+              <Text style={styles.modalCloseButtonText}>✕</Text>
+            </TouchableOpacity>
+            <Text style={styles.modalTitle}>Quests</Text>
+          </View>
+          <QuestListScreen
+            onQuestSelect={(questId) => {
+              setShowQuestList(false);
+              setSelectedQuestId(questId);
+            }}
+            userLocation={currentLocation || undefined}
+          />
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -149,5 +216,55 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  questListButton: {
+    position: 'absolute',
+    bottom: 100,
+    right: 20,
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  questListButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+    paddingTop: 60,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  modalCloseButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  modalCloseButtonText: {
+    fontSize: 18,
+    color: '#333',
+    fontWeight: 'bold',
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
   },
 });

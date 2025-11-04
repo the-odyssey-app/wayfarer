@@ -70,6 +70,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
         <TextInput
           style={styles.input}
           placeholder="Username"
+          placeholderTextColor="#999"
           value={username}
           onChangeText={setUsername}
           autoCapitalize="none"
@@ -79,6 +80,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
         <TextInput
           style={styles.input}
           placeholder="Email"
+          placeholderTextColor="#999"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -89,6 +91,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
         <TextInput
           style={styles.input}
           placeholder="Password"
+          placeholderTextColor="#999"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -99,6 +102,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
+          placeholderTextColor="#999"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
@@ -162,7 +166,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 16,
     backgroundColor: '#f9f9f9',
-    color: '#333',
+    color: '#000000',
+    textAlign: 'left',
   },
   button: {
     backgroundColor: '#007AFF',

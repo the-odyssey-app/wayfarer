@@ -4,9 +4,8 @@ import { NakamaProvider } from './src/contexts/NakamaContext';
 import { LoginScreen } from './src/screens/LoginScreen';
 import { RegisterScreen } from './src/screens/RegisterScreen';
 import { HomeScreen } from './src/screens/HomeScreen';
-import { DebugScreen } from './src/screens/DebugScreen';
 
-type AppScreen = 'login' | 'register' | 'home' | 'debug';
+type AppScreen = 'login' | 'register' | 'home';
 
 interface AppState {
   screen: AppScreen;
@@ -37,9 +36,6 @@ function AppContent() {
     setAppState({ screen: 'login' });
   };
 
-  const navigateToDebug = () => {
-    setAppState({ screen: 'debug' });
-  };
 
   const renderScreen = () => {
     switch (appState.screen) {
@@ -48,7 +44,6 @@ function AppContent() {
           <LoginScreen
             onLoginSuccess={handleLoginSuccess}
             onNavigateToRegister={navigateToRegister}
-            onNavigateToDebug={navigateToDebug}
           />
         );
       case 'register':
@@ -66,8 +61,6 @@ function AppContent() {
             onLogout={handleLogout}
           />
         );
-      case 'debug':
-        return <DebugScreen />;
       default:
         return null;
     }

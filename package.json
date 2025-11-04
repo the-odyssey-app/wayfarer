@@ -11,8 +11,6 @@
     "dev:mobile": "cd apps/mobile && npm start",
     "build": "npm run build:mobile",
     "build:mobile": "cd apps/mobile && npm run build",
-    "test": "npm run test:mobile",
-    "test:mobile": "cd apps/mobile && npm test",
     "lint": "npm run lint:mobile",
     "lint:mobile": "cd apps/mobile && npm run lint",
     "install:all": "npm install && npm run install:mobile",

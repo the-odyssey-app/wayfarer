@@ -13,19 +13,17 @@ import { useNakama } from '../contexts/NakamaContext';
 interface LoginScreenProps {
   onLoginSuccess: (userId: string, username: string) => void;
   onNavigateToRegister: () => void;
-  onNavigateToDebug?: () => void;
 }
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({
   onLoginSuccess,
   onNavigateToRegister,
-  onNavigateToDebug,
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { authenticateWithEmail, authenticateWithFacebook, authenticateWithGoogle } = useNakama();
+  const { authenticateWithEmail } = useNakama();
 
   const handleEmailLogin = async () => {
     if (!email.trim() || !password.trim()) {
@@ -43,32 +41,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     } catch (error) {
       console.error('Login error:', error);
       
-      // Show detailed error in alert for debugging
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      const fullError = error instanceof Error ? error.stack : String(error);
-      
       Alert.alert(
-        'Login Failed - Debug Info',
-        `Error: ${errorMessage}\n\nFull Error: ${fullError}`,
-        [{ text: 'OK' }]
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleFacebookLogin = async () => {
-    setIsLoading(true);
-    try {
-      // Authenticate with Nakama (Facebook)
-      const nakamaAuth = await authenticateWithFacebook('mock_facebook_token');
-      
-      // Success - navigate to main app
-      onLoginSuccess(nakamaAuth.nakamaId, nakamaAuth.username);
-    } catch (error) {
-      console.error('Facebook login error:', error);
-      Alert.alert(
-        'Facebook Login Failed',
+        'Login Failed',
         error instanceof Error ? error.message : 'An unexpected error occurred'
       );
     } finally {
@@ -76,24 +50,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setIsLoading(true);
-    try {
-      // Authenticate with Nakama (Google)
-      const nakamaAuth = await authenticateWithGoogle('mock_google_token');
-      
-      // Success - navigate to main app
-      onLoginSuccess(nakamaAuth.nakamaId, nakamaAuth.username);
-    } catch (error) {
-      console.error('Google login error:', error);
-      Alert.alert(
-        'Google Login Failed',
-        error instanceof Error ? error.message : 'An unexpected error occurred'
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -104,6 +60,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         <TextInput
           style={styles.input}
           placeholder="Email"
+          placeholderTextColor="#999"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -114,6 +71,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         <TextInput
           style={styles.input}
           placeholder="Password"
+          placeholderTextColor="#999"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -133,23 +91,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           )}
         </TouchableOpacity>
 
-        <Text style={styles.dividerText}>or</Text>
-
-        <TouchableOpacity
-          style={[styles.button, styles.facebookButton]}
-          onPress={handleFacebookLogin}
-          disabled={isLoading}
-        >
-          <Text style={styles.buttonText}>Sign In with Facebook</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.button, styles.googleButton]}
-          onPress={handleGoogleLogin}
-          disabled={isLoading}
-        >
-          <Text style={styles.buttonText}>Sign In with Google</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.linkButton}
@@ -160,14 +101,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           </Text>
         </TouchableOpacity>
 
-        {onNavigateToDebug && (
-          <TouchableOpacity
-            style={[styles.button, styles.debugButton]}
-            onPress={onNavigateToDebug}
-          >
-            <Text style={styles.buttonText}>Debug Connection</Text>
-          </TouchableOpacity>
-        )}
       </View>
     </View>
   );
@@ -204,7 +137,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 16,
     backgroundColor: '#f9f9f9',
-    color: '#333',
+    color: '#000000',
+    textAlign: 'left',
   },
   button: {
     backgroundColor: '#007AFF',
@@ -231,20 +165,5 @@ const styles = StyleSheet.create({
   linkTextBold: {
     fontWeight: '600',
     color: '#007AFF',
-  },
-  dividerText: {
-    textAlign: 'center',
-    color: '#666',
-    fontSize: 14,
-    marginVertical: 16,
-  },
-  facebookButton: {
-    backgroundColor: '#1877F2',
-  },
-  googleButton: {
-    backgroundColor: '#DB4437',
-  },
-  debugButton: {
-    backgroundColor: '#FF9500',
   },
 });
