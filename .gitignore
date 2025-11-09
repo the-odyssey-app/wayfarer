@@ -72,3 +72,7 @@ dist/
 # Temporary files
 tmp/
 temp/
+
+
+old/
+app images/
