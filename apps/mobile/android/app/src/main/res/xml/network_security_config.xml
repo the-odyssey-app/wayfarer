@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Network Security Configuration for Android
+  
+  NOTE: Android XML doesn't support environment variables directly.
+  If you need to change the server IP, update this file manually or use
+  a build-time script to replace the domain.
+  
+  For production deployments, ensure your server IP is listed here.
+-->
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
+        <!-- Local development -->
         <domain includeSubdomains="true">localhost</domain>
         <domain includeSubdomains="true">10.0.2.2</domain>
         <domain includeSubdomains="true">192.168.1.241</domain>
+        
+        <!-- Production server (update this IP when deploying to a new server) -->
+        <!-- Current: 5.181.218.160 -->
         <domain includeSubdomains="true">5.181.218.160</domain>
+        
+        <!-- Demo server -->
         <domain includeSubdomains="true">nakama-demo.heroiclabs.com</domain>
     </domain-config>
     <base-config cleartextTrafficPermitted="true">

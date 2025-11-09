@@ -1,11 +1,48 @@
 import { Client } from '@heroiclabs/nakama-js';
+import Constants from 'expo-constants';
+
+// Get Nakama configuration from environment variables
+// Set these in app.json or via EXPO_PUBLIC_* environment variables
+const getNakamaConfig = () => {
+  const env = Constants.expoConfig?.extra?.env || process.env.EXPO_PUBLIC_ENV || 'development';
+  
+  // Production uses remote server from environment
+  if (env === 'production') {
+    return {
+      host: Constants.expoConfig?.extra?.nakamaHost || 
+            process.env.EXPO_PUBLIC_NAKAMA_HOST || 
+            '5.181.218.160', // Fallback for backward compatibility
+      port: parseInt(
+        Constants.expoConfig?.extra?.nakamaPort || 
+        process.env.EXPO_PUBLIC_NAKAMA_PORT || 
+        '7350'
+      ),
+      useSSL: Constants.expoConfig?.extra?.nakamaUseSSL === 'true' || 
+              process.env.EXPO_PUBLIC_NAKAMA_USE_SSL === 'true' || 
+              false,
+    };
+  }
+  
+  // Development defaults to localhost
+  return {
+    host: Constants.expoConfig?.extra?.nakamaHost || 
+          process.env.EXPO_PUBLIC_NAKAMA_HOST || 
+          'localhost',
+    port: parseInt(
+      Constants.expoConfig?.extra?.nakamaPort || 
+      process.env.EXPO_PUBLIC_NAKAMA_PORT || 
+      '7350'
+    ),
+    useSSL: false,
+  };
+};
 
 // Nakama configuration
 export const NAKAMA_CONFIG = {
-  host: '5.181.218.160', // Remote server IP
-  port: 80, // TESTING: Using port 80 to test if port blocking is the issue
-  useSSL: false,
-  serverKey: 'defaultkey', // Default development key
+  ...getNakamaConfig(),
+  serverKey: Constants.expoConfig?.extra?.nakamaServerKey || 
+             process.env.EXPO_PUBLIC_NAKAMA_SERVER_KEY || 
+             'defaultkey',
   timeout: 10000, // 10 seconds
 };
 
@@ -13,7 +50,7 @@ export const NAKAMA_CONFIG = {
 export const NAKAMA_HOSTS = {
   android_emulator: '10.0.2.2',
   ios_simulator: 'localhost', // iOS simulator can access localhost
-  physical_device: '5.181.218.160', // VPS IP address
+  physical_device: NAKAMA_CONFIG.host, // Use configured host
 };
 
 // Create Nakama client instance
