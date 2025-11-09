@@ -18,8 +18,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 NAKAMA_DIR="${SCRIPT_DIR}/wayfarer-nakama"
 TEST_DIR="${SCRIPT_DIR}/test-integration"
 
-# Remote server configuration (default to remote server)
-REMOTE_SERVER="${REMOTE_SERVER:-5.181.218.160}"
+# Load centralized configuration (if available)
+if [ -f "${SCRIPT_DIR}/scripts/load-deployment-config.sh" ]; then
+    source "${SCRIPT_DIR}/scripts/load-deployment-config.sh"
+fi
+
+# Remote server configuration (use centralized config if available)
+REMOTE_SERVER="${REMOTE_SERVER:-${DEPLOYMENT_SERVER_HOST:-5.181.218.160}}"
 USE_REMOTE="${USE_REMOTE:-true}"
 
 # Nakama configuration - use remote server by default, or localhost if USE_REMOTE=false
@@ -207,11 +212,24 @@ else
     fi
 fi
 
-# Check if test runner exists, if not create it
+# Check if test runner exists and validate syntax
 cd "$SCRIPT_DIR"
 if [ ! -f "$TEST_DIR/test-runner.js" ]; then
-    print_section "Creating Test Runner"
-    echo "Setting up test runner..."
+    echo -e "${RED}❌ Test runner not found: $TEST_DIR/test-runner.js${NC}"
+    echo -e "${YELLOW}   The test runner should exist before running tests.${NC}"
+    exit 1
+else
+    echo -e "${GREEN}✅ Test runner found${NC}"
+    
+    # Validate JavaScript syntax
+    print_section "Validating Test Runner"
+    if node -c "$TEST_DIR/test-runner.js" 2>/dev/null; then
+        echo -e "${GREEN}✅ Test runner syntax is valid${NC}"
+    else
+        echo -e "${RED}❌ Test runner has syntax errors${NC}"
+        node -c "$TEST_DIR/test-runner.js"
+        exit 1
+    fi
 fi
 
 # Install test dependencies if needed

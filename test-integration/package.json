@@ -1,0 +1,15 @@
+{
+  "name": "test-integration",
+  "version": "1.0.0",
+  "description": "This directory contains the integration test suite for the Wayfarer backend.",
+  "main": "test-runner.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@heroiclabs/nakama-js": "^2.8.0"
+  }
+}
