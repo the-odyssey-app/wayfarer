@@ -1,25 +1,12 @@
 {
-  "name": "wayfarer-monorepo",
+  "name": "wayfarer",
   "version": "1.0.0",
-  "description": "Wayfarer - Location-Based Mobile Game Monorepo",
+  "description": "Wayfarer - Location-Based Mobile Game",
   "private": true,
-  "workspaces": [
-    "apps/*"
-  ],
   "scripts": {
-    "dev": "cd apps/mobile && npm start",
     "dev:mobile": "cd apps/mobile && npm start",
-    "build": "npm run build:mobile",
-    "build:mobile": "cd apps/mobile && npm run build",
-    "lint": "npm run lint:mobile",
-    "lint:mobile": "cd apps/mobile && npm run lint",
-    "install:all": "npm install && npm run install:mobile",
-    "install:mobile": "cd apps/mobile && npm install",
-    "clean": "rm -rf node_modules apps/*/node_modules",
-    "setup": "npm run install:all && npm run build"
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
+    "build:mobile": "cd apps/mobile && eas build",
+    "test": "cd test-integration && npm test"
   },
   "engines": {
     "node": ">=18.0.0",

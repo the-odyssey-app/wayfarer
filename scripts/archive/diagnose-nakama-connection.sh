@@ -1,0 +1,96 @@
+#!/bin/bash
+
+# Diagnostic script to check Nakama server connectivity
+# Run this to diagnose connection issues
+
+SERVER_IP="5.181.218.160"
+NAKAMA_PORT="7350"
+
+echo "╔════════════════════════════════════════════════════════════╗"
+echo "║   Nakama Connection Diagnostic                            ║"
+echo "╚════════════════════════════════════════════════════════════╝"
+echo ""
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "Testing Connection from Local Machine"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# Test basic connectivity
+echo "1. Testing basic connectivity to $SERVER_IP:22 (SSH)..."
+if timeout 3 nc -zv $SERVER_IP 22 2>&1 | grep -q "succeeded"; then
+    echo "   ✅ SSH port (22) is accessible"
+else
+    echo "   ❌ SSH port (22) is NOT accessible"
+fi
+
+echo ""
+echo "2. Testing Nakama port $NAKAMA_PORT..."
+if timeout 3 nc -zv $SERVER_IP $NAKAMA_PORT 2>&1 | grep -q "succeeded"; then
+    echo "   ✅ Nakama port ($NAKAMA_PORT) is accessible"
+else
+    echo "   ❌ Nakama port ($NAKAMA_PORT) is NOT accessible (Connection refused)"
+    echo ""
+    echo "   Possible causes:"
+    echo "   - Nakama is not running on the server"
+    echo "   - Nakama is only listening on localhost (127.0.0.1)"
+    echo "   - Firewall is blocking port $NAKAMA_PORT"
+    echo "   - Nakama is listening on a different port"
+fi
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "To Fix: SSH into the server and run these checks:"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "SSH Command:"
+echo "  ssh root@$SERVER_IP"
+echo ""
+echo "Then run these diagnostic commands on the server:"
+echo ""
+echo "1. Check if Nakama is running:"
+echo "   docker ps | grep nakama"
+echo "   OR"
+echo "   systemctl status nakama"
+echo ""
+echo "2. Check what Nakama is listening on:"
+echo "   netstat -tlnp | grep 7350"
+echo "   OR"
+echo "   ss -tlnp | grep 7350"
+echo ""
+echo "3. Check firewall rules:"
+echo "   ufw status"
+echo "   OR"
+echo "   iptables -L -n | grep 7350"
+echo ""
+echo "4. Check Nakama logs:"
+echo "   docker logs nakama"
+echo "   OR"
+echo "   journalctl -u nakama -n 50"
+echo ""
+echo "5. If using Docker, check container:"
+echo "   docker ps -a | grep nakama"
+echo "   docker logs <nakama-container-id>"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "Common Fixes:"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "Fix 1: If Nakama is only listening on localhost, update config:"
+echo "   In nakama config, set:"
+echo "   socket.bind_address = \"0.0.0.0\""
+echo ""
+echo "Fix 2: If firewall is blocking, open port:"
+echo "   ufw allow 7350/tcp"
+echo "   ufw reload"
+echo ""
+echo "Fix 3: If Nakama is not running, start it:"
+echo "   cd wayfarer-nakama"
+echo "   docker-compose up -d"
+echo ""
+echo "Fix 4: Check Docker port mapping:"
+echo "   Ensure docker-compose.yml has:"
+echo "   ports:"
+echo "     - \"7350:7350\""
+echo ""
+

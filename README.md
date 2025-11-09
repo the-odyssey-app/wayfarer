@@ -1,250 +1,193 @@
 # Wayfarer - Location-Based Mobile Game
 
-A real-time, location-based mobile game where players discover and complete quests in the real world.
+A location-based mobile game built with React Native (Expo), Nakama game server, and Google Maps integration.
 
-## 🎯 Project Overview
+## 📁 Project Structure
 
-Wayfarer combines real-world exploration with gamified quest completion, featuring:
-- Location-based quest discovery
-- Real-time multiplayer features
-- AI-generated quest content
-- Social collaboration and competition
-
-## 🏗️ Architecture
-
-### Tech Stack
-- **Frontend**: Expo React Native (iOS/Android)
-- **Backend**: Nakama + CockroachDB (Real-time game server with database)
-- **Maps**: Mapbox (Navigation & Location Services)
-- **Places**: Google Places API (POI Discovery)
-- **AI**: Anthropic API (Quest Generation)
-
-### Project Structure
 ```
 wayfarer/
 ├── apps/
-│   └── mobile/          # Expo React Native app
-├── wayfarer-nakama/     # Nakama server + CockroachDB
-└── .github/            # CI/CD workflows
+│   └── mobile/              # Expo React Native mobile app
+├── wayfarer-nakama/         # Nakama game server configuration & modules
+├── wayfarer-proxy/          # Vercel serverless function (Google Places API proxy)
+├── test-integration/        # Integration tests
+├── docs/                    # Documentation
+└── old/                     # Legacy Convex code (reference only)
 ```
 
-## ✅ Current Status (Day 1 - Afternoon Complete)
-
-### Completed
-- ✅ **Monorepo structure** established with proper workspace configuration
-- ✅ **Nakama server** running with CockroachDB database on VPS
-- ✅ **Authentication system** implemented with email, Facebook, and Google support
-- ✅ **Runtime module** created with test RPC function
-- ✅ **Mobile app** basic structure with login/register screens
-- ✅ **End-to-end authentication flow** tested and working
-
-### Technical Achievements
-- **Docker Compose** configuration using official Nakama examples
-- **JavaScript Runtime Module** with test RPC function
-- **VPS deployment** with proper network configuration
-- **Mobile app** successfully connecting to remote Nakama server
-- **User registration and login** working through mobile app
-- **Built-in Nakama user system** utilized (no custom tables needed)
-
-## 🚀 Development Setup
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+
-- Docker & Docker Compose (on remote server)
-- Expo CLI
-- Git
-- SSH access to remote server: `ssh root@5.181.218.160`
+- Node.js >= 18.0.0
+- npm >= 8.0.0
+- Expo CLI (for mobile development)
+- Docker (for local Nakama server)
 
-### Quick Start
+### Development
 
-#### Local Development
-1. **Start Nakama Server**:
+1. **Start Mobile App**
+   ```bash
+   npm run dev:mobile
+   # or
+   cd apps/mobile && npm start
+   ```
+
+2. **Start Nakama Server** (local development)
    ```bash
    cd wayfarer-nakama
    docker compose up -d
    ```
 
-2. **Start Mobile App**:
-   ```bash
-   cd apps/mobile
-   npm install
-   npm start
-   ```
+3. **Proxy** (deployed on Vercel)
+   - See `wayfarer-proxy/README.md` for deployment instructions
 
-3. **Access Services**:
-   - Nakama API: `http://localhost:7350`
-   - Nakama Console: `http://localhost:7351` (admin/password)
-   - CockroachDB: `http://localhost:8080`
+## 📦 Components
 
-#### VPS Development (Current Setup)
-1. **Connect to VPS**:
-   ```bash
-   ssh root@5.181.218.160
-   cd ~/wayfarer/wayfarer-nakama
-   docker compose up -d
-   ```
+### Mobile App (`apps/mobile/`)
+- **Tech**: Expo ~54.0.7, React Native 0.81.4, TypeScript
+- **Features**: Quest discovery, location tracking, social features
+- **Deployment**: EAS Build → App Stores
+- See `apps/mobile/` for mobile-specific documentation
 
-2. **Check Container Status**:
-   ```bash
-   docker compose ps
-   docker compose logs nakama
-   docker compose logs cockroachdb
-   ```
+### Nakama Server (`wayfarer-nakama/`)
+- **Tech**: Nakama 3.22.0, Docker, JavaScript Runtime Modules
+- **Database**: CockroachDB (PostgreSQL-compatible)
+- **Hosting**: Hostinger (temporary)
+- **Features**: RPC functions, quest management, user data
+- See `wayfarer-nakama/README.md` for server documentation
 
-3. **Initialize Database** (if first time):
-   ```bash
-   # Connect to CockroachDB
-   docker exec -it wayfarer-nakama-cockroachdb-1 cockroach sql --insecure
-   
-   # Run the quest tables schema
-   # Copy and paste contents of create_quest_tables.sql
-   ```
+### Proxy (`wayfarer-proxy/`)
+- **Tech**: Node.js serverless function
+- **Hosting**: Vercel
+- **Purpose**: Google Places API proxy (workaround for Nakama httpRequest limitations)
+- See `wayfarer-proxy/README.md` for proxy documentation
 
-4. **Access Services**:
-   - Nakama API: `http://5.181.218.160:7350`
-   - Nakama Console: `http://5.181.218.160:7351` (admin/password)
-   - CockroachDB: `http://5.181.218.160:8080`
+## 🛠️ Available Scripts
 
-### Development Build (Mapbox Support)
-For full Mapbox functionality, use development builds instead of Expo Go:
-
-1. **Set up GitHub Actions** (see `BUILD_SETUP.md`)
-2. **Configure secrets** in GitHub repository
-3. **Build automatically** on push/PR or manually trigger
-4. **Download APK** from GitHub Actions artifacts
-
-**Note**: Expo Go doesn't support Mapbox native modules. Development builds are required.
-
-## 🔧 Current Development Status
-
-### Day 1 - Morning ✅ COMPLETE
-- [x] Project setup and monorepo structure
-- [x] Nakama server with CockroachDB
-- [x] Authentication system (email, Facebook, Google)
-- [x] Runtime module with user registration hook
-- [x] Mobile app basic structure
-
-### Day 1 - Afternoon ✅ COMPLETE
-- [x] **Test authentication flow** end-to-end
-- [x] **Verify database records** are created correctly
-- [x] **Test mobile app registration** with Nakama built-in system
-- [x] **Complete Day 1 deliverables**
-
-### Next Steps (Day 2)
-1. **Create quest tables** in CockroachDB
-2. **Implement location services** and Mapbox integration
-3. **Add quest discovery** functionality
-4. **Begin Day 2 deliverables**
-
-## 🛠️ Technical Details
-
-### Nakama Runtime Module
-- **Location**: `wayfarer-nakama/nakama-data/modules/index.js`
-- **Function**: `test_function` RPC for testing runtime functionality
-- **Purpose**: Foundation for future game-specific RPC functions
-- **Logging**: Comprehensive error handling and debug information
-
-### Database Schema
-```sql
--- Using Nakama's built-in users table (no custom table needed)
--- Nakama automatically manages: id, username, email, create_time, metadata, etc.
-
--- Quest tables (to be created in Day 2)
-CREATE TABLE quests (
-  id TEXT PRIMARY KEY,
-  title TEXT NOT NULL,
-  description TEXT,
-  location_lat DECIMAL,
-  location_lng DECIMAL,
-  created_at TIMESTAMP DEFAULT NOW()
-);
-
-CREATE TABLE user_quests (
-  id TEXT PRIMARY KEY,
-  user_id TEXT NOT NULL,
-  quest_id TEXT NOT NULL,
-  status TEXT NOT NULL, -- active, completed, failed
-  progress INTEGER DEFAULT 0,
-  started_at TIMESTAMP DEFAULT NOW(),
-  completed_at TIMESTAMP
-);
+### Development
+```bash
+npm run dev:mobile          # Start mobile app development server
 ```
 
-### Authentication Flow
-1. User registers/logs in via mobile app
-2. Nakama handles authentication using built-in user system
-3. User data stored in Nakama's default users table
-4. Game-specific data stored in `metadata` JSON field
-5. User proceeds to main app
+### Building
+```bash
+npm run build:mobile        # Build mobile app with EAS
+```
 
-## 🧪 Testing & Verification
+### Testing
+```bash
+npm run test                # Run integration tests
+./run-integration-tests.sh  # Run full integration test suite
+```
 
-### Testing Authentication Flow
-1. **Start Services** (on VPS):
+### Deployment & Operations
+```bash
+# Deploy Nakama (main deployment script)
+./wayfarer-nakama/deploy.sh --mode full --check
+
+# Deploy code only
+./wayfarer-nakama/deploy.sh --mode code
+
+# Deploy config only
+./wayfarer-nakama/deploy.sh --mode config
+
+# Health checks
+./scripts/health-check.sh --full        # Full diagnostic
+./scripts/health-check.sh --quick      # Quick status
+./scripts/health-check.sh --connection # Connection test
+
+# Database migrations
+./run-migrations.sh                    # Run all migrations
+./run-migrations.sh --fix-schema       # Run with schema fixes
+
+# Database verification
+./check-database.sh                    # Check database state
+```
+
+**Note**: All scripts use centralized configuration from `.env.deployment`. See [Configuration](#-configuration) below.
+
+## 📚 Documentation
+
+- [Monorepo Evaluation & Plan](./MONOREPO_EVALUATION_AND_PLAN.md) - Architecture decisions
+- [Mobile App Deployment Guide](./docs/MOBILE_DEPLOYMENT.md) - How to deploy the mobile app
+- [Nakama Server Guide](./wayfarer-nakama/README.md) - Server setup and configuration
+- [Deployment Scripts Guide](./docs/DEPLOYMENT_SCRIPTS.md) - **NEW**: Consolidated deployment scripts
+- [Integration Tests](./test-integration/README.md) - Testing documentation
+
+## 🔧 Configuration
+
+### Centralized Deployment Configuration
+
+All deployment and operational scripts use centralized configuration from `.env.deployment`:
+
+1. **Copy the example config**:
    ```bash
-   ssh root@5.181.218.160
-   cd ~/wayfarer/wayfarer-nakama
-   docker compose up -d
-   
-   # Check logs
-   docker compose logs nakama
+   cp .env.deployment.example .env.deployment.local
    ```
 
-2. **Test Mobile App** (locally):
+2. **Edit with your values**:
    ```bash
-   cd apps/mobile
-   npm install
-   npm start
-   ```
-   - Open Expo Go app
-   - Scan QR code from `npm start`
-   - Try registering a new user
-   - Try logging in with existing user
-
-3. **Verify in Database** (on VPS):
-   ```bash
-   # Connect to CockroachDB
-   docker exec -it wayfarer-nakama-cockroachdb-1 cockroach sql --insecure
-   
-   # Check users table
-   USE nakama;
-   SELECT id, username, email, create_time FROM users;
+   nano .env.deployment.local
    ```
 
-4. **Test Runtime Module** (on VPS):
-   ```bash
-   # Check Nakama logs for runtime module
-   docker compose logs nakama | grep -i "runtime module"
+3. **Key variables**:
+   ```env
+   DEPLOYMENT_SERVER_HOST=your-server-ip
+   DEPLOYMENT_SERVER_USER=root
+   DEPLOYMENT_SERVER_DIR=/root/wayfarer/wayfarer-nakama
+   NAKAMA_HOST=your-server-ip
+   NAKAMA_PORT=7350
    ```
 
-### Expected Results
-- ✅ User registration creates record in Nakama's users table
-- ✅ Mobile app successfully authenticates
-- ✅ Runtime module loads without errors
-- ✅ No custom user table needed (using built-in system)
+All scripts automatically load this configuration. No hardcoded IPs needed!
 
-## 📊 Alpha Roadmap
+### Mobile App
+Create `apps/mobile/.env`:
+```env
+EXPO_PUBLIC_NAKAMA_HOST=your-nakama-host
+EXPO_PUBLIC_NAKAMA_PORT=7350
+EXPO_PUBLIC_NAKAMA_USE_SSL=false
+```
 
-### Week 1: Foundation & Authentication ✅
-- [x] Project setup and environment configuration
-- [x] User authentication system
-- [ ] Basic map integration
-- [ ] Core quest discovery loop
+### Nakama Server
+See `wayfarer-nakama/README.md` for environment configuration.
 
-### Week 2-4: Feature Development
-- Enhanced quest system
-- Social features
-- Real-time multiplayer
-- AI integration
+### Proxy
+Set `GOOGLE_MAPS_API_KEY` in Vercel project settings.
 
-## 🔧 Development Guidelines
+## 🚢 Deployment
 
-- Follow the established code evaluation criteria
-- Maintain 80%+ test coverage
-- Use architecture-first design principles
-- Implement comprehensive error handling
-- Document all architectural decisions
+### Mobile App
+1. Set up EAS account: `npm install -g eas-cli && eas login`
+2. Configure build: `cd apps/mobile && eas build:configure`
+3. Build: `eas build --platform android` or `eas build --platform ios`
+4. Submit: `eas submit --platform android` or `eas submit --platform ios`
+
+See [Mobile App Deployment Guide](./docs/MOBILE_DEPLOYMENT.md) for detailed instructions.
+
+### Nakama Server
+Currently hosted on Hostinger. 
+
+**Deployment**:
+```bash
+# Full deployment with health checks
+./wayfarer-nakama/deploy.sh --mode full --check
+
+# Or deploy code/config separately
+./wayfarer-nakama/deploy.sh --mode code
+./wayfarer-nakama/deploy.sh --mode config
+```
+
+See `wayfarer-nakama/DEPLOYMENT_CHECKLIST.md` for detailed deployment steps.
+
+### Proxy
+Deployed on Vercel. See `wayfarer-proxy/README.md` for deployment instructions.
 
 ## 📝 License
 
-[License information to be added]
+MIT
+
+## 👥 Contributors
+
+Wayfarer Team
+
