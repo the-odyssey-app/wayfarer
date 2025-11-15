@@ -10,12 +10,15 @@ import {
 } from 'react-native';
 import Mapbox from '@rnmapbox/maps';
 import * as Location from 'expo-location';
+import Constants from 'expo-constants';
 import { useNakama } from '../contexts/NakamaContext';
 
 // Configure Mapbox
-const mapboxToken = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
+const mapboxToken = Constants.expoConfig?.extra?.mapboxAccessToken || 
+                    Constants.expoConfig?.mapboxAccessToken ||
+                    process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
 if (!mapboxToken) {
-  console.error('Mapbox token not configured. Set EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN environment variable.');
+  console.error('Mapbox token not configured. Set mapboxAccessToken in app.json extra section or EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN environment variable.');
   // Note: Mapbox will fail to initialize without a token, but we don't want to crash the app
   // This allows the app to start but map features will not work
 }

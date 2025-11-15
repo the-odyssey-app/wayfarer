@@ -17,7 +17,9 @@
       "bundleIdentifier": "com.wayfarer.mobile",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "This app uses location to show your position on the map and discover nearby quests.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses location to show your position on the map and discover nearby quests."
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses location to show your position on the map and discover nearby quests.",
+        "NSCameraUsageDescription": "This app uses the camera to allow you to take photos for quest submissions.",
+        "NSPhotoLibraryUsageDescription": "This app accesses your photo library to select and upload photos for quest submissions."
       }
     },
     "android": {
@@ -33,7 +35,10 @@
         "ACCESS_COARSE_LOCATION",
         "ACCESS_BACKGROUND_LOCATION",
         "INTERNET",
-        "ACCESS_NETWORK_STATE"
+        "ACCESS_NETWORK_STATE",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
       ],
       "usesCleartextTraffic": true
     },
@@ -44,7 +49,8 @@
       [
         "@rnmapbox/maps",
         {
-          "RNMapboxMapsImpl": "mapbox"
+          "RNMapboxMapsImpl": "mapbox",
+          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoidGhla2V5bWFzdGVyIiwiYSI6ImNtYWxjbmZtMDA3amEya3ByY2s5emdsOWsifQ.ibbwzXSyGrIIWIAZhjl1gQ"
         }
       ],
       [
@@ -61,7 +67,8 @@
       "nakamaHost": "5.181.218.160",
       "nakamaPort": "7350",
       "nakamaUseSSL": "false",
-      "nakamaServerKey": "defaultkey"
+      "nakamaServerKey": "defaultkey",
+      "mapboxAccessToken": "pk.eyJ1IjoidGhla2V5bWFzdGVyIiwiYSI6ImNtYWxvYjZpbDBiOTcya3B3ZHZ6dXc4MmoifQ.L3AXSz3rIO8tTfnslCrDZg"
     }
   }
 }
