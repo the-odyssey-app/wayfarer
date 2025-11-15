@@ -44,8 +44,7 @@
       [
         "@rnmapbox/maps",
         {
-          "RNMapboxMapsImpl": "mapbox",
-          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoidGhla2V5bWFzdGVyIiwiYSI6ImNtYWxjbmZtMDA3amEya3ByY2s5emdsOWsifQ.ibbwzXSyGrIIWIAZhjl1gQ"
+          "RNMapboxMapsImpl": "mapbox"
         }
       ],
       [
@@ -58,7 +57,11 @@
     "extra": {
       "eas": {
         "projectId": "a0fe966c-8c3f-4026-afc5-021e626285a4"
-      }
+      },
+      "nakamaHost": "5.181.218.160",
+      "nakamaPort": "7350",
+      "nakamaUseSSL": "false",
+      "nakamaServerKey": "defaultkey"
     }
   }
 }

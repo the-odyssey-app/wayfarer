@@ -46,6 +46,18 @@ export const NAKAMA_CONFIG = {
   timeout: 10000, // 10 seconds
 };
 
+// Debug logging to diagnose configuration issues
+console.log('🔍 Nakama Config Debug:', {
+  env: Constants.expoConfig?.extra?.env || process.env.EXPO_PUBLIC_ENV || 'development',
+  host: NAKAMA_CONFIG.host,
+  port: NAKAMA_CONFIG.port,
+  useSSL: NAKAMA_CONFIG.useSSL,
+  serverKey: NAKAMA_CONFIG.serverKey,
+  timeout: NAKAMA_CONFIG.timeout,
+  expoConfigExtra: Constants.expoConfig?.extra,
+  fullConfig: NAKAMA_CONFIG
+});
+
 // Alternative hosts for different environments
 export const NAKAMA_HOSTS = {
   android_emulator: '10.0.2.2',
@@ -61,6 +73,16 @@ export const nakamaClient = new Client(
   NAKAMA_CONFIG.useSSL,
   NAKAMA_CONFIG.timeout
 );
+
+// Debug: Log client creation
+console.log('🔍 Nakama Client Created:', {
+  serverKey: NAKAMA_CONFIG.serverKey,
+  host: NAKAMA_CONFIG.host,
+  port: NAKAMA_CONFIG.port.toString(),
+  useSSL: NAKAMA_CONFIG.useSSL,
+  timeout: NAKAMA_CONFIG.timeout,
+  clientUrl: `${NAKAMA_CONFIG.useSSL ? 'https' : 'http'}://${NAKAMA_CONFIG.host}:${NAKAMA_CONFIG.port}`
+});
 
 // Nakama session management
 export interface NakamaSession {
