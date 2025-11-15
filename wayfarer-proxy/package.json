@@ -1,0 +1,14 @@
+{
+  "name": "wayfarer-proxy",
+  "version": "1.0.0",
+  "description": "A simple proxy for Google Places API to work around Nakama httpRequest issue.",
+  "main": "api/places-search.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}

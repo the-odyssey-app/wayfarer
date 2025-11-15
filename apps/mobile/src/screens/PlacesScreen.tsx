@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, Modal } from 'react-native';
 import { useNakama } from '../contexts/NakamaContext';
+import { PlaceDetailScreen } from './PlaceDetailScreen';
 
 interface PlacesScreenProps {
   onClose?: () => void;
@@ -21,6 +22,7 @@ export const PlacesScreen: React.FC<PlacesScreenProps> = ({ onClose, userLocatio
   const { callRpc } = useNakama();
   const [places, setPlaces] = useState<Place[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
   useEffect(() => {
     const loadPlaces = async () => {
@@ -43,7 +45,10 @@ export const PlacesScreen: React.FC<PlacesScreenProps> = ({ onClose, userLocatio
   }, [userLocation]);
 
   const renderItem = ({ item }: { item: Place }) => (
-    <View style={styles.placeCard}>
+    <TouchableOpacity
+      style={styles.placeCard}
+      onPress={() => setSelectedPlace(item)}
+    >
       <View style={styles.placeHeader}>
         <Text style={styles.placeName}>{item.name}</Text>
         {item.distance_km !== undefined && (
@@ -56,7 +61,7 @@ export const PlacesScreen: React.FC<PlacesScreenProps> = ({ onClose, userLocatio
       {item.category ? (
         <View style={styles.badge}><Text style={styles.badgeText}>{item.category}</Text></View>
       ) : null}
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -81,6 +86,21 @@ export const PlacesScreen: React.FC<PlacesScreenProps> = ({ onClose, userLocatio
           ListEmptyComponent={<Text style={styles.emptyText}>No places found nearby.</Text>}
           contentContainerStyle={{ padding: 20, paddingBottom: 40, gap: 12 }}
         />
+      )}
+
+      {/* Place Detail Modal */}
+      {selectedPlace && (
+        <Modal
+          visible={!!selectedPlace}
+          animationType="slide"
+          presentationStyle="fullScreen"
+          onRequestClose={() => setSelectedPlace(null)}
+        >
+          <PlaceDetailScreen
+            place={selectedPlace}
+            onClose={() => setSelectedPlace(null)}
+          />
+        </Modal>
       )}
     </View>
   );

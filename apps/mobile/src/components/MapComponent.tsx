@@ -40,10 +40,18 @@ interface Quest {
 
 interface MapComponentProps {
   onLocationUpdate?: (latitude: number, longitude: number) => void;
-  onQuestSelect?: (questId: string) => void;
+  onQuestSelect?: (quest: Quest) => void;
+  zoomLevel?: number;
+  onZoomChange?: (zoom: number) => void;
+  selectedQuestId?: string | null;
 }
 
-export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate, onQuestSelect }) => {
+export const MapComponent: React.FC<MapComponentProps> = ({ 
+  onLocationUpdate, 
+  onQuestSelect, 
+  zoomLevel = 15,
+  selectedQuestId = null,
+}) => {
   const { callRpc, isConnected } = useNakama();
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -52,6 +60,7 @@ export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate, on
   const [manualLng, setManualLng] = useState('');
   const [quests, setQuests] = useState<Quest[]>([]);
   const [loadingQuests, setLoadingQuests] = useState(false);
+  const cameraRef = React.useRef<Mapbox.Camera>(null);
 
   useEffect(() => {
     getCurrentLocation();
@@ -62,6 +71,16 @@ export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate, on
       fetchQuests();
     }
   }, [isConnected, location]);
+
+  useEffect(() => {
+    if (cameraRef.current && location) {
+      cameraRef.current.setCamera({
+        centerCoordinate: [location.coords.longitude, location.coords.latitude],
+        zoomLevel: zoomLevel,
+        animationDuration: 500,
+      });
+    }
+  }, [zoomLevel, location]);
 
   const getCurrentLocation = async () => {
     try {
@@ -189,10 +208,11 @@ export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate, on
     <View style={styles.container}>
       <Mapbox.MapView style={styles.map}>
         <Mapbox.Camera
+          ref={cameraRef}
           centerCoordinate={[location.coords.longitude, location.coords.latitude]}
-          zoomLevel={15}
+          zoomLevel={zoomLevel}
           animationMode="flyTo"
-          animationDuration={2000}
+          animationDuration={500}
         />
         
         {/* User location marker */}
@@ -206,34 +226,45 @@ export const MapComponent: React.FC<MapComponentProps> = ({ onLocationUpdate, on
         </Mapbox.PointAnnotation>
 
         {/* Quest markers */}
-        {quests.map((quest) => (
-          <Mapbox.PointAnnotation
-            key={quest.id}
-            id={`quest-${quest.id}`}
-            coordinate={[quest.location_lng, quest.location_lat]}
-            onSelected={() => {
-              if (onQuestSelect) {
-                onQuestSelect(quest.id);
-              }
-            }}
-          >
-            <TouchableOpacity
-              style={[
-                styles.questMarker,
-                quest.user_status === 'active' ? styles.activeQuestMarker : styles.availableQuestMarker
-              ]}
-              onPress={() => {
+        {quests.map((quest) => {
+          const isSelected = selectedQuestId === quest.id;
+          const isActive = quest.user_status === 'active';
+          
+          return (
+            <Mapbox.PointAnnotation
+              key={quest.id}
+              id={`quest-${quest.id}`}
+              coordinate={[quest.location_lng, quest.location_lat]}
+              onSelected={() => {
                 if (onQuestSelect) {
-                  onQuestSelect(quest.id);
+                  onQuestSelect(quest);
                 }
               }}
             >
-              <Text style={styles.questMarkerText}>
-                {quest.difficulty}
-              </Text>
-            </TouchableOpacity>
-          </Mapbox.PointAnnotation>
-        ))}
+              <TouchableOpacity
+                style={[
+                  styles.questMarker,
+                  isSelected 
+                    ? styles.selectedQuestMarker 
+                    : isActive 
+                    ? styles.activeQuestMarker 
+                    : styles.availableQuestMarker
+                ]}
+                onPress={() => {
+                  if (onQuestSelect) {
+                    onQuestSelect(quest);
+                  }
+                }}
+              >
+                <Ionicons 
+                  name="location" 
+                  size={20} 
+                  color="#fff" 
+                />
+              </TouchableOpacity>
+            </Mapbox.PointAnnotation>
+          );
+        })}
       </Mapbox.MapView>
 
       {/* Location info overlay */}
@@ -409,19 +440,24 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   userMarker: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: '#007AFF',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#FF69B4',
     borderWidth: 3,
     borderColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
   },
   userMarkerInner: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
     backgroundColor: '#fff',
   },
   modalOverlay: {
@@ -496,14 +532,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   availableQuestMarker: {
-    backgroundColor: '#34C759',
+    backgroundColor: '#17B2B2',
   },
   activeQuestMarker: {
     backgroundColor: '#FF9500',
   },
-  questMarkerText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
+  selectedQuestMarker: {
+    backgroundColor: '#007AFF',
+    transform: [{ scale: 1.2 }],
   },
 });

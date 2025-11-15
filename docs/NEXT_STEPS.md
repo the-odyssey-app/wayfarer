@@ -1,225 +1,159 @@
-# Next Steps: MinIO Photo Upload Implementation
+# Next Steps for Wayfarer MVP
 
-## ✅ What's Been Completed
-
-1. **Backend Code** ✅
-   - MinIO client integration in Nakama
-   - `upload_photo` RPC function created
-   - Railway-specific URL handling
-
-2. **Mobile App Code** ✅
-   - Photo upload function added
-   - Integrated into step completion flow
-   - Uses `expo-file-system` for base64 conversion
-
-3. **Documentation** ✅
-   - Railway setup guide
-   - Implementation guide
-   - Troubleshooting docs
+**Last Updated**: Current Session  
+**Status**: ~90% MVP Complete - Focus on Testing & Launch
 
 ---
 
-## 🚀 Next Steps (In Order)
+## 🎯 Immediate Priorities
 
-### Step 1: Deploy MinIO on Railway (15-20 min)
+### 1. Deploy Photo Storage (2-3 hours) ⚠️ CRITICAL
 
-**Go to Railway Dashboard:**
-1. Create new project or use existing
-2. Add new service → "Empty Service"
-3. Add this `Dockerfile`:
-   ```dockerfile
-   FROM minio/minio:latest
-   EXPOSE 9000 9001
-   CMD ["server", "/data", "--console-address", ":9001"]
-   ```
+**Status**: Code implemented, needs deployment
 
-4. **Set Environment Variables:**
-   - `MINIO_ROOT_USER` = `wayfarer-minio` (or your choice)
-   - `MINIO_ROOT_PASSWORD` = Generate strong password: `openssl rand -base64 32`
+**Action**: Follow the comprehensive guide in `PHOTO_STORAGE_GUIDE.md`
 
-5. **Add Volume:**
-   - Settings → Volumes → Add `/data`
+**Quick Summary**:
+- Deploy MinIO on Railway
+- Configure Nakama environment variables
+- Test end-to-end photo upload
 
-6. **Get Connection Details:**
-   - Note the public URL (e.g., `minio-production.up.railway.app`)
-   - Note ports: 9000 (API), 9001 (Console)
-
-7. **Access MinIO Console:**
-   - Go to port 9001 URL
-   - Login with `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD`
-   - Create bucket: `wayfarer-photos`
-   - Set bucket policy to "Public" (or custom policy for read access)
-
-**See:** `docs/MINIO_RAILWAY_SETUP.md` for detailed instructions
+**See**: `docs/PHOTO_STORAGE_GUIDE.md` for complete instructions
 
 ---
 
-### Step 2: Install MinIO Package in Nakama (5 min)
+### 2. End-to-End Testing (4-6 hours) ⚠️ CRITICAL
 
-**If Nakama is on Railway:**
-- Railway will auto-install packages from `package.json`
-- Make sure `nakama-data/modules/package.json` is in your repo
-- Redeploy Nakama service
+**Status**: Test infrastructure ready, needs execution
 
-**If Nakama is on VPS/Docker:**
-```bash
-cd wayfarer-nakama/nakama-data/modules
-npm install
-```
+**Action**: Follow the testing guide in `END_TO_END_TESTING_GUIDE.md`
 
-**Verify:**
-- Check that `node_modules/minio` exists
-- Restart Nakama
+**What to Test**:
+- All 77 RPC functions
+- Complete quest flow (10-step scavenger hunt)
+- Group quest with party coordination
+- Photo upload and storage
+- Progression system (XP, ranks, achievements)
+- Mobile app functionality
 
----
-
-### Step 3: Configure Nakama Environment Variables (5 min)
-
-Add these to your Nakama environment (Railway dashboard or VPS):
-
-```bash
-MINIO_ENDPOINT=minio-production.up.railway.app
-MINIO_PORT=9000
-MINIO_USE_SSL=true
-MINIO_ACCESS_KEY=wayfarer-minio  # Same as MINIO_ROOT_USER
-MINIO_SECRET_KEY=your-password    # Same as MINIO_ROOT_PASSWORD
-MINIO_BUCKET=wayfarer-photos
-MINIO_PUBLIC_ENDPOINT=minio-production.up.railway.app
-MINIO_PUBLIC_PORT=9000
-```
-
-**Where to set:**
-- **Railway**: Service → Variables → Add each variable
-- **VPS**: Add to `local.yml` under `runtime.env` or docker-compose `environment`
-
-**Restart Nakama** after adding variables
+**See**: `docs/END_TO_END_TESTING_GUIDE.md` for complete procedures
 
 ---
 
-### Step 4: Install expo-file-system in Mobile App (2 min)
+### 3. Fix Critical Bugs (4-6 hours) 🟢 HIGH
 
-```bash
-cd apps/mobile
-npx expo install expo-file-system
-```
-
-**Verify:**
-- Check `package.json` has `expo-file-system`
-- Rebuild app if needed
+**After testing**, fix any blocking issues found:
+- RPC function errors
+- Database issues
+- Mobile app crashes
+- Performance problems
 
 ---
 
-### Step 5: Test End-to-End (10 min)
+## 📋 Short-Term Goals (Next 2 Weeks)
 
-1. **Start MinIO on Railway** ✅ (from Step 1)
-2. **Restart Nakama** (to load new RPC and env vars)
-3. **Check Nakama Logs:**
-   - Look for: `"MinIO client initialized: ..."`
-   - Should see connection success
+### 4. Production Verification System (8-12 hours)
 
-4. **Test in Mobile App:**
-   - Open quest detail
-   - Take/select a photo
-   - Complete step
-   - Check for errors
+**Status**: Framework exists with auto-approve
 
-5. **Verify Upload:**
-   - Go to MinIO Console → `wayfarer-photos` bucket
-   - Should see uploaded file: `quest_xxx/step_xxx/user_xxx_timestamp.jpg`
-   - Click file → should see photo
+**Needs**:
+- Third-party identity verification integration
+- Document validation
+- Age verification
+- Rejection handling with appeals
 
-6. **Verify Database:**
-   - Check `media_submissions` table
-   - Should have entry with `media_url` pointing to MinIO URL
-   - URL format: `https://minio-production.up.railway.app/wayfarer-photos/...`
+### 5. UI/UX Polish (8-12 hours)
 
-7. **Test Public URL:**
-   - Copy URL from database
-   - Open in browser
-   - Should see photo
+**Status**: Core screens exist but need refinement
 
----
+**Needs**:
+- Better error handling/feedback
+- Loading states
+- Animations/transitions
+- Accessibility improvements
 
-## 🐛 Troubleshooting
+### 6. Advanced Matching Algorithms (10-15 hours)
 
-### "MinIO not configured" in logs
-- ✅ Check environment variables are set
-- ✅ Verify MINIO_ACCESS_KEY and MINIO_SECRET_KEY match MinIO
-- ✅ Restart Nakama after setting variables
+**Status**: Basic matching works
 
-### "Upload failed" error
-- ✅ Check MinIO is accessible from Nakama
-- ✅ Verify bucket name matches `MINIO_BUCKET`
-- ✅ Check bucket policy allows uploads
-- ✅ Verify Railway service is running
-
-### Photo URL not accessible
-- ✅ Verify bucket policy is "Public" for read
-- ✅ Test URL in browser directly
-- ✅ Check Railway public URL is correct
-
-### "MinIO package not available"
-- ✅ Run `npm install` in modules directory
-- ✅ Verify `package.json` exists
-- ✅ Restart Nakama
+**Needs**:
+- Weighted scoring system
+- Interest overlap analysis
+- Historical match success tracking
+- Dynamic radius adjustment
 
 ---
 
-## 📋 Quick Checklist
+## 📋 Medium-Term Goals (Next Month)
 
-- [ ] MinIO deployed on Railway
-- [ ] Bucket `wayfarer-photos` created
-- [ ] Bucket policy set to public
-- [ ] Environment variables set in Nakama
-- [ ] MinIO package installed (`npm install`)
-- [ ] Nakama restarted
-- [ ] `expo-file-system` installed in mobile app
-- [ ] Test photo upload works
-- [ ] Photo appears in MinIO bucket
-- [ ] Photo URL stored in database
-- [ ] Photo URL accessible in browser
+### 7. Enhanced Group Features (6-8 hours)
+- Real-time member updates
+- Shared progress visualization
+- Group rewards distribution
+- Voting systems
 
----
+### 8. Event Participation UI (4-6 hours)
+- Event quest filtering
+- Participation progress tracking
+- Event leaderboards
 
-## 🎯 After Testing Success
-
-Once everything works:
-
-1. **Monitor Usage:**
-   - Check Railway dashboard for MinIO usage
-   - Monitor storage growth
-   - Check costs
-
-2. **Optional Enhancements:**
-   - Add image compression before upload
-   - Add image validation (size, format)
-   - Set up CDN (Cloudflare) in front of MinIO
-   - Add photo moderation (optional)
-
-3. **Production Considerations:**
-   - Set up backups for MinIO data
-   - Configure custom domain for MinIO
-   - Set up monitoring/alerts
-   - Consider image optimization pipeline
+### 9. Audio Experience Playback (8-12 hours)
+- Background playback
+- Download management
+- Premium content integration
 
 ---
 
-## 📚 Reference Documents
+## 📋 Long-Term Goals (Future)
 
-- `docs/MINIO_RAILWAY_SETUP.md` - Detailed Railway setup
-- `docs/MINIO_IMPLEMENTATION_GUIDE.md` - Implementation details
-- `docs/PHOTO_STORAGE_OPTIONS.md` - Storage options comparison
+### 10. Monetization System (20-30 hours)
+- Subscription management
+- In-app purchases
+- Virtual currency
+- Premium features
+
+### 11. Quest Ads System (30-40 hours)
+- Business dashboard
+- Sponsored locations
+- Campaign management
+
+### 12. Advanced Analytics (10-15 hours)
+- User behavior tracking
+- Quest performance metrics
+- Engagement analytics
 
 ---
 
-## 🚀 Ready to Start?
+## ✅ Quick Reference
 
-**Begin with Step 1: Deploy MinIO on Railway**
+### Critical Path to Production
+1. ✅ Deploy photo storage → `PHOTO_STORAGE_GUIDE.md`
+2. ✅ Run end-to-end tests → `END_TO_END_TESTING_GUIDE.md`
+3. ✅ Fix critical bugs
+4. ✅ Production verification
+5. ✅ UI/UX polish
+6. ✅ Beta testing
+7. ✅ Launch
 
-The code is ready - you just need to:
-1. Set up MinIO service
-2. Configure Nakama
-3. Test!
+### Documentation
+- **Project Status**: `PROJECT_STATUS.md`
+- **Photo Storage**: `PHOTO_STORAGE_GUIDE.md`
+- **Testing**: `END_TO_END_TESTING_GUIDE.md`
+- **Remaining Tasks**: `HIGH_IMPACT_CHECKLIST.md`
 
-Let me know if you need help with any step! 🎉
+---
+
+## 🎯 Success Criteria
+
+MVP is production-ready when:
+- ✅ Photo storage deployed and working
+- ✅ All critical user journeys tested and working
+- ✅ No blocking bugs
+- ✅ Mobile app stable
+- ✅ Performance acceptable
+- ✅ Documentation complete
+
+---
+
+**Start with photo storage deployment, then move to testing!**
 

@@ -21,55 +21,51 @@
 - Cost breakdown
 - Quick start guide (30 minutes)
 
-### If you have 1-2 hours:
-→ **[IMPLEMENTATION_SUMMARY_AND_NEXT_STEPS.md](IMPLEMENTATION_SUMMARY_AND_NEXT_STEPS.md)**
-- Complete situation analysis
-- What we have vs what's needed
-- Detailed 3-week implementation roadmap
-- Database schema recommendations
-- Cost analysis and timeline estimates
-- **MOST COMPREHENSIVE - READ THIS FIRST**
+### If you want current status:
+→ **[PROJECT_STATUS.md](PROJECT_STATUS.md)**
+- Current project status (~90% MVP complete)
+- System-by-system completion breakdown
+- What's complete and what's remaining
+- Key metrics and next steps
 
-### If you want technical details:
-→ **[OLD_IMPLEMENTATION_ANALYSIS_AND_INTEGRATION.md](OLD_IMPLEMENTATION_ANALYSIS_AND_INTEGRATION.md)**
-- Old implementation structure (22 tables)
-- Current implementation gaps
-- OpenRouter + Claude Haiku setup
-- Migration path with code templates
-- Detailed cost comparison
+### If you want next steps:
+→ **[NEXT_STEPS.md](NEXT_STEPS.md)**
+- Immediate priorities (photo storage, testing)
+- Short-term and long-term goals
+- Critical path to production
+- Success criteria
+
+### If you want roadmap:
+→ **[IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md)**
+- Future implementation roadmap
+- Migration paths and options
+- Cost analysis and timeline estimates
+- Technical implementation details
 
 ---
 
 ## 📊 CURRENT PROJECT STATUS
 
 ### Project Overview
-- **Status**: 40% complete (broken MVP)
+- **Status**: ~90% MVP Complete - Production-Ready MVP
 - **Architecture**: Nakama + CockroachDB
-- **Database**: 2 tables (need 20 more)
-- **AI**: None (migration path available)
-- **Critical Issues**: 3 (blocking features)
+- **Database**: 22+ tables (complete schema)
+- **AI**: OpenRouter/Claude Haiku (working)
+- **RPC Functions**: 77 implemented
+- **Critical Issues**: Photo storage deployment, end-to-end testing
 
-### Audit & Analysis Documents
-1. **[GAME_MD_VS_REALITY_AUDIT.md](GAME_MD_VS_REALITY_AUDIT.md)** ⭐ CURRENT
+### Status & Overview Documents
+1. **[PROJECT_STATUS.md](PROJECT_STATUS.md)** ⭐ PRIMARY STATUS
+   - Current project status (~90% MVP complete)
+   - System-by-system completion status
+   - What's complete and what's remaining
+   - Key metrics and achievements
+
+2. **[GAME_MD_VS_REALITY_AUDIT.md](GAME_MD_VS_REALITY_AUDIT.md)** ⭐ DETAILED AUDIT
    - Compares Game.md vision (900+ lines) vs reality
-   - 18 major systems outlined vs current implementation
+   - 18 major systems detailed analysis
    - Updated November 9, 2025 - Shows ~90% MVP complete
-   - Identifies what's missing and what's working
-
-2. **[MISSING_FEATURES_COMPLETE.md](MISSING_FEATURES_COMPLETE.md)**
-   - Detailed list of all missing features
-   - Categorized by criticality
-   - Estimated effort for each
-
-3. **[AUDIT_REPORT.md](AUDIT_REPORT.md)**
-   - Original comprehensive audit
-   - Issues identified
-   - Code references
-
-4. **[AUDIT_SUMMARY.txt](AUDIT_SUMMARY.txt)**
-   - Executive summary of audit findings
-   - Critical blockers
-   - Implementation status
+   - Comprehensive system-by-system breakdown
 
 ---
 
@@ -107,37 +103,46 @@ The `old/` folder contains a **complete, working implementation**:
 - **[MONOREPO.md](MONOREPO.md)** - Monorepo structure and scripts
 - **[README.md](README.md)** - Project overview and quick start
 
+### Deployment & Operations
+- **[DEPLOYMENT_SCRIPTS.md](DEPLOYMENT_SCRIPTS.md)** - Deployment automation
+- **[MOBILE_DEPLOYMENT.md](MOBILE_DEPLOYMENT.md)** - Mobile app deployment
+- **[PHOTO_STORAGE_GUIDE.md](PHOTO_STORAGE_GUIDE.md)** - Photo storage setup (MinIO)
+- **[SETUP_QUESTS.md](SETUP_QUESTS.md)** - Quest creation and setup
+
+### Testing
+- **[END_TO_END_TESTING_GUIDE.md](END_TO_END_TESTING_GUIDE.md)** - Comprehensive testing guide
+- **[TESTING_CHECKLIST.md](TESTING_CHECKLIST.md)** - Quick testing checklist
+
 ### Database & Infrastructure
-- **[wayfarer-nakama/README.md](wayfarer-nakama/README.md)** - Nakama setup
-- **[wayfarer-nakama/create_quest_tables.sql](wayfarer-nakama/create_quest_tables.sql)** - SQL schema (2 tables)
-- **[wayfarer-nakama/docker-compose.yml](wayfarer-nakama/docker-compose.yml)** - Docker setup
+- **[wayfarer-nakama/README.md](../wayfarer-nakama/README.md)** - Nakama setup
+- **[wayfarer-nakama/migrations/](../wayfarer-nakama/migrations/)** - Database migrations (12 files)
+- **[wayfarer-nakama/docker-compose.yml](../wayfarer-nakama/docker-compose.yml)** - Docker setup
 
 ---
 
 ## 📋 IMPLEMENTATION ROADMAP
 
-### Recommended Path: 3-Week MVP Development
+### Current Phase: Testing & Polish
 
-**Week 1: Fix Critical Bugs + AI Setup** (6.5 hours)
-- Fix 3 missing RPC functions
-- Setup OpenRouter
-- Migrate quest generation AI
-- Result: Basic quest loop working
-
-**Week 2: Database Schema + Progression** (16 hours)
-- Create 20 SQL tables
-- Implement achievements/badges/rewards
-- Testing & optimization
-- Result: Full progression system
-
-**Week 3: Polish & Deploy** (13 hours)
-- UI improvements
-- Testing & QA
-- Performance optimization
-- Deployment
+**Week 1-2: Production Readiness** (6-9 hours)
+- Deploy photo storage (MinIO)
+- End-to-end testing
+- Fix critical bugs
 - Result: Production-ready MVP
 
-**Total Effort**: ~35.5 development hours
+**Week 3-4: Beta Testing** (Ongoing)
+- Beta user testing
+- Bug fixes
+- Performance optimization
+- Result: Stable MVP
+
+**Month 2: Launch Preparation**
+- UI/UX polish
+- Documentation updates
+- App store preparation
+- Result: Launch-ready MVP
+
+**See**: `NEXT_STEPS.md` for detailed priorities
 
 ---
 
@@ -197,21 +202,21 @@ The `old/` folder contains a **complete, working implementation**:
 
 ## 🎯 NEXT ACTIONS
 
-### Immediate (Today)
-1. Read EXECUTIVE_SUMMARY.txt (5 min)
-2. Read IMPLEMENTATION_SUMMARY_AND_NEXT_STEPS.md (1-2 hours)
-3. Decide: PATH 1 or PATH 2?
-4. Decide: How many hours/week available?
+### Immediate (This Week)
+1. Read PROJECT_STATUS.md (10 min) - Current status overview
+2. Deploy photo storage - Follow PHOTO_STORAGE_GUIDE.md (2-3 hours)
+3. Run end-to-end tests - Follow END_TO_END_TESTING_GUIDE.md (4-6 hours)
+4. Fix critical bugs found during testing (4-6 hours)
 
-### This Week
-5. Setup OpenRouter account (30 min)
-6. Fix 3 critical RPC functions (2 hours)
-7. Test migration of quest generation (1 hour)
+### Short Term (Next 2 Weeks)
+5. Production verification system (8-12 hours)
+6. UI/UX polish (8-12 hours)
+7. Performance optimization (6-8 hours)
 
-### Next 2 Weeks
-8. Implement quest AI generation (2-3 hours)
-9. Add database schema (4 hours)
-10. Implement achievement system (4 hours)
+### Medium Term (Next Month)
+8. Beta user testing (ongoing)
+9. Advanced features (as needed)
+10. Launch preparation
 
 ---
 

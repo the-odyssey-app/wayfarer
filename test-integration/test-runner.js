@@ -113,7 +113,9 @@ const testData = {
  */
 class TestDataFactory {
     static generateUserEmail(index) {
-        return `testuser${index}@wayfarer.test`;
+        // Use timestamp to ensure unique emails for each test run
+        const timestamp = Date.now();
+        return `testuser${index}_${timestamp}@wayfarer.test`;
     }
     
     static generateUsername(index) {
@@ -137,7 +139,8 @@ class TestDataFactory {
             const username = this.generateUsername(index);
             const password = 'testpass123';
             
-            const session = await client.authenticateEmail(email, password, true, username);
+            // authenticateEmail(email, password, create) - username is auto-generated from email if not provided
+            const session = await client.authenticateEmail(email, password, true);
             
             const user = {
                 id: session.user_id,
@@ -152,7 +155,8 @@ class TestDataFactory {
             
             return user;
         } catch (error) {
-            throw new Error(`Failed to create test user ${index}: ${error.message}`);
+            const errorMsg = extractErrorMessage(error);
+            throw new Error(`Failed to create test user ${index}: ${errorMsg}`);
         }
     }
     

@@ -246,3 +246,7 @@ Before submitting to stores:
 - **Hosting**: Nakama server hosting costs (currently Hostinger)
 
 
+
+
+
+
