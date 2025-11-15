@@ -57,6 +57,13 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow Wayfarer to use your location to show your position on the map and discover nearby quests."
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them.",
+          "cameraPermission": "The app accesses your camera to let you take photos."
+        }
       ]
     ],
     "extra": {
