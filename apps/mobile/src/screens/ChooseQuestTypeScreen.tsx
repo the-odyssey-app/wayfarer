@@ -27,8 +27,6 @@ export const ChooseQuestTypeScreen: React.FC<ChooseQuestTypeScreenProps> = ({
         <TouchableOpacity onPress={onClose} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Choose Quest Type</Text>
-        <View style={styles.placeholder} />
       </View>
 
       {/* Content */}
@@ -86,27 +84,17 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 60,
     paddingBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
   },
   backButton: {
     width: 32,
     height: 32,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  placeholder: {
-    width: 32,
   },
   content: {
     flex: 1,

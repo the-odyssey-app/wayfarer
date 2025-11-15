@@ -26,8 +26,8 @@ interface QuestHistoryItem {
   difficulty: number;
   started_at: string;
   completed_at: string | null;
-  location_lat?: number;
-  location_lng?: number;
+  latitude?: number;
+  longitude?: number;
 }
 
 export const HistoryScreen: React.FC<HistoryScreenProps> = ({ onClose }) => {

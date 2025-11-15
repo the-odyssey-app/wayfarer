@@ -102,6 +102,7 @@ export const NakamaProvider: React.FC<NakamaProviderProps> = ({ children }) => {
         session: session,
         userId: session.user_id || '',
         username: session.username || '',
+        isAuthenticated: true,
       });
       setIsConnected(true);
       
@@ -128,21 +129,45 @@ export const NakamaProvider: React.FC<NakamaProviderProps> = ({ children }) => {
   const callRpc = async (functionName: string, payload?: any) => {
     try {
       if (!session?.session) {
+        console.error(`RPC call ${functionName} failed: No active session`);
         throw new Error('No active session');
       }
 
+      // Nakama RPC accepts payload as string or object
+      // We'll pass it as a stringified JSON string
       const payloadString = payload ? JSON.stringify(payload) : '{}';
-      const result = await nakamaClient.rpc(session.session, functionName, payloadString);
+      console.log(`RPC call ${functionName} with payload:`, payloadString.substring(0, 200));
+      
+      const result = await nakamaClient.rpc(session.session, functionName, payloadString as any);
+      
+      console.log(`RPC call ${functionName} result:`, result ? JSON.stringify(result).substring(0, 200) : 'null/undefined');
+      
+      if (!result || result.payload === undefined) {
+        console.error(`RPC call ${functionName} returned empty result. Full result:`, result);
+        return { success: false, error: 'Empty response from server' };
+      }
       
       // Parse the result if it's a JSON string
-      try {
-        return JSON.parse(result.payload);
-      } catch {
-        return result.payload;
+      // result.payload can be a string or already an object
+      if (typeof result.payload === 'string') {
+        try {
+          const parsed = JSON.parse(result.payload);
+          return parsed || { success: false, error: 'Invalid response format' };
+        } catch {
+          // If parsing fails, return the string as-is
+          return { success: false, error: result.payload || 'Empty response from server' };
+        }
+      } else {
+        // Already an object
+        return result.payload || { success: false, error: 'Empty response from server' };
       }
     } catch (error) {
       console.error(`RPC call failed for ${functionName}:`, error);
-      throw error;
+      // Return error object instead of throwing to allow caller to handle gracefully
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Unknown error occurred' 
+      };
     }
   };
 

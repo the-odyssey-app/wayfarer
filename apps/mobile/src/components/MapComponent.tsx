@@ -30,8 +30,8 @@ interface Quest {
   id: string;
   title: string;
   description: string;
-  location_lat: number;
-  location_lng: number;
+  latitude: number;
+  longitude: number;
   radius_meters: number;
   difficulty: number;
   xp_reward: number;
@@ -236,7 +236,7 @@ export const MapComponent: React.FC<MapComponentProps> = ({
             <Mapbox.PointAnnotation
               key={quest.id}
               id={`quest-${quest.id}`}
-              coordinate={[quest.location_lng, quest.location_lat]}
+              coordinate={[quest.longitude, quest.latitude]}
               onSelected={() => {
                 if (onQuestSelect) {
                   onQuestSelect(quest);

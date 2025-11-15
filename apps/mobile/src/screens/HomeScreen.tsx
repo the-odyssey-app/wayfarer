@@ -625,10 +625,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 // Filter quests within 2km
                 if (currentLocation) {
                   const filtered = publicQuests.filter((quest: any) => {
-                    if (quest.location_lat && quest.location_lng) {
+                    if (quest.latitude && quest.longitude) {
                       // Simple distance calculation (Haversine would be better)
-                      const latDiff = Math.abs(quest.location_lat - currentLocation.lat);
-                      const lngDiff = Math.abs(quest.location_lng - currentLocation.lng);
+                      const latDiff = Math.abs(quest.latitude - currentLocation.lat);
+                      const lngDiff = Math.abs(quest.longitude - currentLocation.lng);
                       const distance = Math.sqrt(latDiff * latDiff + lngDiff * lngDiff) * 111; // rough km conversion
                       return distance <= 2;
                     }
@@ -1370,9 +1370,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               });
             } else if (filter === 'nearby' && currentLocation) {
               filtered = filtered.filter((quest: any) => {
-                if (quest.location_lat && quest.location_lng) {
-                  const latDiff = Math.abs(quest.location_lat - currentLocation.lat);
-                  const lngDiff = Math.abs(quest.location_lng - currentLocation.lng);
+                if (quest.latitude && quest.longitude) {
+                  const latDiff = Math.abs(quest.latitude - currentLocation.lat);
+                  const lngDiff = Math.abs(quest.longitude - currentLocation.lng);
                   const distance = Math.sqrt(latDiff * latDiff + lngDiff * lngDiff) * 111;
                   return distance <= 2;
                 }

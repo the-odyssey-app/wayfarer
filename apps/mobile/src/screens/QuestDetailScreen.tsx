@@ -33,8 +33,8 @@ interface QuestDetails {
   id: string;
   title: string;
   description: string;
-  location_lat: number;
-  location_lng: number;
+  latitude: number;
+  longitude: number;
   radius_meters: number;
   difficulty: number;
   xp_reward: number;

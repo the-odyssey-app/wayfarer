@@ -22,8 +22,8 @@ interface ScheduledQuest {
   description: string;
   start_time: string;
   end_time?: string;
-  location_lat?: number;
-  location_lng?: number;
+  latitude?: number;
+  longitude?: number;
   xp_reward: number;
   difficulty: number;
   status: string;

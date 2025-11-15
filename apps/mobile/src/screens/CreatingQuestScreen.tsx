@@ -67,6 +67,15 @@ export const CreatingQuestScreen: React.FC<CreatingQuestScreenProps> = ({
         // Call the original RPC to create quest
         const result = await callRpc('create_quest_from_location', payload);
 
+        if (!result) {
+          const errorMessage = 'Failed to create quest: No response from server';
+          setError(errorMessage);
+          if (onError) {
+            onError(errorMessage);
+          }
+          return;
+        }
+
         if (result.success && onQuestCreated) {
           const questId = result.quest_id || result.questId;
           const joinCode = result.join_code || result.joinCode;
