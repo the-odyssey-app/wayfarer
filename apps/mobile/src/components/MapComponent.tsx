@@ -44,6 +44,7 @@ interface MapComponentProps {
   zoomLevel?: number;
   onZoomChange?: (zoom: number) => void;
   selectedQuestId?: string | null;
+  routeCoordinates?: [number, number][];
 }
 
 export const MapComponent: React.FC<MapComponentProps> = ({ 
@@ -51,6 +52,7 @@ export const MapComponent: React.FC<MapComponentProps> = ({
   onQuestSelect, 
   zoomLevel = 15,
   selectedQuestId = null,
+  routeCoordinates = [],
 }) => {
   const { callRpc, isConnected } = useNakama();
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
@@ -265,6 +267,30 @@ export const MapComponent: React.FC<MapComponentProps> = ({
             </Mapbox.PointAnnotation>
           );
         })}
+
+        {/* Route line */}
+        {routeCoordinates.length > 0 && (
+          <Mapbox.ShapeSource
+            id="route"
+            shape={{
+              type: 'Feature',
+              geometry: {
+                type: 'LineString',
+                coordinates: routeCoordinates,
+              },
+            }}
+          >
+            <Mapbox.LineLayer
+              id="routeLine"
+              style={{
+                lineColor: '#17B2B2',
+                lineWidth: 4,
+                lineCap: 'round',
+                lineJoin: 'round',
+              }}
+            />
+          </Mapbox.ShapeSource>
+        )}
       </Mapbox.MapView>
 
       {/* Location info overlay */}

@@ -38,30 +38,13 @@ export const CreatingQuestScreen: React.FC<CreatingQuestScreenProps> = ({
           return;
         }
 
-        // Determine which RPC to call based on quest type
-        let rpcName: string;
-        let payload: any;
-
+        // Use the original create_quest_from_location RPC with questType parameter
+        let questTypeParam: string;
+        
         if (questType === 'mystery') {
-          rpcName = 'create_mystery_quest_from_location';
-          payload = {
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude,
-            questType: 'mystery',
-            isGroup: isGroupQuest,
-            numStops: 10,
-            maxDistanceKm: 10,
-          };
+          questTypeParam = 'mystery';
         } else if (questType === 'scavenger_hunt') {
-          rpcName = 'create_scavenger_quest_from_location';
-          payload = {
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude,
-            questType: 'scavenger',
-            isGroup: isGroupQuest,
-            numStops: 10,
-            maxDistanceKm: 10,
-          };
+          questTypeParam = 'scavenger';
         } else {
           // with_friends - This should not happen as we handle it via isGroupQuest flag
           const errorMessage = 'Invalid quest type';
@@ -72,8 +55,17 @@ export const CreatingQuestScreen: React.FC<CreatingQuestScreenProps> = ({
           return;
         }
 
-        // Call RPC to create quest
-        const result = await callRpc(rpcName, payload);
+        const payload = {
+          latitude: userLocation.latitude,
+          longitude: userLocation.longitude,
+          questType: questTypeParam,
+          isGroup: isGroupQuest,
+          numStops: 10,
+          maxDistanceKm: 10,
+        };
+
+        // Call the original RPC to create quest
+        const result = await callRpc('create_quest_from_location', payload);
 
         if (result.success && onQuestCreated) {
           const questId = result.quest_id || result.questId;

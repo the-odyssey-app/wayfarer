@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   Share,
   Alert,
+  Modal,
+  ScrollView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-// Note: expo-clipboard may need to be installed: npx expo install expo-clipboard
-// For now, using Share API as fallback
+import { captureRef } from 'react-native-view-shot';
+import QRCode from 'react-native-qrcode-svg';
 
 interface QuestCreatedScreenProps {
   questId: string;
@@ -27,6 +29,8 @@ export const QuestCreatedScreen: React.FC<QuestCreatedScreenProps> = ({
   onViewQuest,
 }) => {
   const [codeCopied, setCodeCopied] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
+  const qrCodeRef = useRef<View | null>(null);
 
   const handleCopyCode = async () => {
     try {
@@ -59,8 +63,41 @@ export const QuestCreatedScreen: React.FC<QuestCreatedScreenProps> = ({
   };
 
   const handleShareQR = () => {
-    // TODO: Generate and share QR code
-    Alert.alert('QR Code', 'QR code sharing coming soon');
+    setShowQRModal(true);
+  };
+
+  const handleShareQRCode = async () => {
+    try {
+      if (!qrCodeRef.current) {
+        Alert.alert('Error', 'QR code not ready');
+        return;
+      }
+
+      // Capture QR code as image
+      const uri = await captureRef(qrCodeRef.current, {
+        format: 'png',
+        quality: 1.0,
+      });
+
+      // Share the QR code image
+      await Share.share({
+        message: `Scan to join my quest "${questTitle}"! Join code: ${joinCode}`,
+        url: uri,
+        title: 'Quest QR Code',
+      });
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'Failed to share QR code');
+    }
+  };
+
+  const getQRCodeData = () => {
+    // Create a JSON object with quest information for the QR code
+    return JSON.stringify({
+      type: 'join_quest',
+      questId: questId,
+      joinCode: joinCode,
+      title: questTitle,
+    });
   };
 
   return (
@@ -136,6 +173,61 @@ export const QuestCreatedScreen: React.FC<QuestCreatedScreenProps> = ({
           )}
         </View>
       </View>
+
+      {/* QR Code Modal */}
+      <Modal
+        visible={showQRModal}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setShowQRModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Quest QR Code</Text>
+              <TouchableOpacity
+                onPress={() => setShowQRModal(false)}
+                style={styles.modalCloseButton}
+              >
+                <Ionicons name="close" size={24} color="#333" />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView contentContainerStyle={styles.modalBody}>
+              <Text style={styles.modalSubtitle}>
+                Scan this code to join "{questTitle}"
+              </Text>
+              
+              <View style={styles.qrCodeContainer} ref={qrCodeRef} collapsable={false}>
+                <QRCode
+                  value={getQRCodeData()}
+                  size={250}
+                  color="#000000"
+                  backgroundColor="#FFFFFF"
+                  logoSize={50}
+                  logoMargin={5}
+                  logoBackgroundColor="#FFFFFF"
+                />
+              </View>
+
+              <View style={styles.joinCodeInfo}>
+                <Text style={styles.joinCodeInfoLabel}>Join Code:</Text>
+                <Text style={styles.joinCodeInfoValue}>{joinCode}</Text>
+              </View>
+
+              <View style={styles.modalActions}>
+                <TouchableOpacity
+                  style={styles.shareQRButton}
+                  onPress={handleShareQRCode}
+                >
+                  <Ionicons name="share-outline" size={24} color="#fff" />
+                  <Text style={styles.shareQRButtonText}>Share QR Code</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -267,6 +359,92 @@ const styles = StyleSheet.create({
   },
   viewQuestButtonText: {
     color: '#333',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    width: '90%',
+    maxHeight: '80%',
+    overflow: 'hidden',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  modalCloseButton: {
+    width: 32,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalBody: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalSubtitle: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  qrCodeContainer: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 12,
+    marginBottom: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  joinCodeInfo: {
+    backgroundColor: '#f5f5f5',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 24,
+    width: '100%',
+  },
+  joinCodeInfoLabel: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 8,
+  },
+  joinCodeInfoValue: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#17B2B2',
+    letterSpacing: 2,
+  },
+  modalActions: {
+    width: '100%',
+  },
+  shareQRButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#17B2B2',
+    borderRadius: 12,
+    paddingVertical: 16,
+    gap: 8,
+  },
+  shareQRButtonText: {
+    color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },

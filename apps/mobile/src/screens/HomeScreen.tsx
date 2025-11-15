@@ -236,8 +236,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       }
 
       // Update navigation state
-      setIsNavigating(true);
-      setHasArrived(false);
+    setIsNavigating(true);
+    setHasArrived(false);
       
       // Store destination for arrival detection
       currentDestination.current = {
@@ -399,10 +399,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               totalSteps: result.totalSteps,
             });
           } else if (questProgress.currentStep < questProgress.totalSteps) {
-            setQuestProgress({
-              currentStep: questProgress.currentStep + 1,
-              totalSteps: questProgress.totalSteps,
-            });
+          setQuestProgress({
+            currentStep: questProgress.currentStep + 1,
+            totalSteps: questProgress.totalSteps,
+          });
           }
           setHasArrived(false);
           setIsNavigating(false);
@@ -1149,8 +1149,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
                   if (result.success) {
                     Alert.alert('Success', `Created ${numberOfGroups} groups successfully!`);
-                    setShowOrganizeQuest(false);
-                    setSelectedPrivateQuest(null);
+                setShowOrganizeQuest(false);
+                setSelectedPrivateQuest(null);
                   } else {
                     Alert.alert('Error', result.error || 'Failed to create groups');
                   }

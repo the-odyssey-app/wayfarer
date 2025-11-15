@@ -308,7 +308,7 @@ export const PlaceDetailScreen: React.FC<PlaceDetailScreenProps> = ({
                 onPress={(e) => {
                   e.stopPropagation();
                   if (guide.isFree || guide.is_purchased) {
-                    setSelectedAudioGuide(guide);
+                  setSelectedAudioGuide(guide);
                   } else {
                     handlePurchaseAudio(guide);
                   }
