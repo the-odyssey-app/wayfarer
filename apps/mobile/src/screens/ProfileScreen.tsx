@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Image,
   Modal,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNakama } from '../contexts/NakamaContext';
@@ -17,6 +19,8 @@ import { AccountInformationScreen } from './AccountInformationScreen';
 import { SettingsScreen } from './SettingsScreen';
 import { FriendsListScreen } from './FriendsListScreen';
 import { MyPlacelistsScreen } from './MyPlacelistsScreen';
+import { ActivityHistoryScreen } from './ActivityHistoryScreen';
+import { PlacelistDetailScreen } from './PlacelistDetailScreen';
 
 interface ProfileScreenProps {
   userId: string;
@@ -44,6 +48,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   const [showSettings, setShowSettings] = useState(false);
   const [showFriendsList, setShowFriendsList] = useState(false);
   const [showPlacelists, setShowPlacelists] = useState(false);
+  const [showActivityHistory, setShowActivityHistory] = useState(false);
+  const [selectedPlacelist, setSelectedPlacelist] = useState<any>(null);
+  const [purchasedAudio, setPurchasedAudio] = useState<any[]>([]);
+  const [loadingAudio, setLoadingAudio] = useState(false);
 
   // Calculate date 7 days ago
   const sevenDaysAgo = new Date();
@@ -110,6 +118,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
       liked: true,
     },
   ]);
+
+  const formatDuration = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
 
   // Format time for display
   const formatActivityTime = (date: Date): string => {
@@ -196,6 +210,29 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
     },
   ];
 
+  // Fetch purchased audio collection
+  useEffect(() => {
+    const fetchAudioCollection = async () => {
+      try {
+        setLoadingAudio(true);
+        const result = await callRpc('get_user_audio_collection', {});
+        
+        if (result.success && result.audio_experiences) {
+          setPurchasedAudio(result.audio_experiences || []);
+        } else {
+          setPurchasedAudio([]);
+        }
+      } catch (error) {
+        console.error('Error fetching audio collection:', error);
+        setPurchasedAudio([]);
+      } finally {
+        setLoadingAudio(false);
+      }
+    };
+
+    fetchAudioCollection();
+  }, []);
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -255,7 +292,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Recent Activity</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setShowActivityHistory(true)}>
               <Text style={styles.viewAllLink}>View All</Text>
             </TouchableOpacity>
           </View>
@@ -296,7 +333,20 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                     </Text>
                   </View>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={async () => {
+                    // Toggle like status
+                    setRecentActivities(prev => prev.map(a => 
+                      a.id === activity.id ? { ...a, liked: !a.liked } : a
+                    ));
+                    // TODO: Call API to update like status when RPC is available
+                    try {
+                      // await callRpc('like_activity', { activityId: activity.id });
+                    } catch (error) {
+                      console.error('Error liking activity:', error);
+                    }
+                  }}
+                >
                   <Ionicons
                     name={activity.liked ? 'heart' : 'heart-outline'}
                     size={20}
@@ -372,6 +422,38 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           </View>
         </View>
 
+        {/* My Audio Collection */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>My Audio Collection</Text>
+          </View>
+          {loadingAudio ? (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="small" color="#17B2B2" />
+              <Text style={styles.loadingText}>Loading...</Text>
+            </View>
+          ) : purchasedAudio.length === 0 ? (
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>No purchased audio guides yet</Text>
+            </View>
+          ) : (
+            purchasedAudio.map((audio) => (
+              <TouchableOpacity key={audio.id} style={styles.audioCard}>
+                <View style={styles.audioIcon}>
+                  <Ionicons name="headset" size={24} color="#17B2B2" />
+                </View>
+                <View style={styles.audioInfo}>
+                  <Text style={styles.audioTitle}>{audio.title}</Text>
+                  <Text style={styles.audioMeta}>
+                    {audio.place_name || 'Location'} • {formatDuration(audio.duration_seconds || 0)}
+                  </Text>
+                </View>
+                <Ionicons name="chevron-forward" size={20} color="#999" />
+              </TouchableOpacity>
+            ))
+          )}
+        </View>
+
         {/* My Placelists */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
@@ -381,7 +463,20 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             </TouchableOpacity>
           </View>
           {placelists.map((list) => (
-            <TouchableOpacity key={list.id} style={styles.placelistCard}>
+            <TouchableOpacity 
+              key={list.id} 
+              style={styles.placelistCard}
+              onPress={() => {
+                setSelectedPlacelist({
+                  id: list.id,
+                  name: list.name,
+                  icon: list.icon,
+                  color: list.color,
+                  count: list.count,
+                  privacy: 'private' as const,
+                });
+              }}
+            >
               <View style={[styles.placelistIcon, { backgroundColor: list.color }]}>
                 <Ionicons name={list.icon as any} size={20} color="#fff" />
               </View>
@@ -473,6 +568,31 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
       >
         <MyPlacelistsScreen onClose={() => setShowPlacelists(false)} />
       </Modal>
+
+      {/* Activity History Modal */}
+      <Modal
+        visible={showActivityHistory}
+        animationType="slide"
+        presentationStyle="fullScreen"
+        onRequestClose={() => setShowActivityHistory(false)}
+      >
+        <ActivityHistoryScreen onClose={() => setShowActivityHistory(false)} />
+      </Modal>
+
+      {/* Placelist Detail Modal */}
+      {selectedPlacelist && (
+        <Modal
+          visible={!!selectedPlacelist}
+          animationType="slide"
+          presentationStyle="pageSheet"
+          onRequestClose={() => setSelectedPlacelist(null)}
+        >
+          <PlacelistDetailScreen
+            placelist={selectedPlacelist}
+            onClose={() => setSelectedPlacelist(null)}
+          />
+        </Modal>
+      )}
     </View>
   );
 };
@@ -748,6 +868,46 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   placelistCount: {
+    fontSize: 12,
+    color: '#666',
+  },
+  loadingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 20,
+    gap: 8,
+  },
+  loadingText: {
+    fontSize: 14,
+    color: '#666',
+  },
+  audioCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f5f5f5',
+  },
+  audioIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#E0F7F7',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  audioInfo: {
+    flex: 1,
+  },
+  audioTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 4,
+  },
+  audioMeta: {
     fontSize: 12,
     color: '#666',
   },

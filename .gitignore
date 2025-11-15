@@ -68,6 +68,7 @@ nakama/logs/
 # Build outputs
 build/
 dist/
+*.apk
 
 # Temporary files
 tmp/

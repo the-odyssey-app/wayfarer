@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,9 +8,13 @@ import {
   Modal,
   TextInput,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import * as Location from 'expo-location';
 import { useNakama } from '../contexts/NakamaContext';
+import { NavigationService } from '../services/NavigationService';
+import { ShareService } from '../services/ShareService';
 import { MapComponent } from '../components/MapComponent';
 import { QuestDetailScreen } from './QuestDetailScreen';
 import { QuestListScreen } from './QuestListScreen';
@@ -32,6 +36,10 @@ import { CreatePrivateQuestScreen } from './CreatePrivateQuestScreen';
 import { ChooseQuestTypeScreen } from './ChooseQuestTypeScreen';
 import { CreatingQuestScreen } from './CreatingQuestScreen';
 import { QuestCreatedScreen } from './QuestCreatedScreen';
+import { HistoryScreen } from './HistoryScreen';
+import { CalendarScreen } from './CalendarScreen';
+import { ActivityHistoryScreen } from './ActivityHistoryScreen';
+import { FilterModal } from '../components/FilterModal';
 
 interface HomeScreenProps {
   userId: string;
@@ -71,6 +79,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const [isGroupQuest, setIsGroupQuest] = useState(false);
   const [createdQuestData, setCreatedQuestData] = useState<{ questId: string; joinCode: string; questTitle: string } | null>(null);
   const [totalParticipants, setTotalParticipants] = useState('9');
+  const [questParticipants, setQuestParticipants] = useState<any[]>([]);
+  const [loadingParticipants, setLoadingParticipants] = useState(false);
+  const [routeCoordinates, setRouteCoordinates] = useState<[number, number][]>([]);
+  const locationMonitoringInterval = useRef<NodeJS.Timeout | null>(null);
+  const currentDestination = useRef<{ latitude: number; longitude: number } | null>(null);
   const [numberOfGroups, setNumberOfGroups] = useState(3);
   const [mapZoom, setMapZoom] = useState(15);
   const [isZoomedIn, setIsZoomedIn] = useState(false);
@@ -99,6 +112,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const [showQuestSubmission, setShowQuestSubmission] = useState(false);
   const [showQuestComplete, setShowQuestComplete] = useState(false);
   const [completedQuestData, setCompletedQuestData] = useState<any | null>(null);
+  const [questFilter, setQuestFilter] = useState<'starting_soon' | 'nearby' | 'duration' | 'items' | null>(null);
+  const [showHistory, setShowHistory] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [showFilterModal, setShowFilterModal] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -180,16 +197,94 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     setJoinedQuest(null);
   };
 
-  const handleNavigate = () => {
-    // Start navigation
-    setIsNavigating(true);
-    setHasArrived(false);
-    // TODO: Implement actual navigation with route calculation
-    // TODO: Monitor location to detect when user arrives
-    // For now, simulate arrival after a delay (in production, use location tracking)
-    setTimeout(() => {
-      setHasArrived(true);
-    }, 5000); // Simulate arrival after 5 seconds
+  const handleNavigate = async () => {
+    if (!currentLocation || !joinedQuest) {
+      Alert.alert('Error', 'Location or quest information not available');
+      return;
+    }
+
+    try {
+      // Get current quest step details
+      const questDetail = await callRpc('get_quest_detail', { 
+        questId: joinedQuest.id 
+      });
+
+      if (!questDetail.success || !questDetail.quest) {
+        Alert.alert('Error', 'Could not load quest steps');
+        return;
+      }
+
+      const currentStep = questDetail.quest.steps?.find(
+        (step: any) => step.step_number === questProgress.currentStep
+      );
+
+      if (!currentStep || !currentStep.latitude || !currentStep.longitude) {
+        Alert.alert('Error', 'Current step location not found');
+        return;
+      }
+
+      // Calculate route using NavigationService
+      const route = await NavigationService.getRoute(
+        { latitude: currentLocation.lat, longitude: currentLocation.lng },
+        { latitude: currentStep.latitude, longitude: currentStep.longitude },
+        'walking'
+      );
+
+      if (!route) {
+        Alert.alert('Error', 'Could not calculate route');
+        return;
+      }
+
+      // Update navigation state
+      setIsNavigating(true);
+      setHasArrived(false);
+      
+      // Store destination for arrival detection
+      currentDestination.current = {
+        latitude: currentStep.latitude,
+        longitude: currentStep.longitude,
+      };
+      
+      // Update navigation data
+      setNavigationData({
+        destination: currentStep.place_name || currentStep.description || 'Destination',
+        distance: NavigationService.formatDistance(route.distance),
+        walkTime: NavigationService.formatDuration(route.duration),
+        route: route.steps[0]?.maneuver?.instruction || 'Route',
+      });
+
+      setNextStop({
+        name: currentStep.place_name || 'Next Stop',
+        distance: NavigationService.formatDistance(route.distance),
+        walkTime: NavigationService.formatDuration(route.duration),
+      });
+
+      // Set route coordinates for map display
+      setRouteCoordinates(route.geometry.coordinates as [number, number][]);
+
+      // Start location monitoring
+      startLocationMonitoring();
+    } catch (error) {
+      console.error('Navigation error:', error);
+      Alert.alert('Error', 'Failed to start navigation');
+    }
+  };
+
+  const startLocationMonitoring = () => {
+    // Clear any existing interval
+    if (locationMonitoringInterval.current) {
+      clearInterval(locationMonitoringInterval.current);
+    }
+
+    // Check location every 5 seconds
+    locationMonitoringInterval.current = setInterval(async () => {
+      try {
+        const currentPos = await Location.getCurrentPositionAsync({});
+        await handleLocationUpdate(currentPos.coords.latitude, currentPos.coords.longitude);
+      } catch (error) {
+        console.error('Location monitoring error:', error);
+      }
+    }, 5000);
   };
 
   const handleEndRoute = () => {
@@ -204,7 +299,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           onPress: () => {
             setIsNavigating(false);
             setHasArrived(false);
-            // TODO: Handle route completion
+            // Clear route from map
+            setRouteCoordinates([]);
+            currentDestination.current = null;
+            // Stop location monitoring
+            if (locationMonitoringInterval.current) {
+              clearInterval(locationMonitoringInterval.current);
+              locationMonitoringInterval.current = null;
+            }
           },
         },
       ]
@@ -218,34 +320,108 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
   const handleQuestSubmission = async (submission: { photoUri?: string; text?: string }) => {
     try {
-      // Call RPC to submit quest step completion
-      const result = await callRpc('complete_quest_step', {
-        quest_id: joinedQuest?.id,
-        step_number: questProgress.currentStep,
-        photo_uri: submission.photoUri,
-        text: submission.text,
+      // First, get quest detail to obtain step IDs
+      const questDetail = await callRpc('get_quest_detail', { questId: joinedQuest?.id });
+      
+      if (!questDetail.success || !questDetail.steps || questDetail.steps.length === 0) {
+        Alert.alert('Error', 'Could not load quest steps');
+        return;
+      }
+
+      // Find the current step by step number
+      const currentStepObj = questDetail.steps.find(
+        (step: any) => step.step_number === questProgress.currentStep
+      );
+
+      if (!currentStepObj) {
+        Alert.alert('Error', 'Current step not found');
+        return;
+      }
+
+      // Submit media if provided
+      if (submission.photoUri || submission.text) {
+        try {
+          await callRpc('submit_step_media', {
+            questId: joinedQuest?.id,
+            stepId: currentStepObj.id,
+            mediaType: submission.photoUri ? 'photo' : 'text',
+            mediaUrl: submission.photoUri || null,
+            textContent: submission.text || null,
+          });
+        } catch (e) {
+          console.log('Media submission failed, continuing with step completion');
+        }
+      }
+
+      // Complete the step with location verification
+      const result = await callRpc('complete_step', {
+        questId: joinedQuest?.id,
+        stepId: currentStepObj.id,
+        latitude: currentLocation?.lat,
+        longitude: currentLocation?.lng,
       });
 
       if (result.success) {
         setShowQuestSubmission(false);
-        // Update progress
-        if (questProgress.currentStep < questProgress.totalSteps) {
-          setQuestProgress({
-            currentStep: questProgress.currentStep + 1,
-            totalSteps: questProgress.totalSteps,
-          });
+        
+        // Check if quest was completed (all steps done)
+        if (result.questCompleted) {
+          // Quest completed - call complete_quest to finalize and get rewards
+          try {
+            const completeResult = await callRpc('complete_quest', { quest_id: joinedQuest?.id });
+            if (completeResult.success) {
+              setCompletedQuestData({
+                questTitle: joinedQuest?.title || 'Quest',
+                xpReward: completeResult.xp_reward || completeResult.total_xp || 100,
+                title: joinedQuest?.title || 'Quest',
+                xpEarned: completeResult.xp_reward || completeResult.total_xp || 100,
+                bonusPoints: 0,
+              });
+              setShowQuestComplete(true);
+            }
+          } catch (e) {
+            console.error('Error completing quest:', e);
+            // Still show completion screen even if finalization fails
+            setCompletedQuestData({
+              questTitle: joinedQuest?.title || 'Quest',
+              xpReward: joinedQuest?.reward_xp || 100,
+              title: joinedQuest?.title || 'Quest',
+              xpEarned: joinedQuest?.reward_xp || 100,
+              bonusPoints: 0,
+            });
+            setShowQuestComplete(true);
+          }
+        } else {
+          // Update progress for next step
+          if (result.currentStep && result.totalSteps) {
+            setQuestProgress({
+              currentStep: result.currentStep,
+              totalSteps: result.totalSteps,
+            });
+          } else if (questProgress.currentStep < questProgress.totalSteps) {
+            setQuestProgress({
+              currentStep: questProgress.currentStep + 1,
+              totalSteps: questProgress.totalSteps,
+            });
+          }
           setHasArrived(false);
           setIsNavigating(false);
-          // Start navigation to next step
-          // TODO: Get next step location and start navigation
-        } else {
-          // Quest completed - show completion screen
-          setCompletedQuestData({
-            title: joinedQuest?.title || 'Quest',
-            xpEarned: joinedQuest?.reward_xp || result.xpEarned || 100,
-            bonusPoints: result.bonusPoints || 50,
-          });
-          setShowQuestComplete(true);
+          // Clear route for current step
+          setRouteCoordinates([]);
+          currentDestination.current = null;
+          // Stop location monitoring
+          if (locationMonitoringInterval.current) {
+            clearInterval(locationMonitoringInterval.current);
+            locationMonitoringInterval.current = null;
+          }
+          // Start navigation to next step if available
+          const nextStepNumber = result.currentStep || questProgress.currentStep + 1;
+          if (nextStepNumber <= questProgress.totalSteps) {
+            // Small delay to allow state to update, then start navigation
+            setTimeout(() => {
+              handleNavigate();
+            }, 500);
+          }
         }
       }
     } catch (error) {
@@ -263,9 +439,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     }
   };
 
-  const handleShareAchievement = () => {
-    // TODO: Implement share functionality
-    Alert.alert('Share', 'Share your achievement on social media');
+  const handleShareAchievement = async () => {
+    if (completedQuestData) {
+      await ShareService.shareQuestCompletion({
+        title: completedQuestData.questTitle || joinedQuest?.title || 'Quest',
+        xpReward: completedQuestData.xpReward,
+        completedAt: new Date().toISOString(),
+      });
+    } else {
+      Alert.alert('Share', 'No achievement to share');
+    }
   };
 
   const handleContinueExploring = () => {
@@ -277,6 +460,26 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     setCompletedQuestData(null);
     // Refresh quest list
     fetchPublicQuests();
+  };
+
+  const fetchQuestParticipants = async (questId: string) => {
+    try {
+      setLoadingParticipants(true);
+      const result = await callRpc('get_quest_participants', { quest_id: questId });
+      
+      if (result.success) {
+        setQuestParticipants(result.participants || []);
+        setTotalParticipants(result.count.toString());
+      } else {
+        console.error('Failed to fetch participants:', result.error);
+        setQuestParticipants([]);
+      }
+    } catch (error) {
+      console.error('Error fetching participants:', error);
+      setQuestParticipants([]);
+    } finally {
+      setLoadingParticipants(false);
+    }
   };
 
   const fetchPublicQuests = async () => {
@@ -315,6 +518,22 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       fetchPublicQuests();
     }
   }, [currentLocation]);
+
+  // Fetch participants when quest is selected
+  useEffect(() => {
+    if (selectedPrivateQuest?.id) {
+      fetchQuestParticipants(selectedPrivateQuest.id);
+    }
+  }, [selectedPrivateQuest?.id]);
+
+  // Cleanup location monitoring on unmount
+  useEffect(() => {
+    return () => {
+      if (locationMonitoringInterval.current) {
+        clearInterval(locationMonitoringInterval.current);
+      }
+    };
+  }, []);
 
   // Auto-refresh quests every 15 minutes
   useEffect(() => {
@@ -363,27 +582,107 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         onQuestSelect={handleQuestMarkerSelect}
         zoomLevel={mapZoom}
         selectedQuestId={selectedQuest?.id || null}
+        routeCoordinates={routeCoordinates}
       />
       </View>
 
       {/* Quest Filters - Shown when toggle is on */}
       {toggleOn && (
         <View style={styles.questFiltersContainer}>
-          <TouchableOpacity style={styles.questFilterButton}>
-            <MaterialIcons name="event-available" size={20} color="#000" />
-            <Text style={styles.questFilterText}>Starting Soon</Text>
+          <TouchableOpacity 
+            style={[styles.questFilterButton, questFilter === 'starting_soon' && styles.questFilterButtonActive]}
+            onPress={() => {
+              if (questFilter === 'starting_soon') {
+                setQuestFilter(null);
+                setFilteredPublicQuests(publicQuests);
+              } else {
+                setQuestFilter('starting_soon');
+                // Filter quests starting within next hour
+                const now = new Date();
+                const filtered = publicQuests.filter((quest: any) => {
+                  if (quest.start_time) {
+                    const startTime = new Date(quest.start_time);
+                    const timeUntilStart = startTime.getTime() - now.getTime();
+                    return timeUntilStart >= 0 && timeUntilStart <= 60 * 60 * 1000;
+                  }
+                  return false;
+                });
+                setFilteredPublicQuests(filtered);
+              }
+            }}
+          >
+            <MaterialIcons name="event-available" size={20} color={questFilter === 'starting_soon' ? "#17B2B2" : "#000"} />
+            <Text style={[styles.questFilterText, questFilter === 'starting_soon' && styles.questFilterTextActive]}>Starting Soon</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.questFilterButton}>
-            <Ionicons name="walk" size={20} color="#000" />
-            <Text style={styles.questFilterText}>Near By</Text>
+          <TouchableOpacity 
+            style={[styles.questFilterButton, questFilter === 'nearby' && styles.questFilterButtonActive]}
+            onPress={() => {
+              if (questFilter === 'nearby') {
+                setQuestFilter(null);
+                setFilteredPublicQuests(publicQuests);
+              } else {
+                setQuestFilter('nearby');
+                // Filter quests within 2km
+                if (currentLocation) {
+                  const filtered = publicQuests.filter((quest: any) => {
+                    if (quest.location_lat && quest.location_lng) {
+                      // Simple distance calculation (Haversine would be better)
+                      const latDiff = Math.abs(quest.location_lat - currentLocation.lat);
+                      const lngDiff = Math.abs(quest.location_lng - currentLocation.lng);
+                      const distance = Math.sqrt(latDiff * latDiff + lngDiff * lngDiff) * 111; // rough km conversion
+                      return distance <= 2;
+                    }
+                    return false;
+                  });
+                  setFilteredPublicQuests(filtered);
+                } else {
+                  setFilteredPublicQuests(publicQuests);
+                }
+              }
+            }}
+          >
+            <Ionicons name="walk" size={20} color={questFilter === 'nearby' ? "#17B2B2" : "#000"} />
+            <Text style={[styles.questFilterText, questFilter === 'nearby' && styles.questFilterTextActive]}>Near By</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.questFilterButton}>
-            <Ionicons name="time" size={20} color="#000" />
-            <Text style={styles.questFilterText}>Duration</Text>
+          <TouchableOpacity 
+            style={[styles.questFilterButton, questFilter === 'duration' && styles.questFilterButtonActive]}
+            onPress={() => {
+              if (questFilter === 'duration') {
+                setQuestFilter(null);
+                setFilteredPublicQuests(publicQuests);
+              } else {
+                setQuestFilter('duration');
+                // Filter quests by duration (show shorter quests first)
+                const sorted = [...publicQuests].sort((a: any, b: any) => {
+                  const aDuration = a.estimated_time_minutes || 90;
+                  const bDuration = b.estimated_time_minutes || 90;
+                  return aDuration - bDuration;
+                });
+                setFilteredPublicQuests(sorted);
+              }
+            }}
+          >
+            <Ionicons name="time" size={20} color={questFilter === 'duration' ? "#17B2B2" : "#000"} />
+            <Text style={[styles.questFilterText, questFilter === 'duration' && styles.questFilterTextActive]}>Duration</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.questFilterButton}>
-            <Ionicons name="bag" size={20} color="#000" />
-            <Text style={styles.questFilterText}>Items</Text>
+          <TouchableOpacity 
+            style={[styles.questFilterButton, questFilter === 'items' && styles.questFilterButtonActive]}
+            onPress={() => {
+              if (questFilter === 'items') {
+                setQuestFilter(null);
+                setFilteredPublicQuests(publicQuests);
+              } else {
+                setQuestFilter('items');
+                // Filter quests that reward items
+                const filtered = publicQuests.filter((quest: any) => {
+                  return quest.item_rewards && quest.item_rewards.length > 0;
+                });
+                setFilteredPublicQuests(filtered);
+              }
+            }}
+          >
+            <Ionicons name="bag" size={20} color={questFilter === 'items' ? "#17B2B2" : "#000"} />
+            <Text style={[styles.questFilterText, questFilter === 'items' && styles.questFilterTextActive]}>Items</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -428,7 +727,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <TouchableOpacity
           style={styles.rightButton}
           onPress={() => {
-            // History functionality
+            setShowHistory(true);
           }}
         >
           <MaterialIcons name="history" size={24} color="#FF9500" />
@@ -438,7 +737,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <TouchableOpacity
           style={styles.rightButton}
           onPress={() => {
-            // Calendar functionality
+            setShowCalendar(true);
           }}
         >
           <MaterialIcons name="event" size={24} color="#8B4513" />
@@ -448,7 +747,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <TouchableOpacity
           style={styles.rightButton}
           onPress={() => {
-            // Filter functionality
+            setShowFilterModal(true);
           }}
         >
           <MaterialIcons name="filter-list" size={24} color="#FF69B4" />
@@ -659,36 +958,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <Text style={styles.miscMenuButtonLabel}>Shop</Text>
               </View>
 
-              {/* Middle Row Left: Field Journal */}
-              <View style={styles.miscMenuButtonWrapper}>
-                <TouchableOpacity
-                  style={styles.miscMenuButton}
-                  onPress={() => {
-                    setShowMiscMenu(false);
-                    // TODO: Navigate to field journal
-                    Alert.alert('Field Journal', 'Feature coming soon');
-                  }}
-                >
-                  <Ionicons name="journal" size={32} color="#fff" />
-                </TouchableOpacity>
-                <Text style={styles.miscMenuButtonLabel}>Field Journal</Text>
-              </View>
-
-              {/* Middle Row Right: Chat */}
-              <View style={styles.miscMenuButtonWrapper}>
-                <TouchableOpacity
-                  style={styles.miscMenuButton}
-                  onPress={() => {
-                    setShowMiscMenu(false);
-                    // TODO: Navigate to chat
-                    Alert.alert('Chat', 'Feature coming soon');
-                  }}
-                >
-                  <Ionicons name="chatbubbles" size={32} color="#fff" />
-                </TouchableOpacity>
-                <Text style={styles.miscMenuButtonLabel}>Chat</Text>
-              </View>
-
               {/* Bottom Row Center: Organize quest */}
               <View style={[styles.miscMenuButtonWrapper, styles.miscMenuButtonWrapperCenter]}>
                 <TouchableOpacity
@@ -737,7 +1006,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         {selectedPrivateQuest && (
           <GroupQuestScreen
             quest={selectedPrivateQuest}
-            participants={[]} // TODO: Fetch actual participants
+            participants={questParticipants}
             onClose={() => {
               setShowGroupQuest(false);
               setSelectedPrivateQuest(null);
@@ -847,10 +1116,48 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           <View style={styles.organizeQuestFooter}>
             <TouchableOpacity
               style={styles.organizeQuestCreateButton}
-              onPress={() => {
-                Alert.alert('Success', 'Groups created successfully!');
-                setShowOrganizeQuest(false);
-                setSelectedPrivateQuest(null);
+              onPress={async () => {
+                try {
+                  // First, check if there's a party for this quest
+                  // If not, we may need to create one or use a different approach
+                  // For now, we'll try to create subgroups with the quest participants
+                  if (!selectedPrivateQuest?.id) {
+                    Alert.alert('Error', 'No quest selected');
+                    return;
+                  }
+
+                  // Get party ID from quest or create one
+                  // Note: This assumes the quest has a party associated
+                  // You may need to adjust this based on your data model
+                  const partyResult = await callRpc('get_party_members', {
+                    questId: selectedPrivateQuest.id,
+                  });
+
+                  let partyId = partyResult?.party_id;
+                  
+                  // If no party exists, we might need to create one first
+                  // For now, we'll show an error if no party
+                  if (!partyId) {
+                    Alert.alert('Error', 'No party found for this quest. Please create a party first.');
+                    return;
+                  }
+
+                  const result = await callRpc('create_subgroups', {
+                    partyId: partyId,
+                    subgroupCount: numberOfGroups,
+                  });
+
+                  if (result.success) {
+                    Alert.alert('Success', `Created ${numberOfGroups} groups successfully!`);
+                    setShowOrganizeQuest(false);
+                    setSelectedPrivateQuest(null);
+                  } else {
+                    Alert.alert('Error', result.error || 'Failed to create groups');
+                  }
+                } catch (error: any) {
+                  console.error('Error creating groups:', error);
+                  Alert.alert('Error', error.message || 'Failed to create groups');
+                }
               }}
             >
               <Text style={styles.organizeQuestCreateButtonText}>Create Groups</Text>
@@ -1018,6 +1325,74 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           />
         )}
       </Modal>
+
+      {/* History Modal */}
+      <Modal
+        visible={showHistory}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={() => setShowHistory(false)}
+      >
+        <HistoryScreen onClose={() => setShowHistory(false)} />
+      </Modal>
+
+      {/* Calendar Modal */}
+      <Modal
+        visible={showCalendar}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={() => setShowCalendar(false)}
+      >
+        <CalendarScreen onClose={() => setShowCalendar(false)} />
+      </Modal>
+
+      {/* Filter Modal */}
+      <FilterModal
+        visible={showFilterModal}
+        onClose={() => setShowFilterModal(false)}
+        currentFilter={questFilter}
+        onFilterChange={(filter) => {
+          setQuestFilter(filter);
+          if (!filter) {
+            setFilteredPublicQuests(publicQuests);
+          } else {
+            // Apply filter logic
+            let filtered = [...publicQuests];
+            if (filter === 'starting_soon') {
+              const now = new Date();
+              filtered = filtered.filter((quest: any) => {
+                if (quest.start_time) {
+                  const startTime = new Date(quest.start_time);
+                  const timeUntilStart = startTime.getTime() - now.getTime();
+                  return timeUntilStart >= 0 && timeUntilStart <= 60 * 60 * 1000;
+                }
+                return false;
+              });
+            } else if (filter === 'nearby' && currentLocation) {
+              filtered = filtered.filter((quest: any) => {
+                if (quest.location_lat && quest.location_lng) {
+                  const latDiff = Math.abs(quest.location_lat - currentLocation.lat);
+                  const lngDiff = Math.abs(quest.location_lng - currentLocation.lng);
+                  const distance = Math.sqrt(latDiff * latDiff + lngDiff * lngDiff) * 111;
+                  return distance <= 2;
+                }
+                return false;
+              });
+            } else if (filter === 'duration') {
+              filtered = filtered.sort((a: any, b: any) => {
+                const aDuration = a.estimated_time_minutes || 90;
+                const bDuration = b.estimated_time_minutes || 90;
+                return aDuration - bDuration;
+              });
+            } else if (filter === 'items') {
+              filtered = filtered.filter((quest: any) => {
+                return quest.item_rewards && quest.item_rewards.length > 0;
+              });
+            }
+            setFilteredPublicQuests(filtered);
+          }
+        }}
+      />
     </View>
   );
 };
@@ -1064,6 +1439,34 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: '500',
     marginLeft: 6,
+  },
+  questFilterButtonActive: {
+    backgroundColor: '#E0F7F7',
+    borderWidth: 1,
+    borderColor: '#17B2B2',
+  },
+  questFilterTextActive: {
+    color: '#17B2B2',
+    fontWeight: '600',
+  },
+  filterOption: {
+    padding: 16,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 12,
+    marginBottom: 12,
+  },
+  filterOptionActive: {
+    backgroundColor: '#E0F7F7',
+    borderWidth: 1,
+    borderColor: '#17B2B2',
+  },
+  filterOptionText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  filterOptionTextActive: {
+    color: '#17B2B2',
+    fontWeight: '600',
   },
   // Right-Side Vertical Button Stack
   rightButtonStack: {
