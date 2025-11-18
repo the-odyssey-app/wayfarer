@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { NotificationsSettingsScreen } from './NotificationsSettingsScreen';
+import { useNakama } from '../contexts/NakamaContext';
 
 interface AccountInformationScreenProps {
   userId: string;
@@ -22,6 +23,7 @@ interface AccountInformationScreenProps {
 
 interface AccountData {
   fullName: string;
+  username: string;
   email: string;
   phone: string;
   language: string;
@@ -35,26 +37,49 @@ export const AccountInformationScreen: React.FC<AccountInformationScreenProps> =
   onSave,
 }) => {
   const [fullName, setFullName] = useState('John Cooper');
+  const [usernameValue, setUsernameValue] = useState(username);
   const [email, setEmail] = useState('john.cooper@example.com');
   const [phone, setPhone] = useState('+1 (555) 123-4567');
   const [language, setLanguage] = useState('English');
   const [pushNotifications, setPushNotifications] = useState(true);
   const [isPremium, setIsPremium] = useState(true);
   const [showNotificationsSettings, setShowNotificationsSettings] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  
+  const { updateUsername } = useNakama();
 
-  const handleSave = () => {
-    if (onSave) {
-      onSave({
-        fullName,
-        email,
-        phone,
-        language,
-        pushNotifications,
-      });
-    }
-    Alert.alert('Success', 'Account information saved');
-    if (onClose) {
-      onClose();
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      // Update username if it changed
+      if (usernameValue.trim() && usernameValue !== username) {
+        const result = await updateUsername(usernameValue.trim());
+        if (!result.success) {
+          Alert.alert('Error', result.error || 'Failed to update username');
+          setIsSaving(false);
+          return;
+        }
+      }
+      
+      if (onSave) {
+        onSave({
+          fullName,
+          username: usernameValue,
+          email,
+          phone,
+          language,
+          pushNotifications,
+        });
+      }
+      Alert.alert('Success', 'Account information saved');
+      if (onClose) {
+        onClose();
+      }
+    } catch (error) {
+      console.error('Save error:', error);
+      Alert.alert('Error', 'Failed to save account information');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -66,8 +91,8 @@ export const AccountInformationScreen: React.FC<AccountInformationScreenProps> =
           <Ionicons name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Account Information</Text>
-        <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
-          <Text style={styles.saveButtonText}>Save</Text>
+        <TouchableOpacity onPress={handleSave} style={styles.saveButton} disabled={isSaving}>
+          <Text style={styles.saveButtonText}>{isSaving ? 'Saving...' : 'Save'}</Text>
         </TouchableOpacity>
       </View>
 
@@ -102,6 +127,19 @@ export const AccountInformationScreen: React.FC<AccountInformationScreenProps> =
               value={fullName}
               onChangeText={setFullName}
               placeholder="Enter full name"
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.inputLabel}>Username</Text>
+            <TextInput
+              testID="username_input"
+              style={styles.input}
+              value={usernameValue}
+              onChangeText={setUsernameValue}
+              placeholder="Enter username"
+              autoCapitalize="none"
+              autoCorrect={false}
             />
           </View>
 

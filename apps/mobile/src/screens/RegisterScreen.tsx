@@ -19,7 +19,6 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
   onRegisterSuccess,
   onNavigateToLogin,
 }) => {
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -28,7 +27,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
   const { authenticateWithEmail } = useNakama();
 
   const handleRegister = async () => {
-    if (!username.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
+    if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
@@ -62,22 +61,13 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Join Wayfarer</Text>
+    <View style={styles.container} testID="register_screen">
+      <Text style={styles.title} testID="register_title">Join Wayfarer</Text>
       <Text style={styles.subtitle}>Create your account to start exploring</Text>
 
       <View style={styles.form}>
         <TextInput
-          style={styles.input}
-          placeholder="Username"
-          placeholderTextColor="#999"
-          value={username}
-          onChangeText={setUsername}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-
-        <TextInput
+          testID="email_input"
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="#999"
@@ -89,6 +79,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
         />
 
         <TextInput
+          testID="password_input"
           style={styles.input}
           placeholder="Password"
           placeholderTextColor="#999"
@@ -100,6 +91,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
         />
 
         <TextInput
+          testID="confirm_password_input"
           style={styles.input}
           placeholder="Confirm Password"
           placeholderTextColor="#999"
@@ -111,6 +103,9 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
         />
 
         <TouchableOpacity
+          testID="register_button"
+          accessible={true}
+          accessibilityLabel="Create Account"
           style={[styles.button, isLoading && styles.buttonDisabled]}
           onPress={handleRegister}
           disabled={isLoading}
@@ -118,11 +113,12 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
           {isLoading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text style={styles.buttonText}>Create Account</Text>
+            <Text style={styles.buttonText} testID="register_button_text">Create Account</Text>
           )}
         </TouchableOpacity>
 
         <TouchableOpacity
+          testID="signin_link"
           style={styles.linkButton}
           onPress={onNavigateToLogin}
         >

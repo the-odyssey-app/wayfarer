@@ -1,0 +1,121 @@
+# Authentication Flow Tests
+# Tests user registration, login, and session management
+
+appId: com.wayfarer.mobile
+tags:
+  - critical
+  - authentication
+
+---
+# Test 1: User Registration
+- launchApp
+- assertVisible:
+    id: "login_screen"
+- assertVisible:
+    text: "Welcome to Wayfarer"
+- tapOn:
+    id: "signup_link"
+- assertVisible:
+    id: "register_screen"
+- assertVisible:
+    text: "Join Wayfarer"
+- tapOn:
+    id: "email_input"
+- inputText: "e2e-test-register@wayfarer.test"
+- waitForAnimationToEnd
+- tapOn:
+    id: "password_input"
+- waitForAnimationToEnd
+- inputText: "TestPassword123!"
+- waitForAnimationToEnd
+- tapOn:
+    id: "confirm_password_input"
+- waitForAnimationToEnd
+- inputText: "TestPassword123!"
+- waitForAnimationToEnd
+# Dismiss keyboard by tapping outside the input field
+- tapOn:
+    id: "register_screen"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "register_button"
+- assertVisible:
+    text: "Create Account"
+- tapOn:
+    id: "register_button"
+# Wait for registration to complete (may take time for network request)
+- waitForAnimationToEnd
+# Handle any error alerts that might appear
+- assertVisible:
+    text: ".*[Ee]rror.*|.*[Ff]ailed.*"
+    optional: true
+- assertVisible:
+    text: ".*[Rr]egistration.*[Ff]ailed.*"
+    optional: true
+# If error alert appears, dismiss it
+- tapOn:
+    text: ".*[Oo][Kk].*|.*[Cc]ancel.*"
+    optional: true
+# Wait longer for navigation after registration (network request may take time)
+- waitForAnimationToEnd
+- waitForAnimationToEnd
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    text: "Welcome to Wayfarer"
+- assertNotVisible:
+    id: "login_screen"
+
+---
+# Test 2: User Login
+- launchApp
+- assertVisible:
+    id: "login_screen"
+- assertVisible:
+    text: "Welcome to Wayfarer"
+- tapOn:
+    id: "email_input"
+- inputText: "e2e-test@wayfarer.test"
+- tapOn:
+    id: "password_input"
+- inputText: "TestPassword123!"
+- tapOn:
+    id: "login_button"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    text: "Welcome to Wayfarer"
+- assertNotVisible:
+    id: "login_screen"
+
+---
+# Test 3: Session Persistence (App Restart)
+- launchApp
+- waitForAnimationToEnd
+- assertVisible:
+    id: "home_screen"
+# If we see home screen, session persisted
+# If we see login, session was cleared
+- assertNotVisible:
+    id: "login_screen"
+
+---
+# Test 4: Logout
+- launchApp
+- waitForAnimationToEnd
+- assertVisible:
+    id: "home_screen"
+- tapOn:
+    id: "profile_button"
+- assertVisible:
+    id: "profile_screen"
+- scroll
+- tapOn:
+    text: ".*[Ll]ogout.*|.*[Ss]ign.*[Oo]ut.*"
+- assertVisible:
+    id: "login_screen"
+- assertVisible:
+    text: "Welcome to Wayfarer"
+- assertNotVisible:
+    id: "home_screen"

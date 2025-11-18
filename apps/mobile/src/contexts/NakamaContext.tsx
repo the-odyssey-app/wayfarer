@@ -19,6 +19,7 @@ interface NakamaContextType {
   disconnect: () => Promise<void>;
   reconnect: () => Promise<void>;
   callRpc: (functionName: string, payload?: any) => Promise<any>;
+  updateUsername: (newUsername: string) => Promise<{ success: boolean; error?: string }>;
 }
 
 const NakamaContext = createContext<NakamaContextType | undefined>(undefined);
@@ -171,6 +172,46 @@ export const NakamaProvider: React.FC<NakamaProviderProps> = ({ children }) => {
     }
   };
 
+  const updateUsername = async (newUsername: string) => {
+    try {
+      if (!session?.session) {
+        return { success: false, error: 'No active session' };
+      }
+
+      if (!newUsername || !newUsername.trim()) {
+        return { success: false, error: 'Username cannot be empty' };
+      }
+
+      // Use Nakama's updateAccount method to update username
+      await nakamaClient.updateAccount(session.session, {
+        username: newUsername.trim(),
+      });
+
+      // Update local session state
+      const updatedSession = {
+        ...session,
+        username: newUsername.trim(),
+      };
+      setSession(updatedSession);
+
+      // Update stored session
+      await AsyncStorage.setItem(NAKAMA_SESSION_KEY, JSON.stringify({
+        token: session.session.token,
+        refresh_token: session.session.refresh_token,
+        user_id: session.userId,
+        username: newUsername.trim(),
+      }));
+
+      return { success: true };
+    } catch (error) {
+      console.error('Failed to update username:', error);
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Failed to update username' 
+      };
+    }
+  };
+
   const value: NakamaContextType = {
     session,
     isConnected,
@@ -179,6 +220,7 @@ export const NakamaProvider: React.FC<NakamaProviderProps> = ({ children }) => {
     disconnect,
     reconnect,
     callRpc,
+    updateUsername,
   };
 
   return (
