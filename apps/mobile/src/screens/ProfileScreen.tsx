@@ -26,12 +26,14 @@ interface ProfileScreenProps {
   userId: string;
   username: string;
   onClose?: () => void;
+  onUsernameUpdate?: (newUsername: string) => void;
 }
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   userId,
   username,
   onClose,
+  onUsernameUpdate,
 }) => {
   const { callRpc } = useNakama();
   const [profileData, setProfileData] = useState({
@@ -234,7 +236,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="profile_screen">
       {/* Header */}
       {onClose && (
         <View style={styles.header}>
@@ -254,7 +256,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           </View>
           <View style={styles.profileInfo}>
             <Text style={styles.profileName}>{profileData.name}</Text>
-            <Text style={styles.profileUsername}>{profileData.username}</Text>
+            <Text style={styles.profileUsername}>@{username}</Text>
           </View>
           <View style={styles.profileActions}>
             <TouchableOpacity
@@ -275,7 +277,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         {/* Stats Bar */}
         <View style={styles.statsBar}>
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>{profileData.xpPoints.toLocaleString()}</Text>
+            <Text style={styles.statValue} testID="xp_display">{profileData.xpPoints.toLocaleString()}</Text>
             <Text style={styles.statLabel}>XP Points</Text>
           </View>
           <View style={styles.statItem}>
@@ -536,6 +538,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           userId={userId}
           username={username}
           onClose={() => setShowAccountInfo(false)}
+          onSave={(data) => {
+            // Handle username update
+            if (data.username && data.username !== username && onUsernameUpdate) {
+              onUsernameUpdate(data.username);
+            }
+          }}
         />
       </Modal>
 

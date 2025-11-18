@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -47,6 +47,11 @@ export const AccountInformationScreen: React.FC<AccountInformationScreenProps> =
   const [isSaving, setIsSaving] = useState(false);
   
   const { updateUsername } = useNakama();
+
+  // Update usernameValue when username prop changes
+  useEffect(() => {
+    setUsernameValue(username);
+  }, [username]);
 
   const handleSave = async () => {
     setIsSaving(true);

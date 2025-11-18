@@ -28,6 +28,13 @@ function AppContent() {
     setAppState({ screen: 'login' });
   };
 
+  const handleUsernameUpdate = (newUsername: string) => {
+    setAppState(prev => ({
+      ...prev,
+      username: newUsername,
+    }));
+  };
+
   const navigateToRegister = () => {
     setAppState({ screen: 'register' });
   };
@@ -59,6 +66,7 @@ function AppContent() {
             userId={appState.userId!}
             username={appState.username!}
             onLogout={handleLogout}
+            onUsernameUpdate={handleUsernameUpdate}
           />
         );
       default:

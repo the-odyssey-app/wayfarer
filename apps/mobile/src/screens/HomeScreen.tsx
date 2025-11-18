@@ -45,12 +45,14 @@ interface HomeScreenProps {
   userId: string;
   username: string;
   onLogout: () => void;
+  onUsernameUpdate?: (newUsername: string) => void;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
   userId,
   username,
   onLogout,
+  onUsernameUpdate,
 }) => {
   const { session, isConnected, disconnect, callRpc } = useNakama();
   const [currentLocation, setCurrentLocation] = useState<{lat: number, lng: number} | null>(null);
@@ -574,9 +576,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="home_screen">
       {/* Full Screen Map */}
-      <View style={styles.mapContainer}>
+      <View style={styles.mapContainer} testID="map_container">
       <MapComponent 
         onLocationUpdate={handleLocationUpdate}
         onQuestSelect={handleQuestMarkerSelect}
@@ -758,6 +760,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       <View style={styles.bottomNavBar}>
         {/* Left: Profile/Level Button (Pink elongated oval) */}
         <TouchableOpacity
+          testID="profile_button"
           style={styles.profileButton}
           onPress={() => setShowProfile(true)}
         >
@@ -769,6 +772,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
         {/* Middle: Shopping Bag Button (Circular green) */}
         <TouchableOpacity
+          testID="inventory_button"
           style={styles.shoppingBagButton}
           onPress={() => setShowInventory(true)}
         >
@@ -807,15 +811,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         presentationStyle="pageSheet"
         onRequestClose={() => setShowQuestList(false)}
       >
-        <View style={styles.modalContainer}>
+        <View style={styles.modalContainer} testID="quest_list_modal">
           <View style={styles.modalHeader}>
             <TouchableOpacity
+              testID="quest_list_close_button"
               style={styles.modalCloseButton}
               onPress={() => setShowQuestList(false)}
             >
               <Text style={styles.modalCloseButtonText}>✕</Text>
             </TouchableOpacity>
-            <Text style={styles.modalTitle}>Quests</Text>
+            <Text style={styles.modalTitle} testID="quest_list_title">Quests</Text>
           </View>
           <QuestListScreen
             onQuestSelect={(questId) => {
@@ -1177,6 +1182,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           userId={userId}
           username={username}
           onClose={() => setShowProfile(false)}
+          onUsernameUpdate={onUsernameUpdate}
         />
       </Modal>
 
