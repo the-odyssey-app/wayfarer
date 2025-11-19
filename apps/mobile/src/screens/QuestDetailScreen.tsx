@@ -515,7 +515,7 @@ export const QuestDetailScreen: React.FC<QuestDetailScreenProps> = ({
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="quest_detail_screen">
       {/* Header with close button */}
       <View style={styles.header}>
         <TouchableOpacity onPress={onClose} style={styles.closeButton}>
@@ -720,6 +720,7 @@ export const QuestDetailScreen: React.FC<QuestDetailScreenProps> = ({
       <View style={styles.buttonContainer}>
         {canStart && (
           <TouchableOpacity
+            testID="join_quest_button"
             style={[styles.actionButton, styles.startButton]}
             onPress={handleStartQuest}
             disabled={starting || !isConnected}

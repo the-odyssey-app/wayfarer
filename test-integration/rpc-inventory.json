@@ -1,0 +1,1464 @@
+{
+  "generated": "2025-11-15T16:47:54.038Z",
+  "summary": {
+    "total": 83,
+    "tested": 17,
+    "untested": 66,
+    "coverage": 20.5
+  },
+  "rpcs": [
+    {
+      "name": "accept_single_task_achievement",
+      "category": "Quest System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "add_item_to_group_pool",
+      "category": "Party/Group System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "cast_vote",
+      "category": "Party/Group System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "check_badge_unlock",
+      "category": "Achievement System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "complete_observation_session",
+      "category": "Mini-Games",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "complete_quest",
+      "category": "Quest System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "complete_quiz_session",
+      "category": "Mini-Games",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "complete_single_task_achievement",
+      "category": "Quest System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "complete_step",
+      "category": "Quest System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "create_achievement",
+      "category": "Achievement System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "create_event",
+      "category": "Events System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "create_item_trade",
+      "category": "Trading System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "create_match_request",
+      "category": "Quest System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "create_mystery_quest_from_location",
+      "category": "Quest System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "create_observation_puzzle",
+      "category": "Mini-Games",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "create_party",
+      "category": "Party/Group System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "create_party_vote",
+      "category": "Party/Group System",
+      "priority": "critical",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "create_quest_from_location",
+      "category": "Quest System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "create_quiz_question",
+      "category": "Quest System",
+      "priority": "low",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "create_scavenger_quest_from_location",
+      "category": "Quest System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "create_single_task_quest_from_location",
+      "category": "Quest System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "create_subgroups",
+      "category": "Party/Group System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "discover_items",
+      "category": "Inventory/Items",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "find_matches",
+      "category": "Social/Matching",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "generate_mystery_prompt",
+      "category": "Quest System",
+      "priority": "high",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "generate_scavenger_hunt",
+      "category": "Quest System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "generate_single_task_prompt",
+      "category": "Quest System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "get_active_event",
+      "category": "Events System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_audio_experiences",
+      "category": "Audio Experiences",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_available_mini_games",
+      "category": "Mini-Games",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_available_quests",
+      "category": "Quest System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "get_collection_sets",
+      "category": "Inventory/Items",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_event_leaderboard",
+      "category": "Events System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_feedback_analytics",
+      "category": "Safety/Moderation",
+      "priority": "low",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_group_pool_items",
+      "category": "Party/Group System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_leaderboard",
+      "category": "Progression",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "get_observation_puzzle",
+      "category": "Mini-Games",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_party_members",
+      "category": "Party/Group System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "get_party_objective_progress",
+      "category": "Party/Group System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_party_votes",
+      "category": "Party/Group System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_places_nearby",
+      "category": "Location Services",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_quest_detail",
+      "category": "Quest System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "get_quest_participants",
+      "category": "Quest System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_quest_rating_summary",
+      "category": "Rating System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_quiz_questions",
+      "category": "Quest System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_report_queue",
+      "category": "Safety/Moderation",
+      "priority": "low",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_subgroups",
+      "category": "Party/Group System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_user_achievements",
+      "category": "Achievement System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "get_user_audio_collection",
+      "category": "Inventory/Items",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_user_inventory",
+      "category": "Inventory/Items",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_user_level",
+      "category": "Progression",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "get_user_quests",
+      "category": "Quest System",
+      "priority": "high",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_user_safety_reports",
+      "category": "Safety/Moderation",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_verification_status",
+      "category": "Verification",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "get_vote_results",
+      "category": "Party/Group System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "join_event",
+      "category": "Events System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "join_party",
+      "category": "Party/Group System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "leave_party",
+      "category": "Party/Group System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "process_feedback_categorization",
+      "category": "Safety/Moderation",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "purchase_audio",
+      "category": "Audio Experiences",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "rate_audio",
+      "category": "Audio Experiences",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "record_activity_pattern",
+      "category": "Social/Matching",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "request_verification",
+      "category": "Quest System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "respond_to_trade",
+      "category": "Trading System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "start_observation_session",
+      "category": "Mini-Games",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "start_quest",
+      "category": "Quest System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "start_quiz_session",
+      "category": "Mini-Games",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "submit_observation_count",
+      "category": "Mini-Games",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "submit_quiz_answer",
+      "category": "Mini-Games",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "submit_rating",
+      "category": "Rating System",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "submit_safety_report",
+      "category": "Safety/Moderation",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "submit_step_media",
+      "category": "Quest System",
+      "priority": "high",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "test_function",
+      "category": "Uncategorized",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "toggle_audio_favorite",
+      "category": "Audio Experiences",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "update_audio_progress",
+      "category": "Audio Experiences",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "update_event_participation",
+      "category": "Events System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "update_party_objective_progress",
+      "category": "Party/Group System",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "update_report_status",
+      "category": "Safety/Moderation",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "update_user_location",
+      "category": "Location Services",
+      "priority": "critical",
+      "tested": true,
+      "testedIn": "test-runner.js"
+    },
+    {
+      "name": "update_user_preferences",
+      "category": "Social/Matching",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "upload_photo",
+      "category": "Uncategorized",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "use_item",
+      "category": "Inventory/Items",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    },
+    {
+      "name": "verify_observation_item",
+      "category": "Inventory/Items",
+      "priority": "medium",
+      "tested": false,
+      "testedIn": null
+    }
+  ],
+  "byCategory": {
+    "Quest System": [
+      {
+        "name": "accept_single_task_achievement",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "complete_quest",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "complete_single_task_achievement",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "complete_step",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "create_match_request",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "create_mystery_quest_from_location",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "create_quest_from_location",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "create_quiz_question",
+        "priority": "low",
+        "tested": false
+      },
+      {
+        "name": "create_scavenger_quest_from_location",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "create_single_task_quest_from_location",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "generate_mystery_prompt",
+        "priority": "high",
+        "tested": false
+      },
+      {
+        "name": "generate_scavenger_hunt",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "generate_single_task_prompt",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "get_available_quests",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "get_quest_detail",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "get_quest_participants",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_quiz_questions",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_user_quests",
+        "priority": "high",
+        "tested": false
+      },
+      {
+        "name": "request_verification",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "start_quest",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "submit_step_media",
+        "priority": "high",
+        "tested": false
+      }
+    ],
+    "Party/Group System": [
+      {
+        "name": "add_item_to_group_pool",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "cast_vote",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "create_party",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "create_party_vote",
+        "priority": "critical",
+        "tested": false
+      },
+      {
+        "name": "create_subgroups",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_group_pool_items",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_party_members",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "get_party_objective_progress",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_party_votes",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_subgroups",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_vote_results",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "join_party",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "leave_party",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "update_party_objective_progress",
+        "priority": "medium",
+        "tested": false
+      }
+    ],
+    "Achievement System": [
+      {
+        "name": "check_badge_unlock",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "create_achievement",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_user_achievements",
+        "priority": "critical",
+        "tested": true
+      }
+    ],
+    "Mini-Games": [
+      {
+        "name": "complete_observation_session",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "complete_quiz_session",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "create_observation_puzzle",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_available_mini_games",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_observation_puzzle",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "start_observation_session",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "start_quiz_session",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "submit_observation_count",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "submit_quiz_answer",
+        "priority": "medium",
+        "tested": false
+      }
+    ],
+    "Events System": [
+      {
+        "name": "create_event",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_active_event",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_event_leaderboard",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "join_event",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "update_event_participation",
+        "priority": "medium",
+        "tested": false
+      }
+    ],
+    "Trading System": [
+      {
+        "name": "create_item_trade",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "respond_to_trade",
+        "priority": "medium",
+        "tested": false
+      }
+    ],
+    "Inventory/Items": [
+      {
+        "name": "discover_items",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_collection_sets",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_user_audio_collection",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "get_user_inventory",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "use_item",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "verify_observation_item",
+        "priority": "medium",
+        "tested": false
+      }
+    ],
+    "Social/Matching": [
+      {
+        "name": "find_matches",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "record_activity_pattern",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "update_user_preferences",
+        "priority": "medium",
+        "tested": false
+      }
+    ],
+    "Audio Experiences": [
+      {
+        "name": "get_audio_experiences",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "purchase_audio",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "rate_audio",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "toggle_audio_favorite",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "update_audio_progress",
+        "priority": "medium",
+        "tested": false
+      }
+    ],
+    "Safety/Moderation": [
+      {
+        "name": "get_feedback_analytics",
+        "priority": "low",
+        "tested": false
+      },
+      {
+        "name": "get_report_queue",
+        "priority": "low",
+        "tested": false
+      },
+      {
+        "name": "get_user_safety_reports",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "process_feedback_categorization",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "submit_safety_report",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "update_report_status",
+        "priority": "medium",
+        "tested": false
+      }
+    ],
+    "Progression": [
+      {
+        "name": "get_leaderboard",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "get_user_level",
+        "priority": "critical",
+        "tested": true
+      }
+    ],
+    "Location Services": [
+      {
+        "name": "get_places_nearby",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "update_user_location",
+        "priority": "critical",
+        "tested": true
+      }
+    ],
+    "Rating System": [
+      {
+        "name": "get_quest_rating_summary",
+        "priority": "medium",
+        "tested": false
+      },
+      {
+        "name": "submit_rating",
+        "priority": "critical",
+        "tested": true
+      }
+    ],
+    "Verification": [
+      {
+        "name": "get_verification_status",
+        "priority": "medium",
+        "tested": false
+      }
+    ],
+    "Uncategorized": [
+      {
+        "name": "test_function",
+        "priority": "critical",
+        "tested": true
+      },
+      {
+        "name": "upload_photo",
+        "priority": "medium",
+        "tested": false
+      }
+    ]
+  },
+  "byPriority": {
+    "medium": [
+      {
+        "name": "accept_single_task_achievement",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "add_item_to_group_pool",
+        "category": "Party/Group System",
+        "tested": false
+      },
+      {
+        "name": "cast_vote",
+        "category": "Party/Group System",
+        "tested": false
+      },
+      {
+        "name": "check_badge_unlock",
+        "category": "Achievement System",
+        "tested": false
+      },
+      {
+        "name": "complete_observation_session",
+        "category": "Mini-Games",
+        "tested": false
+      },
+      {
+        "name": "complete_quiz_session",
+        "category": "Mini-Games",
+        "tested": false
+      },
+      {
+        "name": "complete_single_task_achievement",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "create_achievement",
+        "category": "Achievement System",
+        "tested": false
+      },
+      {
+        "name": "create_event",
+        "category": "Events System",
+        "tested": false
+      },
+      {
+        "name": "create_item_trade",
+        "category": "Trading System",
+        "tested": false
+      },
+      {
+        "name": "create_match_request",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "create_mystery_quest_from_location",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "create_observation_puzzle",
+        "category": "Mini-Games",
+        "tested": false
+      },
+      {
+        "name": "create_quest_from_location",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "create_scavenger_quest_from_location",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "create_single_task_quest_from_location",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "create_subgroups",
+        "category": "Party/Group System",
+        "tested": false
+      },
+      {
+        "name": "discover_items",
+        "category": "Inventory/Items",
+        "tested": false
+      },
+      {
+        "name": "find_matches",
+        "category": "Social/Matching",
+        "tested": false
+      },
+      {
+        "name": "get_active_event",
+        "category": "Events System",
+        "tested": false
+      },
+      {
+        "name": "get_audio_experiences",
+        "category": "Audio Experiences",
+        "tested": false
+      },
+      {
+        "name": "get_available_mini_games",
+        "category": "Mini-Games",
+        "tested": false
+      },
+      {
+        "name": "get_collection_sets",
+        "category": "Inventory/Items",
+        "tested": false
+      },
+      {
+        "name": "get_event_leaderboard",
+        "category": "Events System",
+        "tested": false
+      },
+      {
+        "name": "get_group_pool_items",
+        "category": "Party/Group System",
+        "tested": false
+      },
+      {
+        "name": "get_observation_puzzle",
+        "category": "Mini-Games",
+        "tested": false
+      },
+      {
+        "name": "get_party_objective_progress",
+        "category": "Party/Group System",
+        "tested": false
+      },
+      {
+        "name": "get_party_votes",
+        "category": "Party/Group System",
+        "tested": false
+      },
+      {
+        "name": "get_places_nearby",
+        "category": "Location Services",
+        "tested": false
+      },
+      {
+        "name": "get_quest_participants",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "get_quest_rating_summary",
+        "category": "Rating System",
+        "tested": false
+      },
+      {
+        "name": "get_quiz_questions",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "get_subgroups",
+        "category": "Party/Group System",
+        "tested": false
+      },
+      {
+        "name": "get_user_audio_collection",
+        "category": "Inventory/Items",
+        "tested": false
+      },
+      {
+        "name": "get_user_inventory",
+        "category": "Inventory/Items",
+        "tested": false
+      },
+      {
+        "name": "get_user_safety_reports",
+        "category": "Safety/Moderation",
+        "tested": false
+      },
+      {
+        "name": "get_verification_status",
+        "category": "Verification",
+        "tested": false
+      },
+      {
+        "name": "get_vote_results",
+        "category": "Party/Group System",
+        "tested": false
+      },
+      {
+        "name": "join_event",
+        "category": "Events System",
+        "tested": false
+      },
+      {
+        "name": "process_feedback_categorization",
+        "category": "Safety/Moderation",
+        "tested": false
+      },
+      {
+        "name": "purchase_audio",
+        "category": "Audio Experiences",
+        "tested": false
+      },
+      {
+        "name": "rate_audio",
+        "category": "Audio Experiences",
+        "tested": false
+      },
+      {
+        "name": "record_activity_pattern",
+        "category": "Social/Matching",
+        "tested": false
+      },
+      {
+        "name": "request_verification",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "respond_to_trade",
+        "category": "Trading System",
+        "tested": false
+      },
+      {
+        "name": "start_observation_session",
+        "category": "Mini-Games",
+        "tested": false
+      },
+      {
+        "name": "start_quiz_session",
+        "category": "Mini-Games",
+        "tested": false
+      },
+      {
+        "name": "submit_observation_count",
+        "category": "Mini-Games",
+        "tested": false
+      },
+      {
+        "name": "submit_quiz_answer",
+        "category": "Mini-Games",
+        "tested": false
+      },
+      {
+        "name": "submit_safety_report",
+        "category": "Safety/Moderation",
+        "tested": false
+      },
+      {
+        "name": "toggle_audio_favorite",
+        "category": "Audio Experiences",
+        "tested": false
+      },
+      {
+        "name": "update_audio_progress",
+        "category": "Audio Experiences",
+        "tested": false
+      },
+      {
+        "name": "update_event_participation",
+        "category": "Events System",
+        "tested": false
+      },
+      {
+        "name": "update_party_objective_progress",
+        "category": "Party/Group System",
+        "tested": false
+      },
+      {
+        "name": "update_report_status",
+        "category": "Safety/Moderation",
+        "tested": false
+      },
+      {
+        "name": "update_user_preferences",
+        "category": "Social/Matching",
+        "tested": false
+      },
+      {
+        "name": "upload_photo",
+        "category": "Uncategorized",
+        "tested": false
+      },
+      {
+        "name": "use_item",
+        "category": "Inventory/Items",
+        "tested": false
+      },
+      {
+        "name": "verify_observation_item",
+        "category": "Inventory/Items",
+        "tested": false
+      }
+    ],
+    "critical": [
+      {
+        "name": "complete_quest",
+        "category": "Quest System",
+        "tested": true
+      },
+      {
+        "name": "complete_step",
+        "category": "Quest System",
+        "tested": true
+      },
+      {
+        "name": "create_party",
+        "category": "Party/Group System",
+        "tested": true
+      },
+      {
+        "name": "create_party_vote",
+        "category": "Party/Group System",
+        "tested": false
+      },
+      {
+        "name": "generate_scavenger_hunt",
+        "category": "Quest System",
+        "tested": true
+      },
+      {
+        "name": "generate_single_task_prompt",
+        "category": "Quest System",
+        "tested": true
+      },
+      {
+        "name": "get_available_quests",
+        "category": "Quest System",
+        "tested": true
+      },
+      {
+        "name": "get_leaderboard",
+        "category": "Progression",
+        "tested": true
+      },
+      {
+        "name": "get_party_members",
+        "category": "Party/Group System",
+        "tested": true
+      },
+      {
+        "name": "get_quest_detail",
+        "category": "Quest System",
+        "tested": true
+      },
+      {
+        "name": "get_user_achievements",
+        "category": "Achievement System",
+        "tested": true
+      },
+      {
+        "name": "get_user_level",
+        "category": "Progression",
+        "tested": true
+      },
+      {
+        "name": "join_party",
+        "category": "Party/Group System",
+        "tested": true
+      },
+      {
+        "name": "leave_party",
+        "category": "Party/Group System",
+        "tested": true
+      },
+      {
+        "name": "start_quest",
+        "category": "Quest System",
+        "tested": true
+      },
+      {
+        "name": "submit_rating",
+        "category": "Rating System",
+        "tested": true
+      },
+      {
+        "name": "test_function",
+        "category": "Uncategorized",
+        "tested": true
+      },
+      {
+        "name": "update_user_location",
+        "category": "Location Services",
+        "tested": true
+      }
+    ],
+    "low": [
+      {
+        "name": "create_quiz_question",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "get_feedback_analytics",
+        "category": "Safety/Moderation",
+        "tested": false
+      },
+      {
+        "name": "get_report_queue",
+        "category": "Safety/Moderation",
+        "tested": false
+      }
+    ],
+    "high": [
+      {
+        "name": "generate_mystery_prompt",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "get_user_quests",
+        "category": "Quest System",
+        "tested": false
+      },
+      {
+        "name": "submit_step_media",
+        "category": "Quest System",
+        "tested": false
+      }
+    ]
+  }
+}

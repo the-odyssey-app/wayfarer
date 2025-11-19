@@ -112,6 +112,7 @@ The `old/` folder contains a **complete, working implementation**:
 ### Testing
 - **[END_TO_END_TESTING_GUIDE.md](END_TO_END_TESTING_GUIDE.md)** - Comprehensive testing guide
 - **[TESTING_CHECKLIST.md](TESTING_CHECKLIST.md)** - Quick testing checklist
+- **[MAESTRO_TESTING_BEST_PRACTICES.md](MAESTRO_TESTING_BEST_PRACTICES.md)** - Maestro E2E testing best practices and patterns
 
 ### Database & Infrastructure
 - **[wayfarer-nakama/README.md](../wayfarer-nakama/README.md)** - Nakama setup

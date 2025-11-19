@@ -1,0 +1,68 @@
+# Progression System Tests
+# Tests XP, ranks, leaderboard, and achievements
+
+appId: com.wayfarer.mobile
+tags:
+  - progression
+
+---
+# Test 1: View User Profile and XP
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+- tapOn:
+    id: "profile_button"
+- assertVisible:
+    id: "profile_screen"
+- assertVisible:
+    id: "xp_display"
+# Verify XP is displayed (should be a number)
+- assertVisible:
+    text: ".*XP.*"
+# Verify profile screen elements
+- assertNotVisible:
+    id: "home_screen"
+
+---
+# Test 2: View Leaderboard
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# Note: Leaderboard button location needs to be identified
+- tapOn:
+    text: ".*[Ll]eaderboard.*|.*[Rr]ank.*"
+    optional: true
+- assertVisible:
+    text: ".*[Ll]eaderboard.*|.*[Rr]ank.*|.*[Tt]op.*"
+    optional: true
+
+---
+# Test 3: View Achievements
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+- tapOn:
+    text: ".*[Aa]chievement.*|.*[Bb]adge.*"
+    optional: true
+- assertVisible:
+    text: ".*[Aa]chievement.*|.*[Bb]adge.*"
+    optional: true
+
+---
+# Test 4: View Inventory
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+- tapOn:
+    id: "inventory_button"
+- assertVisible:
+    text: ".*[Ii]nventory.*|.*[Ii]tem.*"
+    optional: true

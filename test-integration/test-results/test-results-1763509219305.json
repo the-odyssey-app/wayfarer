@@ -1,0 +1,399 @@
+{
+  "startTime": 1763509181772,
+  "endTime": 1763509219298,
+  "duration": 37526,
+  "total": 46,
+  "passed": 22,
+  "failed": 17,
+  "skipped": 7,
+  "tests": [
+    {
+      "name": "Places Proxy Connectivity",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Places Proxy POST Request",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Places Proxy Invalid Method",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Places Proxy Missing API Key",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "Requires proxy environment control",
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Places Proxy Field Mask",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Quest System Suite",
+      "passed": false,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Create Party",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Join Party",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get Party Members",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Leave Party",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Create Party Vote",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Cast Vote",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get Vote Results",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Create Event",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Join Event",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get Active Event",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Update Event Participation",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get Event Leaderboard",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get Quiz Questions",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Start Quiz Session",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Submit Quiz Answer",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Complete Quiz Session",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get Observation Puzzle",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Start Observation Session",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Verify Observation Item",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Submit Observation Count",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Complete Observation Session",
+      "passed": false,
+      "skipped": false,
+      "error": "jobId is required",
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get Available Mini Games",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Create Item Trade",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No items available for trading",
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Respond to Trade",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No items available for trading",
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get Audio Experiences",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Purchase Audio",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Rate Audio",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Toggle Audio Favorite",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Update Audio Progress",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get User Audio Collection",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Find Matches",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Create Match Request",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Record Activity Pattern",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Update User Preferences",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Submit Safety Report",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get User Safety Reports",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get Feedback Analytics",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Process Feedback Categorization",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Get Report Queue",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    },
+    {
+      "name": "Update Report Status",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763509219298
+    }
+  ],
+  "coverage": {
+    "total": 84,
+    "tested": 0,
+    "untested": 84,
+    "percentage": 0
+  },
+  "generated": "2025-11-18T23:40:19.305Z",
+  "summary": {
+    "total": 46,
+    "passed": 22,
+    "failed": 17,
+    "skipped": 7,
+    "successRate": "56.41",
+    "coverage": {
+      "total": 84,
+      "tested": 0,
+      "untested": 84,
+      "percentage": 0
+    }
+  }
+}

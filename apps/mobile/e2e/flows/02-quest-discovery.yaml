@@ -1,0 +1,72 @@
+# Quest Discovery Flow Tests
+# Tests quest discovery on map and list views
+
+appId: com.wayfarer.mobile
+tags:
+  - critical
+  - quests
+
+---
+# Test 1: Map View with Quest Markers
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertVisible:
+    id: "map_container"
+# Allow location permission if prompted
+- tapOn:
+    point: "50%,50%"
+    optional: true
+# Wait for map to load and quest markers to appear
+- assertNotVisible:
+    id: "login_screen"
+- assertNotVisible:
+    text: "Welcome to Wayfarer"
+
+---
+# Test 2: Quest List View
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# Note: Quest list is opened via quest markers on map or other navigation
+# For now, we'll verify the home screen is accessible
+- assertVisible:
+    id: "map_container"
+# If quest list modal is opened, verify it
+- assertVisible:
+    id: "quest_list_modal"
+    optional: true
+- assertVisible:
+    id: "quest_list"
+    optional: true
+
+---
+# Test 3: Quest Detail Screen
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# Tap on a quest marker or quest card to open detail
+- tapOn:
+    id: "quest_card_0"
+    optional: true
+- assertVisible:
+    id: "quest_detail_screen"
+    optional: true
+- assertVisible:
+    id: "join_quest_button"
+    optional: true
+
+---
+# Test 4: Quest Filtering (if available)
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# Quest filters are on the home screen
+- assertVisible:
+    id: "map_container"

@@ -126,12 +126,13 @@ export const QuestListScreen: React.FC<QuestListScreenProps> = ({
 
   const hasActiveFilters = searchQuery || distanceFilter !== null || difficultyFilter !== null || statusFilter !== null;
 
-  const renderQuestItem = ({ item }: { item: Quest }) => {
+  const renderQuestItem = ({ item, index }: { item: Quest; index: number }) => {
     const isActive = item.user_status === 'active';
     const isCompleted = item.user_status === 'completed';
 
     return (
       <TouchableOpacity
+        testID={`quest_card_${index}`}
         style={styles.questCard}
         onPress={() => onQuestSelect(item.id)}
         activeOpacity={0.7}
@@ -246,8 +247,9 @@ export const QuestListScreen: React.FC<QuestListScreenProps> = ({
       </View>
 
       <FlatList
+        testID="quest_list"
         data={filteredQuests}
-        renderItem={renderQuestItem}
+        renderItem={(props) => renderQuestItem({ ...props, index: props.index || 0 })}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}

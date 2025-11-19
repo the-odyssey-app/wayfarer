@@ -8,7 +8,9 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "node-fetch": "^2.6.7"
-  }
+  "dependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "note": "Using native fetch (Node 18+) for connection pooling and keep-alive support"
 }

@@ -1,0 +1,135 @@
+{
+  "startTime": 1763502090787,
+  "endTime": 1763502090851,
+  "duration": 64,
+  "total": 13,
+  "passed": 0,
+  "failed": 8,
+  "skipped": 5,
+  "tests": [
+    {
+      "name": "Places Proxy Connectivity",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Places Proxy POST Request",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Places Proxy Invalid Method",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Places Proxy Missing API Key",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Places Proxy Field Mask",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Quest System Suite",
+      "passed": false,
+      "skipped": false,
+      "error": "Failed to create test user 0: fetch failed",
+      "reason": null,
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Party System Suite",
+      "passed": false,
+      "skipped": false,
+      "error": "Failed to create test user 0: fetch failed",
+      "reason": null,
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Event System Suite",
+      "passed": false,
+      "skipped": false,
+      "error": "Failed to create test user 0: fetch failed",
+      "reason": null,
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Mini-Games Suite",
+      "passed": false,
+      "skipped": false,
+      "error": "Failed to create test user 0: fetch failed",
+      "reason": null,
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Trading System Suite",
+      "passed": false,
+      "skipped": false,
+      "error": "Failed to create test user 0: fetch failed",
+      "reason": null,
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Audio System Suite",
+      "passed": false,
+      "skipped": false,
+      "error": "Failed to create test user 0: fetch failed",
+      "reason": null,
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Social/Matching Suite",
+      "passed": false,
+      "skipped": false,
+      "error": "Failed to create test user 0: fetch failed",
+      "reason": null,
+      "timestamp": 1763502090850
+    },
+    {
+      "name": "Safety/Moderation Suite",
+      "passed": false,
+      "skipped": false,
+      "error": "Failed to create test user 0: fetch failed",
+      "reason": null,
+      "timestamp": 1763502090850
+    }
+  ],
+  "coverage": {
+    "total": 84,
+    "tested": 0,
+    "untested": 84,
+    "percentage": 0
+  },
+  "generated": "2025-11-18T21:41:30.854Z",
+  "summary": {
+    "total": 13,
+    "passed": 0,
+    "failed": 8,
+    "skipped": 5,
+    "successRate": "0.00",
+    "coverage": {
+      "total": 84,
+      "tested": 0,
+      "untested": 84,
+      "percentage": 0
+    }
+  }
+}

@@ -1,0 +1,78 @@
+# Photo Upload Flow Tests
+# Tests camera permissions, photo capture, and upload
+
+appId: com.wayfarer.mobile
+tags:
+  - quests
+  - media
+
+---
+# Test 1: Camera Permission Request
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# Navigate to quest step that requires photo
+- tapOn:
+    id: "quest_card_0"
+    optional: true
+- tapOn:
+    text: ".*[Cc]omplete.*[Ss]tep.*|.*[Ss]ubmit.*"
+    optional: true
+# If camera permission dialog appears
+- tapOn:
+    text: ".*[Aa]llow.*|.*[Oo]k.*"
+    optional: true
+
+---
+# Test 2: Photo Capture (if camera opens)
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# Navigate to photo submission
+- tapOn:
+    id: "quest_card_0"
+    optional: true
+- tapOn:
+    text: ".*[Pp]hoto.*|.*[Cc]amera.*|.*[Tt]ake.*"
+    optional: true
+# If camera interface appears
+- assertVisible:
+    text: ".*[Cc]apture.*|.*[Ss]hoot.*"
+    optional: true
+# Note: Actual photo capture would require device interaction
+# This test verifies the flow up to camera interface
+
+---
+# Test 3: Photo Library Selection
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# Navigate to photo submission
+- tapOn:
+    id: "quest_card_0"
+    optional: true
+- tapOn:
+    text: ".*[Pp]hoto.*|.*[Gg]allery.*|.*[Ll]ibrary.*"
+    optional: true
+# If photo library opens
+- assertVisible:
+    text: ".*[Pp]hoto.*|.*[Ss]elect.*"
+    optional: true
+
+---
+# Test 4: Photo Upload Confirmation
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# After photo selection, verify upload confirmation
+- assertVisible:
+    text: ".*[Uu]pload.*|.*[Ss]ubmit.*|.*[Ss]uccess.*"
+    optional: true

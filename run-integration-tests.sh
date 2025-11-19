@@ -21,6 +21,14 @@ TEST_DIR="${SCRIPT_DIR}/test-integration"
 # Load centralized configuration (if available)
 if [ -f "${SCRIPT_DIR}/scripts/load-deployment-config.sh" ]; then
     source "${SCRIPT_DIR}/scripts/load-deployment-config.sh"
+    # load-deployment-config.sh may change SCRIPT_DIR, so use PROJECT_ROOT for .env file location
+    if [ -n "$PROJECT_ROOT" ]; then
+        ENV_FILE_DIR="$PROJECT_ROOT"
+    else
+        ENV_FILE_DIR="$SCRIPT_DIR"
+    fi
+else
+    ENV_FILE_DIR="$SCRIPT_DIR"
 fi
 
 # Remote server configuration (use centralized config if available)
@@ -212,24 +220,46 @@ else
     fi
 fi
 
-# Check if test runner exists and validate syntax
+# Check if test runner and required modules exist
 cd "$SCRIPT_DIR"
 if [ ! -f "$TEST_DIR/test-runner.js" ]; then
     echo -e "${RED}❌ Test runner not found: $TEST_DIR/test-runner.js${NC}"
     echo -e "${YELLOW}   The test runner should exist before running tests.${NC}"
     exit 1
-else
-    echo -e "${GREEN}✅ Test runner found${NC}"
+fi
+
+# Check for required test infrastructure
+REQUIRED_FILES=(
+    "$TEST_DIR/test-runner.js"
+    "$TEST_DIR/test-helpers.js"
+    "$TEST_DIR/test-factories.js"
+    "$TEST_DIR/test-reporter.js"
+    "$TEST_DIR/tests/index.js"
+)
+
+MISSING_FILES=0
+for file in "${REQUIRED_FILES[@]}"; do
+    if [ ! -f "$file" ]; then
+        echo -e "${RED}❌ Required file not found: $file${NC}"
+        MISSING_FILES=1
+    fi
+done
+
+if [ $MISSING_FILES -eq 1 ]; then
+    echo -e "${RED}Please ensure all test infrastructure files are present.${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}✅ Test infrastructure found${NC}"
     
     # Validate JavaScript syntax
-    print_section "Validating Test Runner"
+print_section "Validating Test Infrastructure"
     if node -c "$TEST_DIR/test-runner.js" 2>/dev/null; then
         echo -e "${GREEN}✅ Test runner syntax is valid${NC}"
     else
         echo -e "${RED}❌ Test runner has syntax errors${NC}"
         node -c "$TEST_DIR/test-runner.js"
         exit 1
-    fi
 fi
 
 # Install test dependencies if needed
@@ -254,9 +284,14 @@ export TEST_USER_COUNT
 export TEST_GROUP_COUNT
 export TEST_DIR
 
-# Load .env file if it exists
-if [ -f "$SCRIPT_DIR/.env" ]; then
-    echo "Loading environment variables from .env file..."
+# Load .env file if it exists (check in project root)
+if [ -f "$ENV_FILE_DIR/.env" ]; then
+    echo "Loading environment variables from $ENV_FILE_DIR/.env file..."
+    set -a
+    source "$ENV_FILE_DIR/.env"
+    set +a
+elif [ -f "$SCRIPT_DIR/.env" ]; then
+    echo "Loading environment variables from $SCRIPT_DIR/.env file..."
     set -a
     source "$SCRIPT_DIR/.env"
     set +a
@@ -265,9 +300,10 @@ fi
 # External API keys (optional - tests will skip if not set)
 export GOOGLE_MAPS_API_KEY="${GOOGLE_MAPS_API_KEY:-}"
 export OPENROUTER_API_KEY="${OPENROUTER_API_KEY:-}"
+export PLACES_PROXY_URL="${PLACES_PROXY_URL:-}"
 
 # Run the test runner
-if node test-runner.js; then
+if node test-runner.js 2>&1; then
     echo -e "\n${GREEN}╔════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${GREEN}║   ✅ All Integration Tests Passed!                       ║${NC}"
     echo -e "${GREEN}╚════════════════════════════════════════════════════════════╝${NC}"

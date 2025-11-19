@@ -1,0 +1,104 @@
+<html>
+  <head>
+    <title>Maestro Test Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h1 class="mt-5 text-center">Flow Execution Summary</h1>
+<br>Test Result: FAILED<br>Duration: 3m 3s<br>Start Time: null<br><br>
+        <div class="card-group mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title text-center">Total number of Flows</h5>
+              <h3 class="card-text text-center">6</h3>
+            </div>
+          </div>
+          <div class="card text-white bg-danger">
+            <div class="card-body">
+              <h5 class="card-title text-center">Failed Flows</h5>
+              <h3 class="card-text text-center">4</h3>
+            </div>
+          </div>
+          <div class="card text-white bg-success">
+            <div class="card-body">
+              <h5 class="card-title text-center">Successful Flows</h5>
+              <h3 class="card-text text-center">2</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card border-danger mb-3">
+          <div class="card-body text-danger"><b>Failed Flow</b><br>
+            <p class="card-text">03-quest-completion<br>02-quest-discovery<br>04-party-creation<br>05-progression<br></p>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0"><button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#06-photo-upload" aria-expanded="false" aria-controls="06-photo-upload">06-photo-upload : SUCCESS</button></h5>
+          </div>
+          <div class="collapse" id="06-photo-upload">
+            <div class="card-body">
+              <p class="card-text">Status: SUCCESS<br>Duration: 17s<br>Start Time: null<br>File Name: 06-photo-upload</p>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0"><button class="btn btn-danger" type="button" data-bs-toggle="collapse" data-bs-target="#03-quest-completion" aria-expanded="false" aria-controls="03-quest-completion">03-quest-completion : ERROR</button></h5>
+          </div>
+          <div class="collapse" id="03-quest-completion">
+            <div class="card-body">
+              <p class="card-text">Status: ERROR<br>Duration: 25s<br>Start Time: null<br>File Name: 03-quest-completion</p>
+              <p class="card-text text-danger">Element not found: Text matching regex: .*[Vv]iew.*[Qq]uest.*|.*[Qq]uest.*[Ll]ist.*</p>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0"><button class="btn btn-danger" type="button" data-bs-toggle="collapse" data-bs-target="#02-quest-discovery" aria-expanded="false" aria-controls="02-quest-discovery">02-quest-discovery : ERROR</button></h5>
+          </div>
+          <div class="collapse" id="02-quest-discovery">
+            <div class="card-body">
+              <p class="card-text">Status: ERROR<br>Duration: 27s<br>Start Time: null<br>File Name: 02-quest-discovery</p>
+              <p class="card-text text-danger">Assertion is false: &quot;.*[Qq]uest.*|.*[Vv]iew.*[Qq]uest.*&quot; is visible</p>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0"><button class="btn btn-danger" type="button" data-bs-toggle="collapse" data-bs-target="#04-party-creation" aria-expanded="false" aria-controls="04-party-creation">04-party-creation : ERROR</button></h5>
+          </div>
+          <div class="collapse" id="04-party-creation">
+            <div class="card-body">
+              <p class="card-text">Status: ERROR<br>Duration: 25s<br>Start Time: null<br>File Name: 04-party-creation</p>
+              <p class="card-text text-danger">Element not found: Text matching regex: .*[Vv]iew.*[Qq]uest.*|.*[Qq]uest.*[Ll]ist.*</p>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0"><button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#01-authentication" aria-expanded="false" aria-controls="01-authentication">01-authentication : SUCCESS</button></h5>
+          </div>
+          <div class="collapse" id="01-authentication">
+            <div class="card-body">
+              <p class="card-text">Status: SUCCESS<br>Duration: 1m 4s<br>Start Time: null<br>File Name: 01-authentication</p>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0"><button class="btn btn-danger" type="button" data-bs-toggle="collapse" data-bs-target="#05-progression" aria-expanded="false" aria-controls="05-progression">05-progression : ERROR</button></h5>
+          </div>
+          <div class="collapse" id="05-progression">
+            <div class="card-body">
+              <p class="card-text">Status: ERROR<br>Duration: 25s<br>Start Time: null<br>File Name: 05-progression</p>
+              <p class="card-text text-danger">Element not found: Text matching regex: .*[Pp]rofile.*|.*[Uu]ser.*</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    </div>
+  </body>
+</html>

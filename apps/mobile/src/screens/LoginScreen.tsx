@@ -52,12 +52,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Wayfarer</Text>
+    <View style={styles.container} testID="login_screen">
+      <Text style={styles.title} testID="login_title">Welcome to Wayfarer</Text>
       <Text style={styles.subtitle}>Sign in to continue your adventure</Text>
 
       <View style={styles.form}>
         <TextInput
+          testID="email_input"
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="#999"
@@ -69,6 +70,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         />
 
         <TextInput
+          testID="password_input"
           style={styles.input}
           placeholder="Password"
           placeholderTextColor="#999"
@@ -80,6 +82,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         />
 
         <TouchableOpacity
+          testID="login_button"
+          accessible={true}
+          accessibilityLabel="Sign In with Email"
           style={[styles.button, isLoading && styles.buttonDisabled]}
           onPress={handleEmailLogin}
           disabled={isLoading}
@@ -87,12 +92,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           {isLoading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text style={styles.buttonText}>Sign In with Email</Text>
+            <Text style={styles.buttonText} testID="login_button_text">Sign In with Email</Text>
           )}
         </TouchableOpacity>
 
 
         <TouchableOpacity
+          testID="signup_link"
           style={styles.linkButton}
           onPress={onNavigateToRegister}
         >

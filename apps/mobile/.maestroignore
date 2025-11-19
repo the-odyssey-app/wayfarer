@@ -1,0 +1,13 @@
+# Maestro ignore file
+# Files and directories to ignore when running tests
+
+node_modules/
+.expo/
+.expo-shared/
+dist/
+build/
+*.log
+*.maestro.log
+coverage/
+.DS_Store
+

@@ -1,0 +1,479 @@
+{
+  "startTime": 1763227197429,
+  "endTime": 1763227211007,
+  "duration": 13578,
+  "total": 56,
+  "passed": 13,
+  "failed": 7,
+  "skipped": 36,
+  "tests": [
+    {
+      "name": "Places Proxy Connectivity",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Places Proxy POST Request",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Places Proxy Invalid Method",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Places Proxy Missing API Key",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Places Proxy Field Mask",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Generate Scavenger Hunt",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Generate Single Task",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Generate Mystery Quest",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Available Quests",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "Database schema issue: start_time/end_time columns may not exist (migration needed)",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Quest Detail",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Start Quest",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Complete Step",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Complete Quest",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get User Quests",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Submit Step Media",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Upload Photo",
+      "passed": false,
+      "skipped": false,
+      "error": "MinIO not configured",
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Create Party",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Join Party",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Party Members",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Leave Party",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Create Party Vote",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Cast Vote",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Vote Results",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Create Event",
+      "passed": false,
+      "skipped": false,
+      "error": "failed to exec db query: ERROR: column \"mechanics\" does not exist (SQLSTATE 42703)",
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Join Event",
+      "passed": false,
+      "skipped": false,
+      "error": "failed to exec db query: ERROR: column \"mechanics\" does not exist (SQLSTATE 42703)",
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Active Event",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Update Event Participation",
+      "passed": false,
+      "skipped": false,
+      "error": "failed to exec db query: ERROR: column \"mechanics\" does not exist (SQLSTATE 42703)",
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Event Leaderboard",
+      "passed": false,
+      "skipped": false,
+      "error": "failed to exec db query: ERROR: column \"mechanics\" does not exist (SQLSTATE 42703)",
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Quiz Questions",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Start Quiz Session",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Submit Quiz Answer",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Complete Quiz Session",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Observation Puzzle",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Start Observation Session",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Verify Observation Item",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Submit Observation Count",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Complete Observation Session",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Available Mini Games",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Create Item Trade",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No items available for trading",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Respond to Trade",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No items available for trading",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Audio Experiences",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Purchase Audio",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Rate Audio",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Toggle Audio Favorite",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Update Audio Progress",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get User Audio Collection",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Find Matches",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Create Match Request",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Record Activity Pattern",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Update User Preferences",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Submit Safety Report",
+      "passed": false,
+      "skipped": false,
+      "error": "failed to exec db query: ERROR: error in argument for $3: could not parse \"test-target-id\" as type uuid: could not parse \"test-target-id\" as type uuid: uuid: incorrect UUID length: test-target-id (SQLSTATE 22P02)",
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get User Safety Reports",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Feedback Analytics",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Process Feedback Categorization",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Get Report Queue",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763227211007
+    },
+    {
+      "name": "Update Report Status",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing required field: severity",
+      "reason": null,
+      "timestamp": 1763227211007
+    }
+  ],
+  "coverage": {
+    "total": 83,
+    "tested": 0,
+    "untested": 83,
+    "percentage": 0
+  },
+  "generated": "2025-11-15T17:20:11.027Z",
+  "summary": {
+    "total": 56,
+    "passed": 13,
+    "failed": 7,
+    "skipped": 36,
+    "successRate": "65.00",
+    "coverage": {
+      "total": 83,
+      "tested": 0,
+      "untested": 83,
+      "percentage": 0
+    }
+  }
+}

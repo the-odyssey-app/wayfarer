@@ -1,0 +1,479 @@
+{
+  "startTime": 1763226691029,
+  "endTime": 1763226702869,
+  "duration": 11840,
+  "total": 56,
+  "passed": 10,
+  "failed": 15,
+  "skipped": 31,
+  "tests": [
+    {
+      "name": "Places Proxy Connectivity",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Places Proxy POST Request",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Places Proxy Invalid Method",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Places Proxy Missing API Key",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Places Proxy Field Mask",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "PLACES_PROXY_URL not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Generate Scavenger Hunt",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Generate Single Task",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Generate Mystery Quest",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Available Quests",
+      "passed": false,
+      "skipped": false,
+      "error": "failed to exec db query: ERROR: column \"q.start_time\" does not exist (SQLSTATE 42703)",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Quest Detail",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Start Quest",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Complete Step",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Complete Quest",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get User Quests",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Submit Step Media",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Upload Photo",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing required field: imageBase64",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Create Party",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Join Party",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Party Members",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Leave Party",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Create Party Vote",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Cast Vote",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Vote Results",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Create Event",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing required field: title",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Join Event",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing required field: title",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Active Event",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Update Event Participation",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing required field: title",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Event Leaderboard",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing required field: title",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Quiz Questions",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Start Quiz Session",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Submit Quiz Answer",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Complete Quiz Session",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Observation Puzzle",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Start Observation Session",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Verify Observation Item",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Submit Observation Count",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Complete Observation Session",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "OPENROUTER_API_KEY not configured",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Available Mini Games",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Create Item Trade",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No items available for trading",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Respond to Trade",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No items available for trading",
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Audio Experiences",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing placeId, questId, or location",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Purchase Audio",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing placeId, questId, or location",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Rate Audio",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing placeId, questId, or location",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Toggle Audio Favorite",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing placeId, questId, or location",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Update Audio Progress",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing placeId, questId, or location",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get User Audio Collection",
+      "passed": false,
+      "skipped": false,
+      "error": "Collection should be array",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Find Matches",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Create Match Request",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Record Activity Pattern",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Update User Preferences",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Submit Safety Report",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing required field: title",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get User Safety Reports",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Feedback Analytics",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing required field: questId",
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Process Feedback Categorization",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Get Report Queue",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763226702869
+    },
+    {
+      "name": "Update Report Status",
+      "passed": false,
+      "skipped": false,
+      "error": "Missing required field: severity",
+      "reason": null,
+      "timestamp": 1763226702869
+    }
+  ],
+  "coverage": {
+    "total": 83,
+    "tested": 0,
+    "untested": 83,
+    "percentage": 0
+  },
+  "generated": "2025-11-15T17:11:42.875Z",
+  "summary": {
+    "total": 56,
+    "passed": 10,
+    "failed": 15,
+    "skipped": 31,
+    "successRate": "40.00",
+    "coverage": {
+      "total": 83,
+      "tested": 0,
+      "untested": 83,
+      "percentage": 0
+    }
+  }
+}

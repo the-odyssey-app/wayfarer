@@ -1,0 +1,33 @@
+# Maestro Configuration for Wayfarer Mobile App
+# This file configures Maestro for E2E testing
+
+# App identifiers
+appId: com.wayfarer.mobile
+
+# Test environment configuration
+env:
+  NAKAMA_HOST: "5.181.218.160"
+  NAKAMA_PORT: "7350"
+  NAKAMA_USE_SSL: "false"
+
+# Test data
+testData:
+  testUserEmail: "e2e-test@wayfarer.test"
+  testUserPassword: "TestPassword123!"
+  testUsername: "e2e-test-user"
+
+# Timeout settings (in milliseconds)
+timeouts:
+  default: 10000
+  launch: 30000
+  tap: 5000
+  assertVisible: 5000
+
+# Tags for organizing tests
+tags:
+  - critical
+  - authentication
+  - quests
+  - social
+  - progression
+

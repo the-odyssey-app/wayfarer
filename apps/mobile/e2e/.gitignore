@@ -1,0 +1,14 @@
+# Maestro test artifacts
+*.maestro.log
+*.maestro-report.html
+maestro-results/
+screenshots/
+videos/
+
+# Test data
+test-results/
+coverage/
+
+# Device-specific files
+.devices/
+

@@ -24,6 +24,20 @@
       "android": {
         "buildType": "app-bundle"
       }
+    },
+    "test": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "buildConfiguration": "Debug"
+      },
+      "env": {
+        "EAS_BUILD_RUN_E2E_TESTS": "true"
+      }
     }
   },
   "submit": {

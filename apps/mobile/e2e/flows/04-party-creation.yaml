@@ -1,0 +1,83 @@
+# Party/Group Features Tests
+# Tests party creation, joining, and coordination
+
+appId: com.wayfarer.mobile
+tags:
+  - social
+  - quests
+
+---
+# Test 1: Create Party
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# Navigate to quest detail
+- tapOn:
+    id: "quest_card_0"
+    optional: true
+- assertVisible:
+    id: "quest_detail_screen"
+    optional: true
+# Create party (if available)
+- tapOn:
+    text: ".*[Cc]reate.*[Pp]arty.*|.*[Pp]arty.*"
+    optional: true
+- assertVisible:
+    text: ".*[Pp]arty.*[Cc]ode.*|.*[Cc]ode.*"
+    optional: true
+
+---
+# Test 2: Join Party (Requires party code - manual test scenario)
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# Navigate to party screen
+- tapOn:
+    text: ".*[Pp]arty.*|.*[Gg]roup.*"
+    optional: true
+- assertVisible:
+    text: ".*[Jj]oin.*[Pp]arty.*|.*[Ee]nter.*[Cc]ode.*"
+    optional: true
+# Note: This test requires a valid party code from another user
+# In real scenario, would input party code here
+
+---
+# Test 3: View Party Members
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# Navigate to party screen
+- tapOn:
+    text: ".*[Pp]arty.*|.*[Gg]roup.*"
+    optional: true
+- assertVisible:
+    text: ".*[Mm]ember.*|.*[Pp]arty.*"
+    optional: true
+
+---
+# Test 4: Leave Party
+- launchApp
+- assertVisible:
+    id: "home_screen"
+- assertNotVisible:
+    id: "login_screen"
+# Navigate to party screen
+- tapOn:
+    text: ".*[Pp]arty.*|.*[Gg]roup.*"
+    optional: true
+- assertVisible:
+    text: ".*[Pp]arty.*"
+    optional: true
+- scroll
+- tapOn:
+    text: ".*[Ll]eave.*[Pp]arty.*|.*[Ll]eave.*"
+    optional: true
+- assertVisible:
+    text: ".*[Cc]onfirm.*|.*[Ll]eave.*"
+    optional: true

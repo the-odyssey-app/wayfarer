@@ -1,0 +1,351 @@
+{
+  "startTime": 1763503166641,
+  "endTime": 1763503307824,
+  "duration": 141183,
+  "total": 40,
+  "passed": 21,
+  "failed": 12,
+  "skipped": 7,
+  "tests": [
+    {
+      "name": "Places Proxy Connectivity",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Places Proxy POST Request",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Places Proxy Invalid Method",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Places Proxy Missing API Key",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "Requires proxy environment control",
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Places Proxy Field Mask",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Quest System Suite",
+      "passed": false,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Party System Suite",
+      "passed": false,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Create Event",
+      "passed": false,
+      "skipped": false,
+      "error": "Request timed out.",
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Join Event",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Get Active Event",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Update Event Participation",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Get Event Leaderboard",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Get Quiz Questions",
+      "passed": false,
+      "skipped": false,
+      "error": "Request timed out.",
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Start Quiz Session",
+      "passed": false,
+      "skipped": false,
+      "error": "Request timed out.",
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Submit Quiz Answer",
+      "passed": false,
+      "skipped": false,
+      "error": "Request timed out.",
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Complete Quiz Session",
+      "passed": false,
+      "skipped": false,
+      "error": "Request timed out.",
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Get Observation Puzzle",
+      "passed": false,
+      "skipped": false,
+      "error": "Request timed out.",
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Start Observation Session",
+      "passed": false,
+      "skipped": false,
+      "error": "Request timed out.",
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Verify Observation Item",
+      "passed": false,
+      "skipped": false,
+      "error": "Request timed out.",
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Submit Observation Count",
+      "passed": false,
+      "skipped": false,
+      "error": "Request timed out.",
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Complete Observation Session",
+      "passed": false,
+      "skipped": false,
+      "error": "Request timed out.",
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Get Available Mini Games",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Create Item Trade",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No items available for trading",
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Respond to Trade",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No items available for trading",
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Get Audio Experiences",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Purchase Audio",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Rate Audio",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Toggle Audio Favorite",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Update Audio Progress",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Get User Audio Collection",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Find Matches",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Create Match Request",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Record Activity Pattern",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Update User Preferences",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Submit Safety Report",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Get User Safety Reports",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Get Feedback Analytics",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Process Feedback Categorization",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Get Report Queue",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    },
+    {
+      "name": "Update Report Status",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763503307824
+    }
+  ],
+  "coverage": {
+    "total": 84,
+    "tested": 0,
+    "untested": 84,
+    "percentage": 0
+  },
+  "generated": "2025-11-18T22:01:47.870Z",
+  "summary": {
+    "total": 40,
+    "passed": 21,
+    "failed": 12,
+    "skipped": 7,
+    "successRate": "63.64",
+    "coverage": {
+      "total": 84,
+      "tested": 0,
+      "untested": 84,
+      "percentage": 0
+    }
+  }
+}

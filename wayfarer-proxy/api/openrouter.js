@@ -1,4 +1,6 @@
-const fetch = require('node-fetch');
+// Use native fetch (available in Node 18+, Vercel runtime)
+// Native fetch has built-in connection pooling and keep-alive
+// No need for node-fetch dependency
 
 module.exports = async (req, res) => {
   // 1. Set CORS headers to allow requests from any origin
@@ -32,7 +34,8 @@ module.exports = async (req, res) => {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiKey}`,
       'HTTP-Referer': 'https://wayfarer.app', // For OpenRouter leaderboards (optional)
-      'X-Title': 'Wayfarer' // For OpenRouter leaderboards (optional)
+      'X-Title': 'Wayfarer', // For OpenRouter leaderboards (optional)
+      'Connection': 'keep-alive' // Enable connection reuse
     };
 
     // Forward any additional headers from the request (like Cache-Control)
@@ -40,10 +43,12 @@ module.exports = async (req, res) => {
       headers['Cache-Control'] = req.headers['cache-control'];
     }
 
+    // Use native fetch with connection pooling (automatic in Node 18+)
     const response = await fetch(openRouterUrl, {
       method: 'POST',
       headers: headers,
-      body: JSON.stringify(req.body) // Vercel automatically parses the body
+      body: JSON.stringify(req.body), // Vercel automatically parses the body
+      // Native fetch automatically uses connection pooling and keep-alive
     });
 
     // 6. Check if the fetch was successful

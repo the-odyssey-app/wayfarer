@@ -31,24 +31,44 @@ class RpcHelper {
     static async call(session, functionName, payload = {}, expectedSuccess = true, timeoutMs = 60000) {
         try {
             const payloadString = JSON.stringify(payload);
+            const startTime = Date.now();
+            console.log(`[RPC] Calling ${functionName} at ${new Date().toISOString()}`);
             
             // Wrap RPC call with timeout
-            const rpcPromise = client.rpc(session, functionName, payloadString);
+            const rpcPromise = client.rpc(session, functionName, payloadString).then(result => {
+                const duration = Date.now() - startTime;
+                console.log(`[RPC] ${functionName} resolved after ${duration}ms. Payload type: ${typeof result?.payload}, value: ${result?.payload ? (typeof result.payload === 'string' ? result.payload.substring(0, 100) : JSON.stringify(result.payload).substring(0, 100)) : 'null/undefined'}`);
+                return result;
+            }).catch(error => {
+                const duration = Date.now() - startTime;
+                console.log(`[RPC] ${functionName} rejected after ${duration}ms. Error: ${error.message}`);
+                throw error;
+            });
             const timeoutPromise = new Promise((_, reject) => {
-                setTimeout(() => reject(new Error(`RPC call timeout after ${timeoutMs}ms`)), timeoutMs);
+                setTimeout(() => {
+                    const duration = Date.now() - startTime;
+                    console.log(`[RPC] ${functionName} timeout after ${duration}ms`);
+                    reject(new Error(`RPC call timeout after ${timeoutMs}ms`));
+                }, timeoutMs);
             });
             
             const result = await Promise.race([rpcPromise, timeoutPromise]);
             
             let response;
             if (typeof result.payload === 'string') {
+                // Handle Nakama's null serialization
+                if (result.payload === '<nil>' || result.payload === 'null' || result.payload === '') {
+                    throw new Error('RPC returned null - likely HTTP timeout in Nakama (10s limit exceeded)');
+                }
                 try {
                     response = JSON.parse(result.payload);
-                } catch {
-                    response = { raw: result.payload };
+                } catch (parseError) {
+                    throw new Error(`Failed to parse RPC response: ${parseError.message}. Raw: ${result.payload.substring(0, 100)}`);
                 }
             } else if (typeof result.payload === 'object') {
                 response = result.payload;
+            } else if (result.payload === null || result.payload === undefined) {
+                throw new Error('RPC returned null/undefined - likely HTTP timeout in Nakama (10s limit exceeded)');
             } else {
                 response = { raw: result.payload };
             }
@@ -78,6 +98,46 @@ class RpcHelper {
      */
     static async callFailure(session, functionName, payload = {}) {
         return this.call(session, functionName, payload, false);
+    }
+
+    /**
+     * Poll for OpenRouter job results with exponential backoff
+     * @param {Session} session - Nakama session
+     * @param {string} jobId - Job ID to poll for
+     * @param {number} maxAttempts - Maximum polling attempts (default: 20)
+     * @param {number} initialDelayMs - Initial delay between polls in ms (default: 1000)
+     * @returns {Promise<object>} Job result
+     */
+    static async pollJob(session, jobId, maxAttempts = 20, initialDelayMs = 1000) {
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+            const result = await this.callSuccess(session, 'poll_openrouter_job', { jobId });
+            
+            if (result.status === 'completed') {
+                return result.result;
+            }
+            
+            if (result.status === 'failed') {
+                throw new Error(result.error || 'Job processing failed');
+            }
+            
+            // If pending, trigger processing for this specific job (may timeout, but job will still process)
+            if (result.status === 'pending' && attempt === 0) {
+                try {
+                    // Trigger processing for this specific job - this may timeout, but that's okay
+                    // The job will still be processed in the background
+                    await this.call(session, 'process_job_by_id', { jobId }, false, 5000);
+                } catch (error) {
+                    // Timeout is expected - job processing continues in background
+                    console.log(`[Poll] Triggered job processing for ${jobId} (may timeout, that's OK)`);
+                }
+            }
+            
+            // If still pending/processing, wait and retry
+            const delay = initialDelayMs * Math.pow(1.5, attempt); // Exponential backoff
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
+        
+        throw new Error(`Job ${jobId} did not complete within ${maxAttempts} attempts`);
     }
 }
 

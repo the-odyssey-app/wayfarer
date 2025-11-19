@@ -1,0 +1,55 @@
+{
+  "users": {
+    "testUser": {
+      "email": "e2e-test@wayfarer.test",
+      "password": "TestPassword123!",
+      "username": "e2e-test-user"
+    },
+    "testUser2": {
+      "email": "e2e-test-2@wayfarer.test",
+      "password": "TestPassword123!",
+      "username": "e2e-test-user-2"
+    }
+  },
+  "locations": {
+    "sanDiego": {
+      "latitude": 32.7157,
+      "longitude": -117.1611,
+      "name": "San Diego, CA"
+    },
+    "seattle": {
+      "latitude": 47.6062,
+      "longitude": -122.3321,
+      "name": "Seattle, WA"
+    },
+    "newYork": {
+      "latitude": 40.7128,
+      "longitude": -74.0060,
+      "name": "New York, NY"
+    }
+  },
+  "quests": {
+    "scavengerHunt": {
+      "type": "scavenger_hunt",
+      "steps": 10,
+      "supportsGroups": true
+    },
+    "mystery": {
+      "type": "mystery",
+      "steps": 10,
+      "supportsGroups": true
+    },
+    "singleTask": {
+      "type": "single_task",
+      "steps": 1,
+      "supportsGroups": false
+    }
+  },
+  "nakama": {
+    "host": "5.181.218.160",
+    "port": "7350",
+    "useSSL": false,
+    "serverKey": "defaultkey"
+  }
+}
+

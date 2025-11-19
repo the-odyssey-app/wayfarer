@@ -1,0 +1,85 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: |
+        cd test-integration
+        npm install --save @heroiclabs/nakama-js
+        
+    - name: Run integration tests
+      env:
+        NAKAMA_HOST: ${{ secrets.NAKAMA_HOST || 'localhost' }}
+        NAKAMA_PORT: ${{ secrets.NAKAMA_PORT || '7350' }}
+        NAKAMA_SERVER_KEY: ${{ secrets.NAKAMA_SERVER_KEY || 'defaultkey' }}
+        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+        TEST_OUTPUT_DIR: ./test-results
+        TEST_HTML_REPORT: 'true'
+        TEST_JSON_REPORT: 'true'
+      run: |
+        cd test-integration
+        node test-runner-enhanced.js
+        
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: test-integration/test-results/
+        retention-days: 30
+        
+    - name: Comment PR with coverage
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          try {
+            const resultsDir = 'test-integration/test-results';
+            const files = fs.readdirSync(resultsDir);
+            const coverageFile = files.find(f => f.startsWith('rpc-coverage-'));
+            
+            if (coverageFile) {
+              const coverage = JSON.parse(fs.readFileSync(path.join(resultsDir, coverageFile), 'utf8'));
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 🧪 Integration Test Results
+                
+                **RPC Coverage:** ${coverage.summary.coverage}% (${coverage.summary.tested}/${coverage.summary.total})
+                
+                ✅ Tested: ${coverage.summary.tested} RPCs
+                ❌ Untested: ${coverage.summary.untested} RPCs
+                `
+              });
+            }
+          } catch (error) {
+            console.error('Failed to comment PR:', error);
+          }
+

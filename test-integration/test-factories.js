@@ -114,15 +114,44 @@ class QuestFactory {
             }
         }
         
-        const result = await RpcHelper.callSuccess(user.session, 'generate_scavenger_hunt', {
+        // Call generate_scavenger_hunt - now returns job ID immediately
+        const jobResult = await RpcHelper.callSuccess(user.session, 'generate_scavenger_hunt', {
             locations: locations,
             userTags: preferences.userTags || ['exploration'],
             difficulty: preferences.difficulty || 2
         });
         
-        const quest = result.quest;
-        testData.quests.push(quest);
-        return quest;
+        if (!jobResult.jobId) {
+            throw new Error('No jobId returned from generate_scavenger_hunt');
+        }
+        
+        // Poll for job completion
+        const pollResult = await RpcHelper.pollJob(user.session, jobResult.jobId);
+        
+        // Extract quest from poll result
+        // pollResult is the OpenRouter API response: { content: "...", usage: {...}, ... }
+        if (!pollResult.content) {
+            throw new Error('No content in poll result');
+        }
+        
+        // Clean markdown if present and parse JSON
+        let content = pollResult.content;
+        // Remove markdown code blocks if present
+        content = content.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '').trim();
+        const questJson = JSON.parse(content);
+        
+        // Map locations to stops (if not already mapped)
+        if (questJson.stops && locations.length > 0) {
+            questJson.stops = questJson.stops.map((stop, index) => {
+                if (locations[index]) {
+                    stop.location = { lat: locations[index].lat, lng: locations[index].lng };
+                }
+                return stop;
+            });
+        }
+        
+        testData.quests.push(questJson);
+        return questJson;
     }
 
     static async generateSingleTask(user, location) {

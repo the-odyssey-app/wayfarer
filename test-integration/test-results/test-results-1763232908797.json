@@ -1,0 +1,479 @@
+{
+  "startTime": 1763232894215,
+  "endTime": 1763232908786,
+  "duration": 14571,
+  "total": 56,
+  "passed": 19,
+  "failed": 29,
+  "skipped": 8,
+  "tests": [
+    {
+      "name": "Places Proxy Connectivity",
+      "passed": false,
+      "skipped": false,
+      "error": "OPTIONS returned status 404 instead of 200",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Places Proxy POST Request",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Places Proxy Invalid Method",
+      "passed": false,
+      "skipped": false,
+      "error": "GET request should return 405 Method Not Allowed",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Places Proxy Missing API Key",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "Requires proxy environment control",
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Places Proxy Field Mask",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Generate Scavenger Hunt",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Generate Single Task",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Generate Mystery Quest",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Available Quests",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "Database schema issue: start_time/end_time columns may not exist (migration needed)",
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Quest Detail",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Start Quest",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Complete Step",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Complete Quest",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get User Quests",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Submit Step Media",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Upload Photo",
+      "passed": false,
+      "skipped": false,
+      "error": "MinIO not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Create Party",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Join Party",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Party Members",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Leave Party",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Create Party Vote",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Cast Vote",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Vote Results",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Create Event",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Join Event",
+      "passed": false,
+      "skipped": false,
+      "error": "failed to exec db query: ERROR: column \"started_at\" does not exist (SQLSTATE 42703)",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Active Event",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Update Event Participation",
+      "passed": false,
+      "skipped": false,
+      "error": "failed to exec db query: ERROR: column \"started_at\" does not exist (SQLSTATE 42703)",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Event Leaderboard",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Quiz Questions",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Start Quiz Session",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Submit Quiz Answer",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Complete Quiz Session",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Observation Puzzle",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Start Observation Session",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Verify Observation Item",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Submit Observation Count",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Complete Observation Session",
+      "passed": false,
+      "skipped": false,
+      "error": "AI service not configured",
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Available Mini Games",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Create Item Trade",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No items available for trading",
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Respond to Trade",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No items available for trading",
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Audio Experiences",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Purchase Audio",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Rate Audio",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Toggle Audio Favorite",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Update Audio Progress",
+      "passed": false,
+      "skipped": true,
+      "error": null,
+      "reason": "No audio experiences available",
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get User Audio Collection",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Find Matches",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Create Match Request",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Record Activity Pattern",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Update User Preferences",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Submit Safety Report",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get User Safety Reports",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Feedback Analytics",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Process Feedback Categorization",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Get Report Queue",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    },
+    {
+      "name": "Update Report Status",
+      "passed": true,
+      "skipped": false,
+      "error": null,
+      "reason": null,
+      "timestamp": 1763232908786
+    }
+  ],
+  "coverage": {
+    "total": 83,
+    "tested": 0,
+    "untested": 83,
+    "percentage": 0
+  },
+  "generated": "2025-11-15T18:55:08.797Z",
+  "summary": {
+    "total": 56,
+    "passed": 19,
+    "failed": 29,
+    "skipped": 8,
+    "successRate": "39.58",
+    "coverage": {
+      "total": 83,
+      "tested": 0,
+      "untested": 83,
+      "percentage": 0
+    }
+  }
+}
